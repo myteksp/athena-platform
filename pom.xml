@@ -4,7 +4,7 @@
 	<groupId>com.athena</groupId>
 	<artifactId>backend.platform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Athena platform]</name>
+	<name>Athena platform</name>
 	<description>Common entities and utils for athena backedn</description>
 
 	<properties>
