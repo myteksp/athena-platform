@@ -1,15 +1,14 @@
-package com.athena.backend.platform.dto.sportradar;
+package com.athena.backend.platform.dto.sportradar.nba;
 
-
-public final class TournamentCategory {
+public final class Team {
 	public String id;
 	public String name;
-	public String country_code;
+	public String alias;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((country_code == null) ? 0 : country_code.hashCode());
+		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -22,11 +21,11 @@ public final class TournamentCategory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final TournamentCategory other = (TournamentCategory) obj;
-		if (country_code == null) {
-			if (other.country_code != null)
+		final Team other = (Team) obj;
+		if (alias == null) {
+			if (other.alias != null)
 				return false;
-		} else if (!country_code.equals(other.country_code))
+		} else if (!alias.equals(other.alias))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -42,6 +41,6 @@ public final class TournamentCategory {
 	}
 	@Override
 	public final String toString() {
-		return "TournamentCategory [id=" + id + ", name=" + name + ", country_code=" + country_code + "]";
+		return "Team [id=" + id + ", name=" + name + ", alias=" + alias + "]";
 	}
 }

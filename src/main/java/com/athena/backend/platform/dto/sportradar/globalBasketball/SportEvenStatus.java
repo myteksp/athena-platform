@@ -1,4 +1,4 @@
-package com.athena.backend.platform.dto.sportradar;
+package com.athena.backend.platform.dto.sportradar.globalBasketball;
 
 import java.util.List;
 

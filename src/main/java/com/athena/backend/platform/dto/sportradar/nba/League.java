@@ -1,13 +1,14 @@
-package com.athena.backend.platform.dto.sportradar;
+package com.athena.backend.platform.dto.sportradar.nba;
 
-
-public final class Sport {
+public final class League {
 	public String id;
 	public String name;
+	public String alias;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -20,7 +21,12 @@ public final class Sport {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Sport other = (Sport) obj;
+		final League other = (League) obj;
+		if (alias == null) {
+			if (other.alias != null)
+				return false;
+		} else if (!alias.equals(other.alias))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -35,6 +41,6 @@ public final class Sport {
 	}
 	@Override
 	public final String toString() {
-		return "Sport [id=" + id + ", name=" + name + "]";
+		return "League [id=" + id + ", name=" + name + ", alias=" + alias + "]";
 	}
 }

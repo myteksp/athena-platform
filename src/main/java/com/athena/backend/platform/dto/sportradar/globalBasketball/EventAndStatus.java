@@ -1,4 +1,4 @@
-package com.athena.backend.platform.dto.sportradar;
+package com.athena.backend.platform.dto.sportradar.globalBasketball;
 
 
 public final class EventAndStatus {
