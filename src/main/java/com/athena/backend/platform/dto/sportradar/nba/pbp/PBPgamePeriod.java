@@ -3,8 +3,8 @@ package com.athena.backend.platform.dto.sportradar.nba.pbp;
 import java.util.List;
 
 public final class PBPgamePeriod {
-	public String type;
 	public String id;
+	public String type;
 	public int number;
 	public int sequence;
 	public PBPgamePeriodScoring scoring;
