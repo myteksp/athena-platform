@@ -25,9 +25,6 @@ public final class TimeEntity {
 		TimeUtil.convert(date, this);
 	}
 	
-	public static final TimeEntity current(){
-		return new TimeEntity(System.currentTimeMillis());
-	}
 	
 	@Override
 	public final int hashCode() {
