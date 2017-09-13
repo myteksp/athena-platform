@@ -7,21 +7,23 @@ import java.util.Map;
 import com.gf.collections.GfCollections;
 
 public final class GeneralEvent {
+	public String id;
 	public String name;
 	public Map<String, Object> params;
 	
 	public GeneralEvent(){}
 	
-	public GeneralEvent(final String name, final Map<String, Object> params){
+	public GeneralEvent(final String id, final String name, final Map<String, Object> params){
+		this.id = id;
 		this.name = name;
 		this.params = params;
 	}
 	
-	public GeneralEvent(final String name){
-		this(name, new HashMap<String, Object>());
+	public GeneralEvent(final String id, final String name){
+		this(id, name, new HashMap<String, Object>());
 	}
 	
-	public GeneralEvent(final String name, final List<Object> params){
+	public GeneralEvent(final String id, final String name, final List<Object> params){
 		final Map<String, Object> map = new HashMap<String, Object>(params.size());
 		boolean isKey = true;
 		String key = null;
@@ -41,8 +43,8 @@ public final class GeneralEvent {
 		this.params = map;
 	}
 	
-	public GeneralEvent(final String name, final Object ...params){
-		this(name, GfCollections.asArrayCollection(params));
+	public GeneralEvent(final String id, final String name, final Object ...params){
+		this(id, name, GfCollections.asArrayCollection(params));
 	}
 
 	@Override
