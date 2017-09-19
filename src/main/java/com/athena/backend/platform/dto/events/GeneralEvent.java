@@ -11,7 +11,11 @@ public final class GeneralEvent {
 	public String name;
 	public Map<String, Object> params;
 	
-	public GeneralEvent(){}
+	public GeneralEvent(){
+		this.id = "";
+		this.name = "";
+		this.params = new HashMap<String, Object>();
+	}
 	
 	public GeneralEvent(final String id, final String name, final Map<String, Object> params){
 		this.id = id;
