@@ -7,12 +7,14 @@ public final class UserDTO {
 	public String password;
 	public Date registered;
 	public Date lastLogin;
+	public UserProfileDTO profile;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((lastLogin == null) ? 0 : lastLogin.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((profile == null) ? 0 : profile.hashCode());
 		result = prime * result + ((registered == null) ? 0 : registered.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
@@ -36,6 +38,11 @@ public final class UserDTO {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (profile == null) {
+			if (other.profile != null)
+				return false;
+		} else if (!profile.equals(other.profile))
+			return false;
 		if (registered == null) {
 			if (other.registered != null)
 				return false;
@@ -51,6 +58,6 @@ public final class UserDTO {
 	@Override
 	public final String toString() {
 		return "UserDTO [userId=" + userId + ", password=" + password + ", registered=" + registered + ", lastLogin="
-				+ lastLogin + "]";
+				+ lastLogin + ", profile=" + profile + "]";
 	}
 }
