@@ -46,4 +46,23 @@ public final class DeviceDTO {
 	public final String toString() {
 		return JSON.toJson(this);
 	}
+	
+	
+	public static final boolean isValid(final DeviceDTO device) {
+		if (device == null)
+			return false;
+		
+		if (device.deviceId == null)
+			return false;
+		if (device.platform == null)
+			return false;
+		if (device.userId == null)
+			return false;
+		if (device.deviceId.length() == 0)
+			return false;
+		if (device.userId.length() == 0)
+			return false;
+		
+		return true;
+	}
 }
