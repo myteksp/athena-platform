@@ -12,19 +12,19 @@ public final class SignupRequest {
 	public LoginType type;
 	
 	@JsonProperty(required=false)
-	public String avatarUrl;
+	public String avatarUrl = "";
 	
 	@JsonProperty(required=false)
-	public String name;
+	public String name = "";
 	
 	@JsonProperty(required=false)
-	public Long latitude;
+	public Long latitude = null;
 	
 	@JsonProperty(required=false)
-	public Long longtitude;
+	public Long longtitude = null;
 	
 	@JsonProperty(required=false)
-	public DeviceDTO device;
+	public DeviceDTO device = null;
 
 	@Override
 	public final int hashCode() {
