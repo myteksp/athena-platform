@@ -12,6 +12,9 @@ public final class SignupRequest {
 	public LoginType type;
 	
 	@JsonProperty(required=false)
+	public String password = "";
+	
+	@JsonProperty(required=false)
 	public String avatarUrl = "";
 	
 	@JsonProperty(required=false)
