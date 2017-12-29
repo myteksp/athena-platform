@@ -21,10 +21,10 @@ public final class SignupRequest {
 	public String name = "";
 	
 	@JsonProperty(required=false)
-	public Long latitude = null;
+	public Double latitude = null;
 	
 	@JsonProperty(required=false)
-	public Long longtitude = null;
+	public Double longtitude = null;
 	
 	@JsonProperty(required=false)
 	public DeviceDTO device = null;
