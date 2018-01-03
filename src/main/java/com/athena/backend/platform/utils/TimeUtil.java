@@ -6,9 +6,19 @@ import java.util.Date;
 import com.athena.backend.platform.dto.time.TimeEntity;
 
 public final class TimeUtil {
-	public static final String formatDayOrMonth(final int dayOrMonth){
+	public static final String formatDay(final int dayOrMonth){
 		final int abs = Math.abs(dayOrMonth);
-		if (abs > 32)
+		if (abs > 31)
+			throw new RuntimeException("Illigal date format.");
+		
+		if (abs < 10)
+			return "0" + Integer.toString(abs);
+		return Integer.toString(abs);
+	}
+	
+	public static final String formatMonth(final int dayOrMonth){
+		final int abs = Math.abs(dayOrMonth) + 1;
+		if (abs > 12)
 			throw new RuntimeException("Illigal date format.");
 		
 		if (abs < 10)
