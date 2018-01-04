@@ -25,6 +25,21 @@ public final class TimeEntity {
 		TimeUtil.convert(date, this);
 	}
 	
+	public final TimeEntity previousDay() {
+		return backward(86400000);
+	}
+	
+	public final TimeEntity nextDay() {
+		return forward(86400000);
+	}
+	
+	public final TimeEntity backward(final long amount) {
+		return new TimeEntity(this.timestamp - amount);
+	}
+	
+	public final TimeEntity forward(final long amount) {
+		return new TimeEntity(this.timestamp + amount);
+	}
 	
 	@Override
 	public final int hashCode() {
