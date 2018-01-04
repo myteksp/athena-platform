@@ -4,6 +4,7 @@ import java.util.Date;
 
 public final class Game {
 	public String id;
+	//acceptable values [scheduled, inprogress, closed]
 	public String status;
 	public String coverage;
 	public Date scheduled;
