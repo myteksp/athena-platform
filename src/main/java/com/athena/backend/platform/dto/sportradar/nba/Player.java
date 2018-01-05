@@ -1,5 +1,7 @@
 package com.athena.backend.platform.dto.sportradar.nba;
 
+import java.util.List;
+
 public final class Player {
 	public String id;
 	public String status;
@@ -18,6 +20,7 @@ public final class Player {
 	public String updated;
 	public String reference;
 	public Draft draft;
+	public List<Injury> injuries;
 
 	@Override
 	public final int hashCode() {
@@ -32,6 +35,7 @@ public final class Player {
 		result = prime * result + ((full_name == null) ? 0 : full_name.hashCode());
 		result = prime * result + ((height == null) ? 0 : height.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((injuries == null) ? 0 : injuries.hashCode());
 		result = prime * result + ((jersey_number == null) ? 0 : jersey_number.hashCode());
 		result = prime * result + ((last_name == null) ? 0 : last_name.hashCode());
 		result = prime * result + ((position == null) ? 0 : position.hashCode());
@@ -42,7 +46,6 @@ public final class Player {
 		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 		return result;
 	}
-	
 	@Override
 	public final boolean equals(final Object obj) {
 		if (this == obj)
@@ -97,6 +100,11 @@ public final class Player {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (injuries == null) {
+			if (other.injuries != null)
+				return false;
+		} else if (!injuries.equals(other.injuries))
+			return false;
 		if (jersey_number == null) {
 			if (other.jersey_number != null)
 				return false;
@@ -145,15 +153,81 @@ public final class Player {
 				+ ", last_name=" + last_name + ", abbr_name=" + abbr_name + ", height=" + height + ", weight=" + weight
 				+ ", position=" + position + ", primary_position=" + primary_position + ", jersey_number="
 				+ jersey_number + ", experience=" + experience + ", birth_place=" + birth_place + ", birthdate="
-				+ birthdate + ", updated=" + updated + ", reference=" + reference + ", draft=" + draft + "]";
+				+ birthdate + ", updated=" + updated + ", reference=" + reference + ", draft=" + draft + ", injuries="
+				+ injuries + "]";
 	}
 
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	public static final class Injury{
+		public String id;
+		public String comment;
+		public String desc;
+		public String status;
+		public String start_date;
+		public String update_date;
+		@Override
+		public final int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+			result = prime * result + ((desc == null) ? 0 : desc.hashCode());
+			result = prime * result + ((id == null) ? 0 : id.hashCode());
+			result = prime * result + ((start_date == null) ? 0 : start_date.hashCode());
+			result = prime * result + ((status == null) ? 0 : status.hashCode());
+			result = prime * result + ((update_date == null) ? 0 : update_date.hashCode());
+			return result;
+		}
+		@Override
+		public final boolean equals(final Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final Injury other = (Injury) obj;
+			if (comment == null) {
+				if (other.comment != null)
+					return false;
+			} else if (!comment.equals(other.comment))
+				return false;
+			if (desc == null) {
+				if (other.desc != null)
+					return false;
+			} else if (!desc.equals(other.desc))
+				return false;
+			if (id == null) {
+				if (other.id != null)
+					return false;
+			} else if (!id.equals(other.id))
+				return false;
+			if (start_date == null) {
+				if (other.start_date != null)
+					return false;
+			} else if (!start_date.equals(other.start_date))
+				return false;
+			if (status == null) {
+				if (other.status != null)
+					return false;
+			} else if (!status.equals(other.status))
+				return false;
+			if (update_date == null) {
+				if (other.update_date != null)
+					return false;
+			} else if (!update_date.equals(other.update_date))
+				return false;
+			return true;
+		}
+		@Override
+		public final String toString() {
+			return "Injury [id=" + id + ", comment=" + comment + ", desc=" + desc + ", status=" + status
+					+ ", start_date=" + start_date + ", update_date=" + update_date + "]";
+		}
+	}
 
 
 	public static final class Draft{
