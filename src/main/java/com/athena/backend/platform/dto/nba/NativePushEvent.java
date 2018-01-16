@@ -8,6 +8,8 @@ import java.util.Base64.Encoder;
 public final class NativePushEvent {
 	public Type type;
 	public String data;
+	
+	public NativePushEvent() {}
 
 	public NativePushEvent(final Type type, final String data) {
 		this.type = type;
