@@ -67,6 +67,6 @@ public final class NativePushEvent {
 	}
 
 	public static enum Type{
-		stats, clock, event
+		stats, clock, event, heartbeat
 	}
 }
