@@ -10,8 +10,6 @@ public final class Game {
 	public Date scheduled;
 	public int home_points;
 	public int away_points;
-	public Venue venue;
-	public Broadcast broadcast;
 	public Team home;
 	public Team away;
 	@Override
@@ -20,14 +18,12 @@ public final class Game {
 		int result = 1;
 		result = prime * result + ((away == null) ? 0 : away.hashCode());
 		result = prime * result + away_points;
-		result = prime * result + ((broadcast == null) ? 0 : broadcast.hashCode());
 		result = prime * result + ((coverage == null) ? 0 : coverage.hashCode());
 		result = prime * result + ((home == null) ? 0 : home.hashCode());
 		result = prime * result + home_points;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((scheduled == null) ? 0 : scheduled.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((venue == null) ? 0 : venue.hashCode());
 		return result;
 	}
 	@Override
@@ -45,11 +41,6 @@ public final class Game {
 		} else if (!away.equals(other.away))
 			return false;
 		if (away_points != other.away_points)
-			return false;
-		if (broadcast == null) {
-			if (other.broadcast != null)
-				return false;
-		} else if (!broadcast.equals(other.broadcast))
 			return false;
 		if (coverage == null) {
 			if (other.coverage != null)
@@ -78,17 +69,11 @@ public final class Game {
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
-		if (venue == null) {
-			if (other.venue != null)
-				return false;
-		} else if (!venue.equals(other.venue))
-			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
 		return "Game [id=" + id + ", status=" + status + ", coverage=" + coverage + ", scheduled=" + scheduled
-				+ ", home_points=" + home_points + ", away_points=" + away_points + ", venue=" + venue + ", broadcast="
-				+ broadcast + ", home=" + home + ", away=" + away + "]";
+				+ ", home_points=" + home_points + ", away_points=" + away_points + ", home=" + home + ", away=" + away + "]";
 	}
 }
