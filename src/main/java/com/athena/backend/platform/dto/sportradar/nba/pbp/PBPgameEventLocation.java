@@ -3,10 +3,12 @@ package com.athena.backend.platform.dto.sportradar.nba.pbp;
 public final class PBPgameEventLocation {
 	public int coord_x;
 	public int coord_y;
+	public String action_area;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((action_area == null) ? 0 : action_area.hashCode());
 		result = prime * result + coord_x;
 		result = prime * result + coord_y;
 		return result;
@@ -20,6 +22,11 @@ public final class PBPgameEventLocation {
 		if (getClass() != obj.getClass())
 			return false;
 		final PBPgameEventLocation other = (PBPgameEventLocation) obj;
+		if (action_area == null) {
+			if (other.action_area != null)
+				return false;
+		} else if (!action_area.equals(other.action_area))
+			return false;
 		if (coord_x != other.coord_x)
 			return false;
 		if (coord_y != other.coord_y)
@@ -28,6 +35,7 @@ public final class PBPgameEventLocation {
 	}
 	@Override
 	public final String toString() {
-		return "PBPgameEventLocation [coord_x=" + coord_x + ", coord_y=" + coord_y + "]";
+		return "PBPgameEventLocation [coord_x=" + coord_x + ", coord_y=" + coord_y + ", action_area=" + action_area
+				+ "]";
 	}
 }
