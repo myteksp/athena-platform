@@ -2,7 +2,6 @@ package com.athena.backend.platform.dto.sportradar.nba.pbp;
 
 public final class PBPgameEventStatistics {
 	public String type;
-	public boolean made;
 	public String shot_type;
 	public PBPteam team;
 	public PBPplayer player;
@@ -10,7 +9,6 @@ public final class PBPgameEventStatistics {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (made ? 1231 : 1237);
 		result = prime * result + ((player == null) ? 0 : player.hashCode());
 		result = prime * result + ((shot_type == null) ? 0 : shot_type.hashCode());
 		result = prime * result + ((team == null) ? 0 : team.hashCode());
@@ -26,8 +24,6 @@ public final class PBPgameEventStatistics {
 		if (getClass() != obj.getClass())
 			return false;
 		final PBPgameEventStatistics other = (PBPgameEventStatistics) obj;
-		if (made != other.made)
-			return false;
 		if (player == null) {
 			if (other.player != null)
 				return false;
@@ -52,7 +48,7 @@ public final class PBPgameEventStatistics {
 	}
 	@Override
 	public final String toString() {
-		return "PBPgameEventStatistics [type=" + type + ", made=" + made + ", shot_type=" + shot_type + ", team=" + team
+		return "PBPgameEventStatistics [type=" + type + ", shot_type=" + shot_type + ", team=" + team
 				+ ", player=" + player + "]";
 	}
 }
