@@ -10,15 +10,22 @@ public final class Bet {
 	public BetStatus status;
 	public String teamId;
 	public String playerId;
+	public Integer stake;
 	public Integer x;
 	public Integer y;
+	
+	public Long completionTime;
+	public Integer points;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((completionTime == null) ? 0 : completionTime.hashCode());
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
+		result = prime * result + ((points == null) ? 0 : points.hashCode());
+		result = prime * result + ((stake == null) ? 0 : stake.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -36,6 +43,11 @@ public final class Bet {
 		if (getClass() != obj.getClass())
 			return false;
 		final Bet other = (Bet) obj;
+		if (completionTime == null) {
+			if (other.completionTime != null)
+				return false;
+		} else if (!completionTime.equals(other.completionTime))
+			return false;
 		if (gameId == null) {
 			if (other.gameId != null)
 				return false;
@@ -50,6 +62,16 @@ public final class Bet {
 			if (other.playerId != null)
 				return false;
 		} else if (!playerId.equals(other.playerId))
+			return false;
+		if (points == null) {
+			if (other.points != null)
+				return false;
+		} else if (!points.equals(other.points))
+			return false;
+		if (stake == null) {
+			if (other.stake != null)
+				return false;
+		} else if (!stake.equals(other.stake))
 			return false;
 		if (status != other.status)
 			return false;
@@ -80,6 +102,8 @@ public final class Bet {
 	@Override
 	public final String toString() {
 		return "Bet [id=" + id + ", userId=" + userId + ", gameId=" + gameId + ", type=" + type + ", status=" + status
-				+ ", teamId=" + teamId + ", playerId=" + playerId + ", x=" + x + ", y=" + y + "]";
+				+ ", teamId=" + teamId + ", playerId=" + playerId + ", stake=" + stake + ", x=" + x + ", y=" + y
+				+ ", completionTime=" + completionTime + ", points=" + points
+				+ "]";
 	}
 }

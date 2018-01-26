@@ -8,10 +8,12 @@ public final class PlaceBetRequest {
 	public String playerId;
 	public Integer x;
 	public Integer y;
+	public Long clientTime;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((clientTime == null) ? 0 : clientTime.hashCode());
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
 		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
 		result = prime * result + stakeAmount;
@@ -30,6 +32,11 @@ public final class PlaceBetRequest {
 		if (getClass() != obj.getClass())
 			return false;
 		final PlaceBetRequest other = (PlaceBetRequest) obj;
+		if (clientTime == null) {
+			if (other.clientTime != null)
+				return false;
+		} else if (!clientTime.equals(other.clientTime))
+			return false;
 		if (gameId == null) {
 			if (other.gameId != null)
 				return false;
@@ -64,6 +71,6 @@ public final class PlaceBetRequest {
 	@Override
 	public final String toString() {
 		return "PlaceBetRequest [gameId=" + gameId + ", stakeAmount=" + stakeAmount + ", type=" + type + ", teamId="
-				+ teamId + ", playerId=" + playerId + ", x=" + x + ", y=" + y + "]";
+				+ teamId + ", playerId=" + playerId + ", x=" + x + ", y=" + y + ", clientTime=" + clientTime + "]";
 	}
 }
