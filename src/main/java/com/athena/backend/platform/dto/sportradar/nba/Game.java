@@ -4,7 +4,7 @@ import java.util.Date;
 
 public final class Game {
 	public String id;
-	//acceptable values [scheduled, inprogress, closed]
+	//acceptable values [scheduled, inprogress, closed, pending]
 	public String status;
 	public String coverage;
 	public Date scheduled;
@@ -17,13 +17,8 @@ public final class Game {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((away == null) ? 0 : away.hashCode());
-		result = prime * result + away_points;
-		result = prime * result + ((coverage == null) ? 0 : coverage.hashCode());
 		result = prime * result + ((home == null) ? 0 : home.hashCode());
-		result = prime * result + home_points;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((scheduled == null) ? 0 : scheduled.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 	@Override
@@ -40,40 +35,22 @@ public final class Game {
 				return false;
 		} else if (!away.equals(other.away))
 			return false;
-		if (away_points != other.away_points)
-			return false;
-		if (coverage == null) {
-			if (other.coverage != null)
-				return false;
-		} else if (!coverage.equals(other.coverage))
-			return false;
 		if (home == null) {
 			if (other.home != null)
 				return false;
 		} else if (!home.equals(other.home))
-			return false;
-		if (home_points != other.home_points)
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (scheduled == null) {
-			if (other.scheduled != null)
-				return false;
-		} else if (!scheduled.equals(other.scheduled))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
 		return "Game [id=" + id + ", status=" + status + ", coverage=" + coverage + ", scheduled=" + scheduled
-				+ ", home_points=" + home_points + ", away_points=" + away_points + ", home=" + home + ", away=" + away + "]";
+				+ ", home_points=" + home_points + ", away_points=" + away_points + ", home=" + home + ", away=" + away
+				+ "]";
 	}
 }
