@@ -2,7 +2,9 @@ package com.athena.backend.platform.dto.sportradar.globalBasketball;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class Season {
 	public String id;
 	public String name;

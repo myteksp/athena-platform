@@ -3,7 +3,9 @@ package com.athena.backend.platform.dto.time;
 import java.util.Date;
 
 import com.athena.backend.platform.utils.TimeUtil;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class TimeEntity {
 	public int year;
 	public int month;

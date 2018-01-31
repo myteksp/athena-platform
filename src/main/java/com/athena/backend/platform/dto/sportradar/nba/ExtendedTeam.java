@@ -2,6 +2,9 @@ package com.athena.backend.platform.dto.sportradar.nba;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class ExtendedTeam {
 	public String id;
 	public String name;

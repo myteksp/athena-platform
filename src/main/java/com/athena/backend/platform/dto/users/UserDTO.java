@@ -2,6 +2,9 @@ package com.athena.backend.platform.dto.users;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class UserDTO {
 	public String userId;
 	public String password;

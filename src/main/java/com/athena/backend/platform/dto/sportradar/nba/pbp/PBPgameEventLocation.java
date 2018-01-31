@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.sportradar.nba.pbp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PBPgameEventLocation {
 	public int coord_x;
 	public int coord_y;

@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.sportradar.nba.pbp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PBPgameEventStatistics {
 	public String type;
 	public String shot_type;

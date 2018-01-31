@@ -3,8 +3,10 @@ package com.athena.backend.platform.dto.general;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gf.util.string.JSON;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class BooleanDTO {
 	public final boolean result;
 	public final Map<String, Object> params;

@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.events;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class TickEvent {
 	public long time;
 	

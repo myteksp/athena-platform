@@ -1,9 +1,11 @@
 package com.athena.backend.platform.dto.users;
 
 import com.athena.backend.platform.dto.device.DeviceDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gf.util.string.JSON;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class SignupRequest {
 	@JsonProperty(required=true)
 	public String userId;

@@ -2,6 +2,9 @@ package com.athena.backend.platform.dto.sportradar.nba.pbp;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PBPgamePeriod {
 	public String id;
 	public String type;

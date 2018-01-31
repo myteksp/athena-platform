@@ -3,6 +3,9 @@ package com.athena.backend.platform.dto.sportradar.globalBasketball;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class DailyScheduleEntity {
 	public Date generated_at;
 	public String schema;

@@ -1,7 +1,9 @@
 package com.athena.backend.platform.dto.users;
 
 import com.athena.backend.platform.dto.geometry.PointDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class LocationDTO {
 	public boolean available;
 	public PointDTO position;

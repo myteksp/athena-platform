@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gf.collections.GfCollections;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class GeneralEvent {
 	public String id;
 	public String name;

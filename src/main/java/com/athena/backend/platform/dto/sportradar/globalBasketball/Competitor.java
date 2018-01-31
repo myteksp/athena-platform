@@ -1,6 +1,8 @@
 package com.athena.backend.platform.dto.sportradar.globalBasketball;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class Competitor {
 	public String id;
 	public String name;

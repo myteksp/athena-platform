@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class UserBallanceDTO {
 	public double rank;
 	public int ballance;

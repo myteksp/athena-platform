@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.game;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PlaceBetRequest {
 	public String gameId;
 	public int stakeAmount;

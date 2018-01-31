@@ -2,9 +2,11 @@ package com.athena.backend.platform.dto.geometry;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gf.collections.GfCollections;
 import com.gf.collections.functions.MapFunction;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PolygonDTO {
 	public List<PointDTO> points;
 

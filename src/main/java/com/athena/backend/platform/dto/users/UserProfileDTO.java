@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class UserProfileDTO {
 	public String avatarUrl;
 	public String name;

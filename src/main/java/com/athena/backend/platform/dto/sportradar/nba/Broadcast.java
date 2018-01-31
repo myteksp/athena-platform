@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.sportradar.nba;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class Broadcast {
 	public String network;
 	public String satellite;

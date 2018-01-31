@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.geometry;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PointDTO {
 	public double x;
 	public double y;

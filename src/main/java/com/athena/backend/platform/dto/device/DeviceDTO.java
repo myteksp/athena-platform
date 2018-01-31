@@ -1,8 +1,10 @@
 package com.athena.backend.platform.dto.device;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gf.util.string.JSON;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class DeviceDTO {
 	@JsonProperty(required=true)
 	public String deviceId;

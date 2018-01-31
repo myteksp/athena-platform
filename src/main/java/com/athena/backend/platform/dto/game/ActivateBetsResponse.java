@@ -2,6 +2,9 @@ package com.athena.backend.platform.dto.game;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class ActivateBetsResponse {
 	public BetStatus status;
 	public List<Bet> bets;

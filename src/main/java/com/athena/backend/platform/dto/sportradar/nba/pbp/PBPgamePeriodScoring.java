@@ -1,5 +1,8 @@
 package com.athena.backend.platform.dto.sportradar.nba.pbp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PBPgamePeriodScoring {
 	public PBPteamScore home;
 	public PBPteamScore away;

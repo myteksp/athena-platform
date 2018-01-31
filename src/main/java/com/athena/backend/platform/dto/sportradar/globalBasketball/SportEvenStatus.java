@@ -2,7 +2,9 @@ package com.athena.backend.platform.dto.sportradar.globalBasketball;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class SportEvenStatus {
 	public String status;
 	public String match_status;

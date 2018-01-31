@@ -2,6 +2,9 @@ package com.athena.backend.platform.dto.sportradar.nba;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class Game {
 	public String id;
 	//acceptable values [scheduled, inprogress, closed, pending]

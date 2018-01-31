@@ -2,7 +2,9 @@ package com.athena.backend.platform.dto.events;
 
 import com.athena.backend.platform.dto.sportradar.nba.Game;
 import com.athena.backend.platform.dto.sportradar.nba.pbp.PBPgame;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PBPevent {
 	public String id;
 	public PBPeventType type;
