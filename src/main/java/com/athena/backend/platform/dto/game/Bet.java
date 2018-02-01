@@ -12,6 +12,7 @@ public final class Bet {
 	public String teamId;
 	public String playerId;
 	public Integer stake;
+	public Integer win;
 	public Integer x;
 	public Integer y;
 	
@@ -31,12 +32,13 @@ public final class Bet {
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((win == null) ? 0 : win.hashCode());
 		result = prime * result + ((x == null) ? 0 : x.hashCode());
 		result = prime * result + ((y == null) ? 0 : y.hashCode());
 		return result;
 	}
 	@Override
-	public final boolean equals(final Object obj) {
+	public final boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -88,6 +90,11 @@ public final class Bet {
 				return false;
 		} else if (!userId.equals(other.userId))
 			return false;
+		if (win == null) {
+			if (other.win != null)
+				return false;
+		} else if (!win.equals(other.win))
+			return false;
 		if (x == null) {
 			if (other.x != null)
 				return false;
@@ -103,8 +110,7 @@ public final class Bet {
 	@Override
 	public final String toString() {
 		return "Bet [id=" + id + ", userId=" + userId + ", gameId=" + gameId + ", type=" + type + ", status=" + status
-				+ ", teamId=" + teamId + ", playerId=" + playerId + ", stake=" + stake + ", x=" + x + ", y=" + y
-				+ ", completionTime=" + completionTime + ", points=" + points
-				+ "]";
+				+ ", teamId=" + teamId + ", playerId=" + playerId + ", stake=" + stake + ", win=" + win + ", x=" + x
+				+ ", y=" + y + ", completionTime=" + completionTime + ", points=" + points + "]";
 	}
 }

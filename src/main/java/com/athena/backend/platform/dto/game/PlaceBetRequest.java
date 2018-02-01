@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public final class PlaceBetRequest {
 	public String gameId;
 	public int stakeAmount;
+	public int winAmount;
 	public BetType type;
 	public String teamId;
 	public String playerId;
@@ -22,6 +23,7 @@ public final class PlaceBetRequest {
 		result = prime * result + stakeAmount;
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + winAmount;
 		result = prime * result + ((x == null) ? 0 : x.hashCode());
 		result = prime * result + ((y == null) ? 0 : y.hashCode());
 		return result;
@@ -59,6 +61,8 @@ public final class PlaceBetRequest {
 			return false;
 		if (type != other.type)
 			return false;
+		if (winAmount != other.winAmount)
+			return false;
 		if (x == null) {
 			if (other.x != null)
 				return false;
@@ -73,7 +77,8 @@ public final class PlaceBetRequest {
 	}
 	@Override
 	public final String toString() {
-		return "PlaceBetRequest [gameId=" + gameId + ", stakeAmount=" + stakeAmount + ", type=" + type + ", teamId="
-				+ teamId + ", playerId=" + playerId + ", x=" + x + ", y=" + y + ", clientTime=" + clientTime + "]";
+		return "PlaceBetRequest [gameId=" + gameId + ", stakeAmount=" + stakeAmount + ", winAmount=" + winAmount
+				+ ", type=" + type + ", teamId=" + teamId + ", playerId=" + playerId + ", x=" + x + ", y=" + y
+				+ ", clientTime=" + clientTime + "]";
 	}
 }
