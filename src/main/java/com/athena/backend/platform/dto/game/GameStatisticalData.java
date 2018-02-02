@@ -23,6 +23,7 @@ public final class GameStatisticalData {
 	}
 	
 	public static final class LocationStatisticalData{
+		public String playerId;
 		public GameLocation location;
 		public double winPrice;
 		public double loosePrice;
