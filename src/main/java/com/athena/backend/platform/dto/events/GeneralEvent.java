@@ -30,6 +30,7 @@ public final class GeneralEvent {
 	}
 	
 	public GeneralEvent(final String id, final String name, final List<Object> params){
+		this.id = id;
 		final Map<String, Object> map = new HashMap<String, Object>(params.size());
 		boolean isKey = true;
 		String key = null;
