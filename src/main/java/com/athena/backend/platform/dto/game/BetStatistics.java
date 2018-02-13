@@ -150,7 +150,6 @@ public final class BetStatistics {
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class LocationBetStat{
 		public String teamId;
-		public String playerId;
 		public GameLocation location;
 		public double portion;
 		@Override
@@ -158,7 +157,6 @@ public final class BetStatistics {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((location == null) ? 0 : location.hashCode());
-			result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
 			long temp;
 			temp = Double.doubleToLongBits(portion);
 			result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -176,11 +174,6 @@ public final class BetStatistics {
 			final LocationBetStat other = (LocationBetStat) obj;
 			if (location != other.location)
 				return false;
-			if (playerId == null) {
-				if (other.playerId != null)
-					return false;
-			} else if (!playerId.equals(other.playerId))
-				return false;
 			if (Double.doubleToLongBits(portion) != Double.doubleToLongBits(other.portion))
 				return false;
 			if (teamId == null) {
@@ -192,7 +185,7 @@ public final class BetStatistics {
 		}
 		@Override
 		public final String toString() {
-			return "LocationBetStat [teamId=" + teamId + ", playerId=" + playerId + ", location=" + location
+			return "LocationBetStat [teamId=" + teamId + ", location=" + location
 					+ ", portion=" + portion + "]";
 		}
 	}
