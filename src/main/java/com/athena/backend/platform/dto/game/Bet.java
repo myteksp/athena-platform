@@ -14,8 +14,6 @@ public final class Bet {
 	public String playerId;
 	public Integer stake;
 	public Integer win;
-	public Integer x;
-	public Integer y;
 	public Integer quarter;
 	public GameLocation gameZone;
 	public String teamName;
@@ -44,8 +42,6 @@ public final class Bet {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((win == null) ? 0 : win.hashCode());
-		result = prime * result + ((x == null) ? 0 : x.hashCode());
-		result = prime * result + ((y == null) ? 0 : y.hashCode());
 		return result;
 	}
 	@Override
@@ -133,24 +129,14 @@ public final class Bet {
 				return false;
 		} else if (!win.equals(other.win))
 			return false;
-		if (x == null) {
-			if (other.x != null)
-				return false;
-		} else if (!x.equals(other.x))
-			return false;
-		if (y == null) {
-			if (other.y != null)
-				return false;
-		} else if (!y.equals(other.y))
-			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
 		return "Bet [id=" + id + ", userId=" + userId + ", gameId=" + gameId + ", commonId=" + commonId + ", type="
 				+ type + ", status=" + status + ", teamId=" + teamId + ", playerId=" + playerId + ", stake=" + stake
-				+ ", win=" + win + ", x=" + x + ", y=" + y + ", quarter=" + quarter + ", gameZone=" + gameZone
-				+ ", teamName=" + teamName + ", playerName=" + playerName + ", completionTime=" + completionTime
-				+ ", points=" + points + ", notified=" + notified + "]";
+				+ ", win=" + win + ", quarter=" + quarter + ", gameZone=" + gameZone + ", teamName=" + teamName
+				+ ", playerName=" + playerName + ", completionTime=" + completionTime + ", points=" + points
+				+ ", notified=" + notified + "]";
 	}
 }
