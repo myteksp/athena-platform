@@ -1,14 +1,24 @@
 package com.athena.backend.platform.dto.events;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class ServerNodeEvent {
-	public String p;
+	@JsonProperty(required=true)
 	public Type type;
 	
+	@JsonProperty(required=false)
+	public String nodeId;
+	
+	@JsonProperty(required=false)
+	public String eventId;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((p == null) ? 0 : p.hashCode());
+		result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
+		result = prime * result + ((nodeId == null) ? 0 : nodeId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -21,10 +31,15 @@ public final class ServerNodeEvent {
 		if (getClass() != obj.getClass())
 			return false;
 		final ServerNodeEvent other = (ServerNodeEvent) obj;
-		if (p == null) {
-			if (other.p != null)
+		if (eventId == null) {
+			if (other.eventId != null)
 				return false;
-		} else if (!p.equals(other.p))
+		} else if (!eventId.equals(other.eventId))
+			return false;
+		if (nodeId == null) {
+			if (other.nodeId != null)
+				return false;
+		} else if (!nodeId.equals(other.nodeId))
 			return false;
 		if (type != other.type)
 			return false;
@@ -32,8 +47,9 @@ public final class ServerNodeEvent {
 	}
 	@Override
 	public final String toString() {
-		return "ServerNodeEvent [p=" + p + ", type=" + type + "]";
+		return "ServerNodeEvent [type=" + type + ", nodeId=" + nodeId + ", eventId=" + eventId + "]";
 	}
+
 
 	public static enum Type{
 		ACK, REGISTER, UNREGISTER, REGISTER_REQUEST
