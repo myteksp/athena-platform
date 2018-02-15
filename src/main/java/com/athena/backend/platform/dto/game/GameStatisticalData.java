@@ -2,10 +2,17 @@ package com.athena.backend.platform.dto.game;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class GameStatisticalData {
+
 	public String gameId;
+	
 	public TeamStatisticalData home;
+	
 	public TeamStatisticalData away;
+	
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -47,6 +54,7 @@ public final class GameStatisticalData {
 	}
 
 
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class TeamStatisticalData{
 		public String teamId;
 		public double winPrice;
@@ -97,6 +105,7 @@ public final class GameStatisticalData {
 		}
 	}
 	
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class PlayerStatisticalData{
 		public String playerId;
 		public double winPrice;
@@ -147,6 +156,7 @@ public final class GameStatisticalData {
 		}
 	}
 	
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class LocationStatisticalData{
 		public String playerId;
 		public GameLocation location;
