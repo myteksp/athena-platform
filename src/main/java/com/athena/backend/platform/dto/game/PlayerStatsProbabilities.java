@@ -1,9 +1,12 @@
 package com.athena.backend.platform.dto.game;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import com.athena.backend.platform.dto.game.PlayerStats.LocationStat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
 import com.gf.collections.functions.MapFunction;
 
@@ -12,7 +15,7 @@ public final class PlayerStatsProbabilities {
 	public String playerId;
 	public double willMake;
 	public double willMiss;
-	public List<LocationStatProbabilities> locations;
+	public Map<GameLocation, LocationStatProbabilities> locations;
 
 	public PlayerStatsProbabilities(final PlayerStats stats) {
 		this.playerId = stats.playerId;
@@ -30,13 +33,20 @@ public final class PlayerStatsProbabilities {
 			this.willMake = ((double)stats.made) / ((double)totalShots);
 			this.willMiss = ((double)stats.miss) / ((double)totalShots);
 		}
-		this.locations = GfCollections.wrapAsCollection(stats.locations)
-				.map(new MapFunction<LocationStat, LocationStatProbabilities>() {
-					@Override
-					public final LocationStatProbabilities map(final LocationStat loc) {
-						return new LocationStatProbabilities(loc);
-					}
-				});
+		final GfCollection<LocationStatProbabilities> lst = GfCollections.wrapAsCollection(stats.locations)
+		.map(new MapFunction<LocationStat, LocationStatProbabilities>() {
+			@Override
+			public final LocationStatProbabilities map(final LocationStat loc) {
+				return new LocationStatProbabilities(loc);
+			}
+		});
+		final Map<GameLocation, LocationStatProbabilities> map = this.locations = new HashMap<GameLocation, LocationStatProbabilities>(lst.size() + 5);
+		lst.forEach(new Consumer<LocationStatProbabilities>() {
+			@Override
+			public final void accept(final LocationStatProbabilities loc) {
+				map.put(loc.location, loc);
+			}
+		});
 	}
 	@Override
 	public final int hashCode() {
@@ -81,9 +91,6 @@ public final class PlayerStatsProbabilities {
 		return "PlayerStatsProbabilities [playerId=" + playerId + ", willMake=" + willMake + ", willMiss=" + willMiss
 				+ ", locations=" + locations + "]";
 	}
-
-
-
 
 
 
