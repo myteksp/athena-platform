@@ -21,10 +21,12 @@ public final class Bet {
 	public Long completionTime;
 	public Integer points;
 	public Boolean notified;
+	public String clock;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((clock == null) ? 0 : clock.hashCode());
 		result = prime * result + ((commonId == null) ? 0 : commonId.hashCode());
 		result = prime * result + ((completionTime == null) ? 0 : completionTime.hashCode());
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
@@ -53,6 +55,11 @@ public final class Bet {
 		if (getClass() != obj.getClass())
 			return false;
 		final Bet other = (Bet) obj;
+		if (clock == null) {
+			if (other.clock != null)
+				return false;
+		} else if (!clock.equals(other.clock))
+			return false;
 		if (commonId == null) {
 			if (other.commonId != null)
 				return false;
@@ -137,6 +144,6 @@ public final class Bet {
 				+ type + ", status=" + status + ", teamId=" + teamId + ", playerId=" + playerId + ", stake=" + stake
 				+ ", win=" + win + ", quarter=" + quarter + ", gameZone=" + gameZone + ", teamName=" + teamName
 				+ ", playerName=" + playerName + ", completionTime=" + completionTime + ", points=" + points
-				+ ", notified=" + notified + "]";
+				+ ", notified=" + notified + ", clock=" + clock + "]";
 	}
 }
