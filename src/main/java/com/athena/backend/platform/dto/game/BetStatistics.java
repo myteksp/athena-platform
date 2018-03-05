@@ -67,6 +67,7 @@ public final class BetStatistics {
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class TeamBetStat{
 		public String teamId;
+		public String teamName;
 		public double portion;
 		@Override
 		public final int hashCode() {
@@ -76,10 +77,11 @@ public final class BetStatistics {
 			temp = Double.doubleToLongBits(portion);
 			result = prime * result + (int) (temp ^ (temp >>> 32));
 			result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
+			result = prime * result + ((teamName == null) ? 0 : teamName.hashCode());
 			return result;
 		}
 		@Override
-		public final boolean equals(Object obj) {
+		public final boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
@@ -94,11 +96,16 @@ public final class BetStatistics {
 					return false;
 			} else if (!teamId.equals(other.teamId))
 				return false;
+			if (teamName == null) {
+				if (other.teamName != null)
+					return false;
+			} else if (!teamName.equals(other.teamName))
+				return false;
 			return true;
 		}
 		@Override
 		public final String toString() {
-			return "TeamBetStat [teamId=" + teamId + ", portion=" + portion + "]";
+			return "TeamBetStat [teamId=" + teamId + ", teamName=" + teamName + ", portion=" + portion + "]";
 		}
 	}
 	
@@ -106,12 +113,14 @@ public final class BetStatistics {
 	public static final class PlayerBetStat{
 		public String teamId;
 		public String playerId;
+		public String playerName;
 		public double portion;
 		@Override
 		public final int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
+			result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
 			long temp;
 			temp = Double.doubleToLongBits(portion);
 			result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -119,7 +128,7 @@ public final class BetStatistics {
 			return result;
 		}
 		@Override
-		public final boolean equals(Object obj) {
+		public final boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
@@ -132,6 +141,11 @@ public final class BetStatistics {
 					return false;
 			} else if (!playerId.equals(other.playerId))
 				return false;
+			if (playerName == null) {
+				if (other.playerName != null)
+					return false;
+			} else if (!playerName.equals(other.playerName))
+				return false;
 			if (Double.doubleToLongBits(portion) != Double.doubleToLongBits(other.portion))
 				return false;
 			if (teamId == null) {
@@ -143,13 +157,15 @@ public final class BetStatistics {
 		}
 		@Override
 		public final String toString() {
-			return "PlayerBetStat [teamId=" + teamId + ", playerId=" + playerId + ", portion=" + portion + "]";
+			return "PlayerBetStat [teamId=" + teamId + ", playerId=" + playerId
+					+ ", playerName=" + playerName + ", portion=" + portion + "]";
 		}
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class LocationBetStat{
 		public String teamId;
+		public String teamName;
 		public GameLocation location;
 		public double portion;
 		@Override
@@ -161,6 +177,7 @@ public final class BetStatistics {
 			temp = Double.doubleToLongBits(portion);
 			result = prime * result + (int) (temp ^ (temp >>> 32));
 			result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
+			result = prime * result + ((teamName == null) ? 0 : teamName.hashCode());
 			return result;
 		}
 		@Override
@@ -181,11 +198,16 @@ public final class BetStatistics {
 					return false;
 			} else if (!teamId.equals(other.teamId))
 				return false;
+			if (teamName == null) {
+				if (other.teamName != null)
+					return false;
+			} else if (!teamName.equals(other.teamName))
+				return false;
 			return true;
 		}
 		@Override
 		public final String toString() {
-			return "LocationBetStat [teamId=" + teamId + ", location=" + location
+			return "LocationBetStat [teamId=" + teamId + ", teamName=" + teamName + ", location=" + location
 					+ ", portion=" + portion + "]";
 		}
 	}
