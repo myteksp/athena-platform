@@ -114,11 +114,13 @@ public final class BetStatistics {
 		public String teamId;
 		public String playerId;
 		public String playerName;
+		public String jersey_number;
 		public double portion;
 		@Override
 		public final int hashCode() {
 			final int prime = 31;
 			int result = 1;
+			result = prime * result + ((jersey_number == null) ? 0 : jersey_number.hashCode());
 			result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
 			result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
 			long temp;
@@ -136,6 +138,11 @@ public final class BetStatistics {
 			if (getClass() != obj.getClass())
 				return false;
 			final PlayerBetStat other = (PlayerBetStat) obj;
+			if (jersey_number == null) {
+				if (other.jersey_number != null)
+					return false;
+			} else if (!jersey_number.equals(other.jersey_number))
+				return false;
 			if (playerId == null) {
 				if (other.playerId != null)
 					return false;
@@ -157,8 +164,8 @@ public final class BetStatistics {
 		}
 		@Override
 		public final String toString() {
-			return "PlayerBetStat [teamId=" + teamId + ", playerId=" + playerId
-					+ ", playerName=" + playerName + ", portion=" + portion + "]";
+			return "PlayerBetStat [teamId=" + teamId + ", playerId=" + playerId + ", playerName=" + playerName
+					+ ", jersey_number=" + jersey_number + ", portion=" + portion + "]";
 		}
 	}
 	
