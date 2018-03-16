@@ -7,13 +7,17 @@ public final class UserProfileDTO {
 	public String avatarUrl;
 	public String name;
 	public LoginType loginType;
+	public String shareUrl;
+	public String title;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((avatarUrl == null) ? 0 : avatarUrl.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((loginType == null) ? 0 : loginType.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((shareUrl == null) ? 0 : shareUrl.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 	@Override
@@ -30,20 +34,28 @@ public final class UserProfileDTO {
 				return false;
 		} else if (!avatarUrl.equals(other.avatarUrl))
 			return false;
+		if (loginType != other.loginType)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (loginType == null) {
-			if (other.loginType != null)
+		if (shareUrl == null) {
+			if (other.shareUrl != null)
 				return false;
-		} else if (!loginType.equals(other.loginType))
+		} else if (!shareUrl.equals(other.shareUrl))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
 			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "UserProfileDTO [avatarUrl=" + avatarUrl + ", name=" + name + ", loginType=" + loginType + "]";
+		return "UserProfileDTO [avatarUrl=" + avatarUrl + ", name=" + name + ", loginType=" + loginType + ", shareUrl="
+				+ shareUrl + ", title=" + title + "]";
 	}
 }
