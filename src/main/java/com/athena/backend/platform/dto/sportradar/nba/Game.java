@@ -17,6 +17,7 @@ public final class Game {
 	public Team away;
 	public int quarter;
 	public String clock;
+	public boolean clockRunning;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -24,6 +25,7 @@ public final class Game {
 		result = prime * result + ((away == null) ? 0 : away.hashCode());
 		result = prime * result + away_points;
 		result = prime * result + ((clock == null) ? 0 : clock.hashCode());
+		result = prime * result + (clockRunning ? 1231 : 1237);
 		result = prime * result + ((coverage == null) ? 0 : coverage.hashCode());
 		result = prime * result + ((home == null) ? 0 : home.hashCode());
 		result = prime * result + home_points;
@@ -34,7 +36,7 @@ public final class Game {
 		return result;
 	}
 	@Override
-	public final boolean equals(Object obj) {
+	public final boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -53,6 +55,8 @@ public final class Game {
 			if (other.clock != null)
 				return false;
 		} else if (!clock.equals(other.clock))
+			return false;
+		if (clockRunning != other.clockRunning)
 			return false;
 		if (coverage == null) {
 			if (other.coverage != null)
@@ -89,6 +93,6 @@ public final class Game {
 	public final String toString() {
 		return "Game [id=" + id + ", status=" + status + ", coverage=" + coverage + ", scheduled=" + scheduled
 				+ ", home_points=" + home_points + ", away_points=" + away_points + ", home=" + home + ", away=" + away
-				+ ", quarter=" + quarter + ", clock=" + clock + "]";
+				+ ", quarter=" + quarter + ", clock=" + clock + ", clockRunning=" + clockRunning + "]";
 	}
 }
