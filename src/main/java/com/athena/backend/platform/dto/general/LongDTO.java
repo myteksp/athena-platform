@@ -6,11 +6,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class BooleanDTO {
-	public final boolean result;
+public final class LongDTO {
+	public final long result;
 	public final Map<String, Object> params;
-
-	public BooleanDTO(final boolean result, final Object ...params) {
+	
+	public LongDTO(final long result, final Object ...params) {
 		this.params = new HashMap<String, Object>();
 		this.result = result;
 		final int len = params.length;
@@ -29,14 +29,16 @@ public final class BooleanDTO {
 			}
 		}
 	}
+
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((params == null) ? 0 : params.hashCode());
-		result = prime * result + (this.result ? 1231 : 1237);
+		result = prime * result + (int) (this.result ^ (this.result >>> 32));
 		return result;
 	}
+
 	@Override
 	public final boolean equals(final Object obj) {
 		if (this == obj)
@@ -45,7 +47,7 @@ public final class BooleanDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final BooleanDTO other = (BooleanDTO) obj;
+		final LongDTO other = (LongDTO) obj;
 		if (params == null) {
 			if (other.params != null)
 				return false;
@@ -55,8 +57,9 @@ public final class BooleanDTO {
 			return false;
 		return true;
 	}
+
 	@Override
 	public final String toString() {
-		return "BooleanDTO [result=" + result + ", params=" + params + "]";
+		return "LongDTO [result=" + result + ", params=" + params + "]";
 	}
 }
