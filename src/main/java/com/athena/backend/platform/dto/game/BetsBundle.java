@@ -2,16 +2,37 @@ package com.athena.backend.platform.dto.game;
 
 import java.util.List;
 
+import com.athena.backend.platform.dto.game.BetBonus.BetBonusType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class BetsBundle {
 	public final String commonId;
 	public final List<Bet> bets;
+	public final int totalBonusAmount;
+	public final BetBonusType bonusType;
 	
-	public BetsBundle(final String commonId, final List<Bet> bets) {
+	public BetsBundle(
+			final String commonId, 
+			final List<Bet> bets) {
 		this.commonId = commonId;
 		this.bets = bets;
+		int amount = 0;
+		int amountMax = 0;
+		BetBonusType type = null;
+		for(final Bet bet : bets) {
+			if (bet.bonuses != null) {
+				for(final BetBonus bon : bet.bonuses) {
+					amount += bon.amount;
+					if (bon.amount > amountMax) {
+						amountMax = bon.amount;
+						type = bon.type;
+					}
+				}
+			}
+		}
+		this.totalBonusAmount = amount;
+		this.bonusType = type;
 	}
 
 	@Override
