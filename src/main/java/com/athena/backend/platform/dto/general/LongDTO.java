@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class LongDTO {
-	public final long result;
-	public final Map<String, Object> params;
+	public long result;
+	public Map<String, Object> params;
+	
+	public LongDTO() {}
 	
 	public LongDTO(final long result, final Object ...params) {
 		this.params = new HashMap<String, Object>();

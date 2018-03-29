@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class BooleanDTO {
-	public final boolean result;
-	public final Map<String, Object> params;
+	public boolean result;
+	public Map<String, Object> params;
+	
+	public BooleanDTO() {}
 
 	public BooleanDTO(final boolean result, final Object ...params) {
 		this.params = new HashMap<String, Object>();
