@@ -1,14 +1,9 @@
 package com.athena.backend.platform.dto.game;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import com.athena.backend.platform.dto.game.PlayerStats.LocationStat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.gf.collections.GfCollection;
-import com.gf.collections.GfCollections;
-import com.gf.collections.functions.MapFunction;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class PlayerStatsProbabilities {
@@ -17,37 +12,7 @@ public final class PlayerStatsProbabilities {
 	public double willMiss;
 	public Map<GameLocation, LocationStatProbabilities> locations;
 
-	public PlayerStatsProbabilities(final PlayerStats stats) {
-		this.playerId = stats.playerId;
-		if (stats.made == 0 && stats.miss == 0) {
-			this.willMake = 0.5;
-			this.willMiss = 0.5;
-		}else if (stats.made == 0) {
-			this.willMake = 0;
-			this.willMiss = 1;
-		}else if (stats.miss == 0) {
-			this.willMake = 1;
-			this.willMiss = 0;
-		}else {
-			final long totalShots = stats.made + stats.miss;
-			this.willMake = ((double)stats.made) / ((double)totalShots);
-			this.willMiss = ((double)stats.miss) / ((double)totalShots);
-		}
-		final GfCollection<LocationStatProbabilities> lst = GfCollections.wrapAsCollection(stats.locations)
-		.map(new MapFunction<LocationStat, LocationStatProbabilities>() {
-			@Override
-			public final LocationStatProbabilities map(final LocationStat loc) {
-				return new LocationStatProbabilities(loc);
-			}
-		});
-		final Map<GameLocation, LocationStatProbabilities> map = this.locations = new HashMap<GameLocation, LocationStatProbabilities>(lst.size() + 5);
-		lst.forEach(new Consumer<LocationStatProbabilities>() {
-			@Override
-			public final void accept(final LocationStatProbabilities loc) {
-				map.put(loc.location, loc);
-			}
-		});
-	}
+	
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
