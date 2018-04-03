@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class TickEvent {
 	public long time;
-	public Long number = null;
 	
 	public TickEvent(){}
 	
@@ -17,7 +16,6 @@ public final class TickEvent {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		result = prime * result + (int) (time ^ (time >>> 32));
 		return result;
 	}
@@ -30,12 +28,7 @@ public final class TickEvent {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TickEvent other = (TickEvent) obj;
-		if (number == null) {
-			if (other.number != null)
-				return false;
-		} else if (!number.equals(other.number))
-			return false;
+		final TickEvent other = (TickEvent) obj;
 		if (time != other.time)
 			return false;
 		return true;
@@ -43,6 +36,6 @@ public final class TickEvent {
 
 	@Override
 	public final String toString() {
-		return "TickEvent [time=" + time + ", number=" + number + "]";
+		return "TickEvent [time=" + time + "]";
 	}
 }
