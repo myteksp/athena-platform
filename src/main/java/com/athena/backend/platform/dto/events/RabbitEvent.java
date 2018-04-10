@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class RabbitEvent {
 	@JsonProperty(required=false)
-	public GeneralEvent g;
+	public long count;
 	
 	@JsonProperty(required=false)
 	public GeneralEvent m;
@@ -33,22 +33,14 @@ public final class RabbitEvent {
 		return res;
 	}
 	
-	public static final RabbitEvent general(final GeneralEvent event) {
-		final RabbitEvent res = new RabbitEvent();
-		res.tp = Type.g;
-		res.g = event;
-		return res;
-	}
-	
 	public static enum Type{
-		g,m,t
+		m,t
 	}
 
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((g == null) ? 0 : g.hashCode());
 		result = prime * result + ((m == null) ? 0 : m.hashCode());
 		result = prime * result + ((t == null) ? 0 : t.hashCode());
 		result = prime * result + ((tp == null) ? 0 : tp.hashCode());
@@ -64,11 +56,6 @@ public final class RabbitEvent {
 		if (getClass() != obj.getClass())
 			return false;
 		final RabbitEvent other = (RabbitEvent) obj;
-		if (g == null) {
-			if (other.g != null)
-				return false;
-		} else if (!g.equals(other.g))
-			return false;
 		if (m == null) {
 			if (other.m != null)
 				return false;
@@ -86,6 +73,6 @@ public final class RabbitEvent {
 
 	@Override
 	public final String toString() {
-		return "RabbitEvent [g=" + g + ", m=" + m + ", t=" + t + ", tp=" + tp + "]";
+		return "RabbitEvent [m=" + m + ", t=" + t + ", tp=" + tp + "]";
 	}
 }
