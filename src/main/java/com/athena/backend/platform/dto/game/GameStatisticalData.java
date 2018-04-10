@@ -3,15 +3,27 @@ package com.athena.backend.platform.dto.game;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class GameStatisticalData {
 
+	@JsonProperty(required=true)
 	public String gameId;
 	
+	@JsonProperty(required=false)
 	public TeamStatisticalData home;
 	
+	@JsonProperty(required=false)
 	public TeamStatisticalData away;
+	
+	@JsonProperty(required=false)
+	public long num;
+	
+	public final GameStatisticalData enumerate(final long number) {
+		this.num = number;
+		return this;
+	}
 	
 	@Override
 	public final int hashCode() {
