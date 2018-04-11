@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class GameStatisticalData {
-
 	@JsonProperty(required=true)
 	public String gameId;
 	
@@ -17,13 +16,7 @@ public final class GameStatisticalData {
 	@JsonProperty(required=false)
 	public TeamStatisticalData away;
 	
-	@JsonProperty(required=false)
-	public long num;
-	
-	public final GameStatisticalData enumerate(final long number) {
-		this.num = number;
-		return this;
-	}
+
 	
 	@Override
 	public final int hashCode() {

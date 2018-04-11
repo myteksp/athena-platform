@@ -8,14 +8,6 @@ public final class TickEvent {
 	@JsonProperty(required=true)
 	public long time;
 	
-	@JsonProperty(required=false)
-	public long num;
-	
-	public final TickEvent enumerate(final long number) {
-		this.num = number;
-		return this;
-	}
-	
 	public TickEvent(){}
 	
 	public TickEvent(final long time){
@@ -26,7 +18,6 @@ public final class TickEvent {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (num ^ (num >>> 32));
 		result = prime * result + (int) (time ^ (time >>> 32));
 		return result;
 	}
@@ -40,8 +31,6 @@ public final class TickEvent {
 		if (getClass() != obj.getClass())
 			return false;
 		final TickEvent other = (TickEvent) obj;
-		if (num != other.num)
-			return false;
 		if (time != other.time)
 			return false;
 		return true;
@@ -49,6 +38,6 @@ public final class TickEvent {
 
 	@Override
 	public final String toString() {
-		return "TickEvent [time=" + time + ", num=" + num + "]";
+		return "TickEvent [time=" + time + "]";
 	}
 }

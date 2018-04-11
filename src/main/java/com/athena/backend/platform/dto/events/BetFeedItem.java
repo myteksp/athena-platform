@@ -37,13 +37,6 @@ public final class BetFeedItem {
 	@JsonProperty(required=false)
 	public String userAvatarUrl;
 
-	@JsonProperty(required=false)
-	public long num;
-	
-	public final BetFeedItem enumerate(final long number) {
-		this.num = number;
-		return this;
-	}
 
 	@Override
 	public final int hashCode() {
@@ -51,7 +44,6 @@ public final class BetFeedItem {
 		int result = 1;
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
 		result = prime * result + ((gameZone == null) ? 0 : gameZone.hashCode());
-		result = prime * result + (int) (num ^ (num >>> 32));
 		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
 		result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
@@ -78,8 +70,6 @@ public final class BetFeedItem {
 		} else if (!gameId.equals(other.gameId))
 			return false;
 		if (gameZone != other.gameZone)
-			return false;
-		if (num != other.num)
 			return false;
 		if (playerId == null) {
 			if (other.playerId != null)
@@ -125,6 +115,6 @@ public final class BetFeedItem {
 	public final String toString() {
 		return "BetFeedItem [userId=" + userId + ", gameId=" + gameId + ", teamId=" + teamId + ", type=" + type
 				+ ", teamName=" + teamName + ", playerId=" + playerId + ", userFullName=" + userFullName + ", gameZone="
-				+ gameZone + ", playerName=" + playerName + ", userAvatarUrl=" + userAvatarUrl + ", num=" + num + "]";
+				+ gameZone + ", playerName=" + playerName + ", userAvatarUrl=" + userAvatarUrl + "]";
 	}
 }
