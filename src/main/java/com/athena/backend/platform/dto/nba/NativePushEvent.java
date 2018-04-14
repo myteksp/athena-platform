@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public final class NativePushEvent {
 	public Type type;
 	public String data;
-	public Long number = null;
 	
 	public NativePushEvent() {}
 
@@ -24,7 +23,6 @@ public final class NativePushEvent {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -43,11 +41,6 @@ public final class NativePushEvent {
 				return false;
 		} else if (!data.equals(other.data))
 			return false;
-		if (number == null) {
-			if (other.number != null)
-				return false;
-		} else if (!number.equals(other.number))
-			return false;
 		if (type != other.type)
 			return false;
 		return true;
@@ -62,7 +55,6 @@ public final class NativePushEvent {
 	public static final NativePushEvent encode(final NativePushEvent event) {
 		try {
 			final NativePushEvent res = new NativePushEvent(event.type, encoder.encodeToString(event.data.getBytes("UTF-8")));
-			res.number = event.number;
 			return res;
 		} catch (final UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
@@ -72,7 +64,6 @@ public final class NativePushEvent {
 	public static final NativePushEvent decode(final NativePushEvent event) {
 		try {
 			final NativePushEvent res = new NativePushEvent(event.type, new String(decoder.decode(event.data), "UTF-8"));
-			res.number = event.number;
 			return res;
 		} catch (final UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
