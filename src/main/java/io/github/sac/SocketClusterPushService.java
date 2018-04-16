@@ -179,8 +179,8 @@ public final class SocketClusterPushService implements Closeable{
 		}
 	}
 	
-	public final Channel subscribe(final String channel) {
-		return connection.createChannel(channel);
+	public final Channel subscribe() {
+		return connection.createChannel(key);
 	}
 	
 	
