@@ -20,6 +20,8 @@ import com.gf.util.string.JSON;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFrame;
 
+import io.github.sac.Socket.Channel;
+
 
 
 public final class SocketClusterPushService implements Closeable{
@@ -175,6 +177,10 @@ public final class SocketClusterPushService implements Closeable{
 			final String payload = JSON.toJson(new SocketClusterMessage(topic, toSend));
 			connection.publish(key, payload);
 		}
+	}
+	
+	public final Channel subscribe(final String channel) {
+		return connection.createChannel(channel);
 	}
 	
 	
