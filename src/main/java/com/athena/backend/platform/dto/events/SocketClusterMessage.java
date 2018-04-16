@@ -1,8 +1,13 @@
 package com.athena.backend.platform.dto.events;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class SocketClusterMessage {
+	@JsonProperty(required=true)
 	public String topic;
+	@JsonProperty(required=true)
 	public Object data;
 	
 	public SocketClusterMessage() {}
