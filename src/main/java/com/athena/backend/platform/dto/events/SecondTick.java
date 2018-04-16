@@ -1,5 +1,7 @@
 package com.athena.backend.platform.dto.events;
 
+import java.util.concurrent.TimeUnit;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,6 +15,10 @@ public final class SecondTick {
 	}
 	
 	public SecondTick() {}
+	
+	public final long toMilliseconds() {
+		return TimeUnit.MILLISECONDS.convert(nano_off, TimeUnit.NANOSECONDS);
+	}
 
 	@Override
 	public final int hashCode() {
