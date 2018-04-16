@@ -10,13 +10,17 @@ public final class SecondTick {
 	@JsonProperty(required=true)
 	public long nano_off;
 	
-	public SecondTick(final long nano_off) {
+	@JsonProperty(required=true)
+	public long time;
+	
+	public SecondTick(final long nano_off, final long time) {
 		this.nano_off = nano_off;
+		this.time = time;
 	}
 	
 	public SecondTick() {}
 	
-	public final long toMilliseconds() {
+	public final long offsetToMilliseconds() {
 		return TimeUnit.MILLISECONDS.convert(nano_off, TimeUnit.NANOSECONDS);
 	}
 
@@ -25,6 +29,7 @@ public final class SecondTick {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (nano_off ^ (nano_off >>> 32));
+		result = prime * result + (int) (time ^ (time >>> 32));
 		return result;
 	}
 
@@ -39,11 +44,13 @@ public final class SecondTick {
 		final SecondTick other = (SecondTick) obj;
 		if (nano_off != other.nano_off)
 			return false;
+		if (time != other.time)
+			return false;
 		return true;
 	}
 
 	@Override
 	public final String toString() {
-		return "SecondTick [nano_off=" + nano_off + "]";
+		return "SecondTick [nano_off=" + nano_off + ", time=" + time + "]";
 	}
 }
