@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,8 @@ public final class SocketClusterPushService implements Closeable{
 	private final String socketClusterUrl;
 
 	private final ConcurrentLinkedQueue<MessageHandler> handlers;
+	
+	private final AtomicBoolean isConnected;
 
 	public SocketClusterPushService(
 			final String socketClusterUrl,
@@ -49,6 +52,7 @@ public final class SocketClusterPushService implements Closeable{
 			final String socketClusterUrl,
 			final String channel,
 			final long unsent_interval) {
+		this.isConnected = new AtomicBoolean(true);
 		handlers = new ConcurrentLinkedQueue<MessageHandler>();
 		this.socketClusterUrl = socketClusterUrl;
 		this.unsent_interval = unsent_interval;
@@ -76,6 +80,8 @@ public final class SocketClusterPushService implements Closeable{
 		if (connection == null) {
 			this.connection = new Socket(socketClusterUrl);
 		}else {
+			if (!isConnected.get())
+				return;
 			this.connection.disconnect();
 			this.connection = new Socket(socketClusterUrl);
 			System.gc();
@@ -89,12 +95,16 @@ public final class SocketClusterPushService implements Closeable{
 					final WebSocketFrame clientCloseFrame, 
 					final boolean closedByServer) {
 				log.info("Disconnected from end-point");
+				if (!isConnected.get())
+					return;
 				try {Thread.sleep(3000);} catch (InterruptedException e) {}
 				init();
 			}
 
 			public final void onConnectError(final Socket socket, final WebSocketException exception) {
 				log.info("Got connect error "+ exception);
+				if (!isConnected.get())
+					return;
 				try {Thread.sleep(3000);} catch (InterruptedException e) {}
 				init();
 			}
@@ -112,12 +122,18 @@ public final class SocketClusterPushService implements Closeable{
 				}
 			}
 		});
+		if (!isConnected.get())
+			return;
 		connection.setReconnection(new ReconnectStrategy().setDelay(2000).setMaxAttempts(null));
 		connection.connect();
 		if (!log.isDebugEnabled()) {
 			connection.disableLogging();
 		}
 		if (connection.isconnected()) {
+			if (!isConnected.get()) {
+				connection.disconnect();
+				return;
+			}
 			connection.createChannel(key).onMessage(new Listener() {
 				@Override
 				public final void call(final String name, final Object data) {
@@ -136,6 +152,8 @@ public final class SocketClusterPushService implements Closeable{
 			.sortCollection((o1, o2)->Long.compare(o1.time, o2.time))
 			.iterate((e,i)->connection.publish(key, e.payload));
 		}else {
+			if (!isConnected.get())
+				return;
 			try {Thread.sleep(3000);} catch (InterruptedException e) {}
 			init();
 		}
@@ -143,6 +161,7 @@ public final class SocketClusterPushService implements Closeable{
 
 	@Override
 	public final void close() throws IOException {
+		isConnected.set(false);
 		scheduler.shutdownNow();
 		not_sent.clear();
 		connection.disconnect();
