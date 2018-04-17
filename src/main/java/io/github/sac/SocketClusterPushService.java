@@ -57,7 +57,7 @@ public final class SocketClusterPushService implements Closeable{
 		this.socketClusterUrl = socketClusterUrl;
 		this.unsent_interval = unsent_interval;
 		this.key = channel;
-		this.connection = new Socket(socketClusterUrl);
+		this.connection = null;
 		this.not_sent = new ConcurrentHashMap<String, Bundle>(32);
 		this.scheduler = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
 			@Override
@@ -78,7 +78,7 @@ public final class SocketClusterPushService implements Closeable{
 
 	private final void init() {
 		if (connection == null) {
-			this.connection = new Socket(socketClusterUrl);
+			connection = new Socket(socketClusterUrl);
 		}else {
 			if (!isConnected.get())
 				return;
