@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -20,30 +21,36 @@ import com.gf.util.string.JSON;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFrame;
 
-import io.github.sac.Socket.Channel;
+import io.github.sac.Emitter.Listener;
 
 
 
 public final class SocketClusterPushService implements Closeable{
 	private final Logger log = LoggerFactory.getLogger(getClass());
-	
-	private final Socket connection;
+
+	private volatile Socket connection;
 	private final String key;
 	private final ConcurrentHashMap<String, Bundle> not_sent;
-	
+
 	private final ScheduledExecutorService scheduler;
 	private final long unsent_interval;
-	
+
+	private final String socketClusterUrl;
+
+	private final ConcurrentLinkedQueue<MessageHandler> handlers;
+
 	public SocketClusterPushService(
 			final String socketClusterUrl,
 			final String channel) {
 		this(socketClusterUrl, channel, 10000);
 	}
-	
+
 	public SocketClusterPushService(
 			final String socketClusterUrl,
 			final String channel,
 			final long unsent_interval) {
+		handlers = new ConcurrentLinkedQueue<MessageHandler>();
+		this.socketClusterUrl = socketClusterUrl;
 		this.unsent_interval = unsent_interval;
 		this.key = channel;
 		this.connection = new Socket(socketClusterUrl);
@@ -57,9 +64,22 @@ public final class SocketClusterPushService implements Closeable{
 			}
 		});
 		this.init();
+		scheduler.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public final void run() {
+				checkUnsent();
+			}
+		}, unsent_interval * 2, unsent_interval, TimeUnit.MILLISECONDS);
 	}
-	
+
 	private final void init() {
+		if (connection == null) {
+			this.connection = new Socket(socketClusterUrl);
+		}else {
+			this.connection.disconnect();
+			this.connection = new Socket(socketClusterUrl);
+			System.gc();
+		}
 		connection.setListener(new BasicListener() {
 			public final void onConnected(final Socket socket, final Map<String, List<String>> headers) {
 				log.info("Connected to endpoint");
@@ -69,27 +89,14 @@ public final class SocketClusterPushService implements Closeable{
 					final WebSocketFrame clientCloseFrame, 
 					final boolean closedByServer) {
 				log.info("Disconnected from end-point");
-				new Thread(new Runnable() {
-					@Override
-					public final void run() {
-						while(!connection.isconnected()) {
-							try {Thread.sleep(1000);} catch (InterruptedException e) {}
-							log.warn("Reconnection...");
-							connection.setReconnection(new ReconnectStrategy().setDelay(2000).setMaxAttempts(null));
-							connection.connect();
-						}
-						GfCollections.asArrayCollection(not_sent.entrySet())
-						.action((c)->{not_sent.clear();})
-						.map((e)->e.getValue())
-						.sortCollection((o1, o2)->Long.compare(o1.time, o2.time))
-						.iterate((e,i)->connection.publish(key, e.payload));
-					}
-				}).start();
-
+				try {Thread.sleep(3000);} catch (InterruptedException e) {}
+				init();
 			}
 
 			public final void onConnectError(final Socket socket, final WebSocketException exception) {
 				log.info("Got connect error "+ exception);
+				try {Thread.sleep(3000);} catch (InterruptedException e) {}
+				init();
 			}
 
 			public final void onSetAuthToken(final String token, final Socket socket) {
@@ -110,25 +117,41 @@ public final class SocketClusterPushService implements Closeable{
 		if (!log.isDebugEnabled()) {
 			connection.disableLogging();
 		}
-		scheduler.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public final void run() {
-				checkUnsent();
-			}
-		}, unsent_interval * 2, unsent_interval, TimeUnit.MILLISECONDS);
+		if (connection.isconnected()) {
+			connection.createChannel(key).onMessage(new Listener() {
+				@Override
+				public final void call(final String name, final Object data) {
+					for(final MessageHandler h : handlers) {
+						try {
+							h.onMessage(data);
+						}catch(final Throwable t) {
+							t.printStackTrace();
+						}
+					}
+				}
+			});;
+			GfCollections.asArrayCollection(not_sent.entrySet())
+			.action((c)->{not_sent.clear();})
+			.map((e)->e.getValue())
+			.sortCollection((o1, o2)->Long.compare(o1.time, o2.time))
+			.iterate((e,i)->connection.publish(key, e.payload));
+		}else {
+			try {Thread.sleep(3000);} catch (InterruptedException e) {}
+			init();
+		}
 	}
-	
+
 	@Override
 	public final void close() throws IOException {
 		scheduler.shutdownNow();
 		not_sent.clear();
 		connection.disconnect();
 	}
-	
+
 	private final void checkUnsent() {
 		if (!connection.isconnected())
 			return;
-		
+
 		GfCollections.asArrayCollection(not_sent.entrySet())
 		.iterate((e, i) -> {
 			final String id = e.getKey();
@@ -146,14 +169,14 @@ public final class SocketClusterPushService implements Closeable{
 			}
 		});
 	}
-	
-	
+
+
 	public final void broadcastMessage(final String topic, final Object toSend) {
 		if (toSend == null)
 			throw new NullPointerException("toSend can't be null");
 		if (topic == null)
 			throw new NullPointerException("topic can't be null");
-		
+
 		final String id = UUID.randomUUID().toString();
 		final String payload = JSON.toJson(new SocketClusterMessage(topic, toSend));
 		not_sent.put(id, new Bundle(System.currentTimeMillis(), payload));
@@ -164,7 +187,7 @@ public final class SocketClusterPushService implements Closeable{
 			}
 		});
 	}
-	
+
 	public final void broadcastMessage(final String topic, final Object toSend, final boolean guaranteed) {
 		if (guaranteed) {
 			broadcastMessage(topic, toSend);
@@ -173,17 +196,21 @@ public final class SocketClusterPushService implements Closeable{
 				throw new NullPointerException("toSend can't be null");
 			if (topic == null)
 				throw new NullPointerException("topic can't be null");
-			
+
 			final String payload = JSON.toJson(new SocketClusterMessage(topic, toSend));
 			connection.publish(key, payload);
 		}
 	}
-	
-	public final Channel subscribe() {
-		return connection.createChannel(key);
+
+	public final void subscribe(final MessageHandler handler) {
+		handlers.add(handler);
 	}
-	
-	
+
+
+	public static interface MessageHandler{
+		void onMessage(final Object message);
+	}
+
 	private static final class Bundle{
 		public final long time;
 		public final String payload;
