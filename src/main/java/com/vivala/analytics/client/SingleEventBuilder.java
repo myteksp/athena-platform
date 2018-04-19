@@ -3,11 +3,13 @@ package com.vivala.analytics.client;
 import com.vivala.analytics.client.AnalyticsClient.OnResponse;
 
 public interface SingleEventBuilder {
+	Event getEvent();
 	SingleEventBuilder setPlatform(final String platform);
 	SingleEventBuilder setUser(final String user);
 	SingleEventBuilder setLoginType(final String loginType);
 	SingleEventBuilder setCountry(final String country);
 	SingleEventBuilder setCity(final String city);
+	SingleEventBuilder setType(final String type);
 	
 	SingleEventBuilder addSubType(final String subType);
 	SingleEventBuilder addStringParam(final String param);

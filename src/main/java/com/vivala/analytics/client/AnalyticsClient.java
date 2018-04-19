@@ -76,6 +76,8 @@ public final class AnalyticsClient implements Closeable{
 			@Override
 			public final TimeEventBuilder setLoginType(final String loginType) {event.login_type = loginType;return this;}
 			@Override
+			public final TimeEventBuilder setType(final String type) {event.type = type;return this;}
+			@Override
 			public final TimeEventBuilder addSubType(final String subType) {
 				if (event.sub_type_1 == null) {
 					event.sub_type_1 = subType;
@@ -226,6 +228,8 @@ public final class AnalyticsClient implements Closeable{
 			}
 			@Override
 			public final EventEnder send(final EventReviewer reviewer, final OnResponse ack) {reviewer.review(event);return send(ack);}
+			@Override
+			public final Event getEvent() {return event;}
 		};
 	}
 
@@ -244,6 +248,8 @@ public final class AnalyticsClient implements Closeable{
 			public final SingleEventBuilder setPlatform(final String platform) {event.platform = platform;return this;}
 			@Override
 			public final SingleEventBuilder setLoginType(final String loginType) {event.login_type = loginType;return this;}
+			@Override
+			public final SingleEventBuilder setType(final String type) {event.type = type;return this;}
 			@Override
 			public final SingleEventBuilder addSubType(final String subType) {
 				if (event.sub_type_1 == null) {
@@ -336,10 +342,17 @@ public final class AnalyticsClient implements Closeable{
 			public final EventIncrementer send(final OnResponse ack) {return sendEvent(event, ack);}
 			@Override
 			public final EventIncrementer send(final EventReviewer reviewer, final OnResponse ack) {reviewer.review(event);return sendEvent(event, ack);}
+			@Override
+			public final Event getEvent() {return event;}
 		};
 	}
 
 	private final EventIncrementer sendEvent(final Event event, final OnResponse handler) {
+		if (event.project_id == null)
+			throw new RuntimeException("project_id can't be null");
+		if (event.type == null)
+			throw new RuntimeException("type can't be null");
+		
 		event.id = null;
 		final AtomicBoolean set = new AtomicBoolean(false);
 		final AtomicLong counter = new AtomicLong(0);
