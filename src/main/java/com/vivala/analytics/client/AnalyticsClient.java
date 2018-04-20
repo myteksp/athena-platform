@@ -78,6 +78,13 @@ public final class AnalyticsClient implements Closeable{
 			@Override
 			public final TimeEventBuilder setType(final String type) {event.type = type;return this;}
 			@Override
+			public final TimeEventBuilder setGeo(final double lat, final double lon) {
+				event.latitude = lat;
+				event.longtitude = lon;
+				return this;
+			}
+		
+			@Override
 			public final TimeEventBuilder addSubType(final String subType) {
 				if (event.sub_type_1 == null) {
 					event.sub_type_1 = subType;
@@ -250,6 +257,12 @@ public final class AnalyticsClient implements Closeable{
 			public final SingleEventBuilder setLoginType(final String loginType) {event.login_type = loginType;return this;}
 			@Override
 			public final SingleEventBuilder setType(final String type) {event.type = type;return this;}
+			@Override
+			public final SingleEventBuilder setGeo(final double lat, final double lon) {
+				event.latitude = lat;
+				event.longtitude = lon;
+				return this;
+			}
 			@Override
 			public final SingleEventBuilder addSubType(final String subType) {
 				if (event.sub_type_1 == null) {

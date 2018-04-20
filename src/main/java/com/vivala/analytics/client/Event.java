@@ -24,6 +24,10 @@ public final class Event {
 	public String city = null;
 	@JsonProperty(required=false)
 	public String ip = null;
+	@JsonProperty(required=false)
+	public Double latitude;
+	@JsonProperty(required=false)
+	public Double longtitude;
 
 	@JsonProperty(required=true)
 	public Kind kind = null;

@@ -10,6 +10,7 @@ public interface TimeEventBuilder {
 	TimeEventBuilder setCountry(final String country);
 	TimeEventBuilder setCity(final String city);
 	TimeEventBuilder setType(final String type);
+	TimeEventBuilder setGeo(final double lat, final double lon);
 	
 	TimeEventBuilder addSubType(final String subType);
 	TimeEventBuilder addStringParam(final String param);

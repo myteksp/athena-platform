@@ -10,6 +10,7 @@ public interface SingleEventBuilder {
 	SingleEventBuilder setCountry(final String country);
 	SingleEventBuilder setCity(final String city);
 	SingleEventBuilder setType(final String type);
+	SingleEventBuilder setGeo(final double lat, final double lon);
 	
 	SingleEventBuilder addSubType(final String subType);
 	SingleEventBuilder addStringParam(final String param);
