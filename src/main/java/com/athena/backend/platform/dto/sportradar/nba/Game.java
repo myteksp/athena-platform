@@ -19,6 +19,8 @@ public final class Game {
 	public String clock;
 	public boolean clockRunning;
 	public long timeLeftBeforeTheGame;
+	public String leagueName;
+	public String leagueAlias;
 	
 	@Override
 	public final int hashCode() {
@@ -48,6 +50,7 @@ public final class Game {
 		return "Game [id=" + id + ", status=" + status + ", coverage=" + coverage + ", scheduled=" + scheduled
 				+ ", home_points=" + home_points + ", away_points=" + away_points + ", home=" + home + ", away=" + away
 				+ ", quarter=" + quarter + ", clock=" + clock + ", clockRunning=" + clockRunning
-				+ ", timeLeftBeforeTheGame=" + timeLeftBeforeTheGame + "]";
+				+ ", timeLeftBeforeTheGame=" + timeLeftBeforeTheGame + ", leagueName=" + leagueName + ", leagueAlias="
+				+ leagueAlias + "]";
 	}
 }
