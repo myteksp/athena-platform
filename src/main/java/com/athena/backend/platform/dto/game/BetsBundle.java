@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.athena.backend.platform.dto.game.BetBonus.BetBonusType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gf.collections.GfCollections;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class BetsBundle {
@@ -11,12 +12,21 @@ public final class BetsBundle {
 	public final List<Bet> bets;
 	public final int totalBonusAmount;
 	public final BetBonusType bonusType;
-	
+
 	public BetsBundle(
 			final String commonId, 
 			final List<Bet> bets) {
 		this.commonId = commonId;
-		this.bets = bets;
+		this.bets = GfCollections.wrapAsCollection(bets)
+				.map(b->{
+					switch(b.status) {
+					case COMPLETED_WIN:
+						b.win = b.win - b.stake;
+						return b;
+					default:
+						return b;
+					}
+				});
 		int amount = 0;
 		int amountMax = 0;
 		BetBonusType type = null;
