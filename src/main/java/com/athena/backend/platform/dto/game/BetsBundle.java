@@ -10,7 +10,9 @@ public final class BetsBundle {
 	public final String commonId;
 	public final List<Bet> bets;
 	public final int totalBonusAmount;
+	public final int nettoProfit;
 	public final BetBonusType bonusType;
+	
 
 	public BetsBundle(
 			final String commonId, 
@@ -19,6 +21,7 @@ public final class BetsBundle {
 		this.bets = bets;
 		int amount = 0;
 		int amountMax = 0;
+		int profit = 0;
 		BetBonusType type = null;
 		for(final Bet bet : bets) {
 			if (bet.bonuses != null) {
@@ -30,7 +33,19 @@ public final class BetsBundle {
 					}
 				}
 			}
+			switch (bet.status) {
+			case COMPLETED_FAIL:
+				profit = profit - bet.stake;
+				break;
+			case COMPLETED_WIN:
+				profit = profit + (bet.win - bet.stake);
+				break;
+			default:
+				break;
+			
+			}
 		}
+		this.nettoProfit = profit + amount;
 		this.totalBonusAmount = amount;
 		this.bonusType = type;
 	}
@@ -40,7 +55,10 @@ public final class BetsBundle {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bets == null) ? 0 : bets.hashCode());
+		result = prime * result + ((bonusType == null) ? 0 : bonusType.hashCode());
 		result = prime * result + ((commonId == null) ? 0 : commonId.hashCode());
+		result = prime * result + nettoProfit;
+		result = prime * result + totalBonusAmount;
 		return result;
 	}
 	@Override
@@ -57,15 +75,22 @@ public final class BetsBundle {
 				return false;
 		} else if (!bets.equals(other.bets))
 			return false;
+		if (bonusType != other.bonusType)
+			return false;
 		if (commonId == null) {
 			if (other.commonId != null)
 				return false;
 		} else if (!commonId.equals(other.commonId))
 			return false;
+		if (nettoProfit != other.nettoProfit)
+			return false;
+		if (totalBonusAmount != other.totalBonusAmount)
+			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "BetsBundle [commonId=" + commonId + ", bets=" + bets + "]";
+		return "BetsBundle [commonId=" + commonId + ", bets=" + bets + ", totalBonusAmount=" + totalBonusAmount
+				+ ", nettoProfit=" + nettoProfit + ", bonusType=" + bonusType + "]";
 	}
 }
