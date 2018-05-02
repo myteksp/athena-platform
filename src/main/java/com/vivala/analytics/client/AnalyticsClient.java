@@ -20,6 +20,7 @@ public final class AnalyticsClient implements Closeable{
 	private final String instanceId;
 	private final HttpEndpointCreator httpEndpoint;
 	private final GenericHttpEndpoint endpoint;
+	private final GenericHttpEndpoint dataEndPoint;
 
 
 	public AnalyticsClient(final String projectId) {
@@ -27,6 +28,7 @@ public final class AnalyticsClient implements Closeable{
 		this.projectId = projectId;
 		this.httpEndpoint = new HttpEndpointCreator();
 		this.endpoint = this.httpEndpoint.getGenericEndPoint("https://vivala-analytics.herokuapp.com/events/");
+		this.dataEndPoint = this.httpEndpoint.getGenericEndPoint("https://vivala-analytics.herokuapp.com/userData/");
 		instances.put(instanceId, this);
 		synchronized (instances) {
 			if (executor == null) {
@@ -90,7 +92,7 @@ public final class AnalyticsClient implements Closeable{
 			data.param_4 = params.get(3);
 			data.param_5 = params.get(4);
 		}
-		endpoint.post("userData", data, Response.class);
+		dataEndPoint.post("update", data, Response.class);
 	}
 	
 	public final TimeEventBuilder timeEvent(final String session, final String ip, final String type) {
