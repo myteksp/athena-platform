@@ -33,12 +33,13 @@ public final class BetsBundle {
 					}
 				}
 			}
+			bet.win -= bet.stake;
 			switch (bet.status) {
 			case COMPLETED_FAIL:
-				profit = profit - bet.stake;
+				profit -= bet.stake;
 				break;
 			case COMPLETED_WIN:
-				profit = profit + (bet.win - bet.stake);
+				profit += bet.win;
 				break;
 			default:
 				break;
