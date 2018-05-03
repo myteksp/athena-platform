@@ -19,14 +19,14 @@ public final class BetsBundle {
 			final List<Bet> bets) {
 		this.commonId = commonId;
 		this.bets = bets;
-		int amount = 0;
+		int bonusAmount = 0;
 		int amountMax = 0;
 		int profit = 0;
 		BetBonusType type = null;
 		for(final Bet bet : bets) {
 			if (bet.bonuses != null) {
 				for(final BetBonus bon : bet.bonuses) {
-					amount += bon.amount;
+					bonusAmount += bon.amount;
 					if (bon.amount > amountMax) {
 						amountMax = bon.amount;
 						type = bon.type;
@@ -45,8 +45,8 @@ public final class BetsBundle {
 			
 			}
 		}
-		this.nettoProfit = profit + amount;
-		this.totalBonusAmount = amount;
+		this.nettoProfit = profit + bonusAmount;
+		this.totalBonusAmount = bonusAmount;
 		this.bonusType = type;
 	}
 
