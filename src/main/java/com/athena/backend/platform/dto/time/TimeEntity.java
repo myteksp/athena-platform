@@ -35,6 +35,14 @@ public final class TimeEntity {
 		return forward(86400000);
 	}
 	
+	public final TimeEntity plusHour(final int hours) {
+		return forward(3600000 * hours);
+	}
+	
+	public final TimeEntity minusHour(final int hours) {
+		return backward(3600000 * hours);
+	}
+	
 	public final TimeEntity backward(final long amount) {
 		return new TimeEntity(this.timestamp - amount);
 	}
