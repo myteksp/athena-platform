@@ -407,7 +407,7 @@ public final class AnalyticsClient implements Closeable{
 		run(new Runnable() {
 			@Override
 			public final void run() {
-				final String id = endpoint.post("event", event, Response.class).id;
+				final String id = endpoint.post("event", ensure(event), Response.class).id;
 				event.id = id;
 				set.set(true);
 				final long count = counter.getAndSet(0);
@@ -428,6 +428,35 @@ public final class AnalyticsClient implements Closeable{
 				return this;
 			}
 		};
+	}
+	
+	private static final Event ensure(final Event event) {
+		if (event.double_param_1 != null) {
+			if (event.double_param_1.isInfinite() || event.double_param_1.isNaN()) {
+				event.double_param_1 = null;
+			}
+		}
+		if (event.double_param_2 != null) {
+			if (event.double_param_2.isInfinite() || event.double_param_2.isNaN()) {
+				event.double_param_2 = null;
+			}
+		}
+		if (event.double_param_3 != null) {
+			if (event.double_param_3.isInfinite() || event.double_param_3.isNaN()) {
+				event.double_param_3 = null;
+			}
+		}
+		if (event.latitude != null) {
+			if (event.latitude.isInfinite() || event.latitude.isNaN()) {
+				event.latitude = null;
+			}
+		}
+		if (event.longtitude != null) {
+			if (event.longtitude.isInfinite() || event.longtitude.isNaN()) {
+				event.longtitude = null;
+			}
+		}
+		return event;
 	}
 
 	private final void endEvent(final String eventId) {
