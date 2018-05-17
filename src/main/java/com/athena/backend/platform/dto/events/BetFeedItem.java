@@ -39,6 +39,9 @@ public final class BetFeedItem {
 	public String playerName;
 	
 	@JsonProperty(required=false)
+	public String playerNumber;
+	
+	@JsonProperty(required=false)
 	public String userAvatarUrl;
 
 	@Override
@@ -70,7 +73,7 @@ public final class BetFeedItem {
 	public final String toString() {
 		return "BetFeedItem [commonId=" + commonId + ", userId=" + userId + ", gameId=" + gameId + ", teamId=" + teamId
 				+ ", type=" + type + ", teamName=" + teamName + ", playerId=" + playerId + ", userFullName="
-				+ userFullName + ", gameZone=" + gameZone + ", playerName=" + playerName + ", userAvatarUrl="
-				+ userAvatarUrl + "]";
+				+ userFullName + ", gameZone=" + gameZone + ", playerName=" + playerName + ", playerNumber="
+				+ playerNumber + ", userAvatarUrl=" + userAvatarUrl + "]";
 	}
 }
