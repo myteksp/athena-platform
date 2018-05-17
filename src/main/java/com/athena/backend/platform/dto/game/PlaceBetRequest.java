@@ -41,6 +41,9 @@ public final class PlaceBetRequest {
 	
 	@JsonProperty(required=false)
 	public String playerName;
+	
+	@JsonProperty(required=false)
+	public String playerNumber;
 
 	@Override
 	public final int hashCode() {
@@ -52,6 +55,7 @@ public final class PlaceBetRequest {
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
 		result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
+		result = prime * result + ((playerNumber == null) ? 0 : playerNumber.hashCode());
 		result = prime * result + quarter;
 		result = prime * result + stakeAmount;
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
@@ -94,6 +98,11 @@ public final class PlaceBetRequest {
 				return false;
 		} else if (!playerName.equals(other.playerName))
 			return false;
+		if (playerNumber == null) {
+			if (other.playerNumber != null)
+				return false;
+		} else if (!playerNumber.equals(other.playerNumber))
+			return false;
 		if (quarter != other.quarter)
 			return false;
 		if (stakeAmount != other.stakeAmount)
@@ -114,12 +123,11 @@ public final class PlaceBetRequest {
 			return false;
 		return true;
 	}
-
 	@Override
 	public final String toString() {
 		return "PlaceBetRequest [gameId=" + gameId + ", stakeAmount=" + stakeAmount + ", winAmount=" + winAmount
 				+ ", type=" + type + ", teamId=" + teamId + ", teamName=" + teamName + ", clientTime=" + clientTime
 				+ ", quarter=" + quarter + ", clock=" + clock + ", playerId=" + playerId + ", location=" + location
-				+ ", playerName=" + playerName + "]";
+				+ ", playerName=" + playerName + ", playerNumber=" + playerNumber + "]";
 	}
 }
