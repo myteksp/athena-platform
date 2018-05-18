@@ -16,9 +16,6 @@ public final class GroupDTO {
 	
 	@JsonProperty(required=true)
 	public long creationTime;
-	
-	@JsonProperty(required=true)
-	public long participantsCount;
 
 	@Override
 	public final int hashCode() {
@@ -46,6 +43,6 @@ public final class GroupDTO {
 	@Override
 	public final String toString() {
 		return "GroupDTO [groupId=" + groupId + ", adminId=" + adminId + ", pictureUrl=" + pictureUrl
-				+ ", creationTime=" + creationTime + ", participantsCount=" + participantsCount + "]";
+				+ ", creationTime=" + creationTime + "]";
 	}
 }
