@@ -15,6 +15,9 @@ public final class GroupDTO {
 	public String pictureUrl;
 	
 	@JsonProperty(required=true)
+	public String groupName;
+	
+	@JsonProperty(required=true)
 	public long creationTime;
 
 	@Override
@@ -42,7 +45,7 @@ public final class GroupDTO {
 	}
 	@Override
 	public final String toString() {
-		return "GroupDTO [groupId=" + groupId + ", adminId=" + adminId + ", pictureUrl=" + pictureUrl
-				+ ", creationTime=" + creationTime + "]";
+		return "GroupDTO [groupId=" + groupId + ", adminId=" + adminId + ", pictureUrl=" + pictureUrl + ", groupName="
+				+ groupName + ", creationTime=" + creationTime + "]";
 	}
 }
