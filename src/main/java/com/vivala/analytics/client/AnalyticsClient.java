@@ -397,13 +397,25 @@ public final class AnalyticsClient implements Closeable{
 		};
 	}
 	
-	public final void updateScheduledItem(final ScheduledItem item) {
+	
+	public final void updateScheduledItem(final long scheduled, final String type, final String id, final String name, final String param) {
 		run(new Runnable() {
 			@Override
 			public final void run() {
-				scheduledEndPoint.post("update", item, Response.class);
+				final ScheduledItem item = new ScheduledItem();
+				item.type = type;
+				item.itemId = id;
+				item.itemName = name;
+				item.itemParam = param;
+				item.scheduled = scheduled;
+				item.project = projectId;
+				updateScheduledItem(item);
 			}
 		});
+	}
+	
+	private final String updateScheduledItem(final ScheduledItem item) {
+		return scheduledEndPoint.post("update", item, Response.class).id;
 	}
 
 	private final EventIncrementer sendEvent(final Event event, final OnResponse handler) {
