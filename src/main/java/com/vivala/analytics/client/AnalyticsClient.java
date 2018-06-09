@@ -21,6 +21,7 @@ public final class AnalyticsClient implements Closeable{
 	private final HttpEndpointCreator httpEndpoint;
 	private final GenericHttpEndpoint endpoint;
 	private final GenericHttpEndpoint dataEndPoint;
+	private final GenericHttpEndpoint scheduledEndPoint;
 
 
 	public AnalyticsClient(final String projectId) {
@@ -29,6 +30,7 @@ public final class AnalyticsClient implements Closeable{
 		this.httpEndpoint = new HttpEndpointCreator();
 		this.endpoint = this.httpEndpoint.getGenericEndPoint("https://vivala-analytics.herokuapp.com/events/");
 		this.dataEndPoint = this.httpEndpoint.getGenericEndPoint("https://vivala-analytics.herokuapp.com/userData/");
+		this.scheduledEndPoint = this.httpEndpoint.getGenericEndPoint("https://vivala-analytics.herokuapp.com/schedules/");
 		instances.put(instanceId, this);
 		synchronized (instances) {
 			if (executor == null) {
@@ -393,6 +395,15 @@ public final class AnalyticsClient implements Closeable{
 			@Override
 			public final Event getEvent() {return event;}
 		};
+	}
+	
+	public final void updateScheduledItem(final ScheduledItem item) {
+		run(new Runnable() {
+			@Override
+			public final void run() {
+				scheduledEndPoint.post("update", item, Response.class);
+			}
+		});
 	}
 
 	private final EventIncrementer sendEvent(final Event event, final OnResponse handler) {
