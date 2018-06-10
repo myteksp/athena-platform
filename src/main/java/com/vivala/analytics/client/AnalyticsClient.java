@@ -403,6 +403,7 @@ public final class AnalyticsClient implements Closeable{
 			@Override
 			public final void run() {
 				final ScheduledItem item = new ScheduledItem();
+				item.id = id;
 				item.type = type;
 				item.itemId = id;
 				item.itemName = name;
