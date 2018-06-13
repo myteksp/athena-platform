@@ -1,9 +1,7 @@
 package com.athena.backend.platform.dto.pregame;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public final class PreGameBet {
 	@JsonProperty(required=true)
 	public String id;
@@ -14,11 +12,14 @@ public final class PreGameBet {
 	@JsonProperty(required=true)
 	public String statusMessage;
 	@JsonProperty(required=true)
+	public String gameId;
+	@JsonProperty(required=true)
+	public String userId;
+	@JsonProperty(required=true)
 	public long placedAt;
+	
 	@JsonProperty(required=false)
 	public Long completedAt;
-	@JsonProperty(required=false)
-	public String gameId;
 	@JsonProperty(required=false)
 	public String teamId;
 	@JsonProperty(required=false)
@@ -42,6 +43,7 @@ public final class PreGameBet {
 		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 	@Override
@@ -96,13 +98,18 @@ public final class PreGameBet {
 			return false;
 		if (type != other.type)
 			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
 		return "PreGameBet [id=" + id + ", type=" + type + ", status=" + status + ", statusMessage=" + statusMessage
-				+ ", placedAt=" + placedAt + ", completedAt=" + completedAt + ", gameId=" + gameId + ", teamId="
-				+ teamId + ", playerId=" + playerId + ", scoreBet=" + scoreBet + ", scoreBetAmount=" + scoreBetAmount
-				+ "]";
+				+ ", gameId=" + gameId + ", userId=" + userId + ", placedAt=" + placedAt + ", completedAt="
+				+ completedAt + ", teamId=" + teamId + ", playerId=" + playerId + ", scoreBet=" + scoreBet
+				+ ", scoreBetAmount=" + scoreBetAmount + "]";
 	}
 }
