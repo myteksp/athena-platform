@@ -15,22 +15,32 @@ public final class PreGameBetRequest {
 	public String playerId;
 	@JsonProperty(required=false)
 	public ScoreBetType scoreBet;
+	@JsonProperty(required=true)
+	public double riskAmount;
+	@JsonProperty(required=true)
+	public double winAmount;
 	@JsonProperty(required=false)
-	public Double scoreBetAmount;
+	public double winningThreshold;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
 		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(riskAmount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((scoreBet == null) ? 0 : scoreBet.hashCode());
-		result = prime * result + ((scoreBetAmount == null) ? 0 : scoreBetAmount.hashCode());
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		temp = Double.doubleToLongBits(winAmount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(winningThreshold);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -48,12 +58,9 @@ public final class PreGameBetRequest {
 				return false;
 		} else if (!playerId.equals(other.playerId))
 			return false;
-		if (scoreBet != other.scoreBet)
+		if (Double.doubleToLongBits(riskAmount) != Double.doubleToLongBits(other.riskAmount))
 			return false;
-		if (scoreBetAmount == null) {
-			if (other.scoreBetAmount != null)
-				return false;
-		} else if (!scoreBetAmount.equals(other.scoreBetAmount))
+		if (scoreBet != other.scoreBet)
 			return false;
 		if (teamId == null) {
 			if (other.teamId != null)
@@ -62,11 +69,16 @@ public final class PreGameBetRequest {
 			return false;
 		if (type != other.type)
 			return false;
+		if (Double.doubleToLongBits(winAmount) != Double.doubleToLongBits(other.winAmount))
+			return false;
+		if (Double.doubleToLongBits(winningThreshold) != Double.doubleToLongBits(other.winningThreshold))
+			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
 		return "PreGameBetRequest [type=" + type + ", gameId=" + gameId + ", teamId=" + teamId + ", playerId="
-				+ playerId + ", scoreBet=" + scoreBet + ", scoreBetAmount=" + scoreBetAmount + "]";
+				+ playerId + ", scoreBet=" + scoreBet + ", riskAmount=" + riskAmount + ", winAmount=" + winAmount
+				+ ", winningThreshold=" + winningThreshold + "]";
 	}
 }
