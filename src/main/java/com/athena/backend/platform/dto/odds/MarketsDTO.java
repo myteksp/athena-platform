@@ -60,6 +60,7 @@ public final class MarketsDTO {
 		public String outcome_id;
 		public String type;
 		public String odds;
+		public String total;
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown = true)
