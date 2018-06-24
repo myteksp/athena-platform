@@ -2,6 +2,7 @@ package com.athena.backend.platform.dto.odds;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gf.collections.GfCollections;
 import com.gf.util.string.Splitter;
@@ -53,10 +54,12 @@ public final class TournamentMappingDTO {
 				+ tournament_mappings + "]";
 	}
 	//=================================Internal=================================
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class Mapping{
 		public String us_id;
 		public String id;
 		
+		@JsonIgnore
 		public final String getNumber() {
 			return GfCollections.asArrayCollection(Splitter.split(id, ':')).findLast();
 		}
