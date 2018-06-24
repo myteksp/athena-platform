@@ -8,7 +8,7 @@ import com.gf.collections.GfCollections;
 import com.gf.util.string.Splitter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class TournamentMappingDTO {
+public final class SportEventsMappingDTO {
 	public String generated_at;
 	public String schema;
 	public List<Mapping> sport_event_mappings;
@@ -30,7 +30,7 @@ public final class TournamentMappingDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final TournamentMappingDTO other = (TournamentMappingDTO) obj;
+		final SportEventsMappingDTO other = (SportEventsMappingDTO) obj;
 		if (generated_at == null) {
 			if (other.generated_at != null)
 				return false;
@@ -50,7 +50,7 @@ public final class TournamentMappingDTO {
 	}
 	@Override
 	public final String toString() {
-		return "TournamentMappingDTO [generated_at=" + generated_at + ", schema=" + schema + ", sport_event_mappings="
+		return "SportEventsMappingDTO [generated_at=" + generated_at + ", schema=" + schema + ", sport_event_mappings="
 				+ sport_event_mappings + "]";
 	}
 	//=================================Internal=================================
