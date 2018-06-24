@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
 import com.gf.util.string.Splitter;
 
@@ -15,6 +16,11 @@ public final class SportEventsMappingDTO {
 	
 	public final Mapping findMapping(final String id) {
 		return GfCollections.wrapAsCollection(sport_event_mappings).find(m->m.us_id.equals(id)).findFirst();
+	}
+	
+	public final GfCollection<Mapping> findMapping(final String ...ids) {
+		return GfCollections.asArrayCollection(ids)
+		.flatMap(id->GfCollections.wrapAsCollection(sport_event_mappings).find(m->m.us_id.equals(id)));
 	}
 	
 	@Override
