@@ -14,9 +14,6 @@ public final class SportEventsMappingDTO {
 	public String schema;
 	public List<Mapping> sport_event_mappings;
 	
-	public final Mapping findMapping(final String id) {
-		return GfCollections.wrapAsCollection(sport_event_mappings).find(m->m.us_id.equals(id)).findFirst();
-	}
 	
 	public final GfCollection<Mapping> findMapping(final String ...ids) {
 		return GfCollections.asArrayCollection(ids)
