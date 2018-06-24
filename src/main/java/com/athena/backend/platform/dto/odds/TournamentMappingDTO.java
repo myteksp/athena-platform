@@ -11,7 +11,7 @@ import com.gf.util.string.Splitter;
 public final class TournamentMappingDTO {
 	public String generated_at;
 	public String schema;
-	public List<Mapping> tournament_mappings;
+	public List<Mapping> sport_event_mappings;
 	
 	@Override
 	public final int hashCode() {
@@ -19,7 +19,7 @@ public final class TournamentMappingDTO {
 		int result = 1;
 		result = prime * result + ((generated_at == null) ? 0 : generated_at.hashCode());
 		result = prime * result + ((schema == null) ? 0 : schema.hashCode());
-		result = prime * result + ((tournament_mappings == null) ? 0 : tournament_mappings.hashCode());
+		result = prime * result + ((sport_event_mappings == null) ? 0 : sport_event_mappings.hashCode());
 		return result;
 	}
 	@Override
@@ -41,17 +41,17 @@ public final class TournamentMappingDTO {
 				return false;
 		} else if (!schema.equals(other.schema))
 			return false;
-		if (tournament_mappings == null) {
-			if (other.tournament_mappings != null)
+		if (sport_event_mappings == null) {
+			if (other.sport_event_mappings != null)
 				return false;
-		} else if (!tournament_mappings.equals(other.tournament_mappings))
+		} else if (!sport_event_mappings.equals(other.sport_event_mappings))
 			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "TournamentMappingDTO [generated_at=" + generated_at + ", schema=" + schema + ", tournament_mappings="
-				+ tournament_mappings + "]";
+		return "TournamentMappingDTO [generated_at=" + generated_at + ", schema=" + schema + ", sport_event_mappings="
+				+ sport_event_mappings + "]";
 	}
 	//=================================Internal=================================
 	@JsonIgnoreProperties(ignoreUnknown = true)
