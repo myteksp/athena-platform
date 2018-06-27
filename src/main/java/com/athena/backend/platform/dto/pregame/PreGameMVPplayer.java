@@ -8,6 +8,10 @@ public final class PreGameMVPplayer {
 	@JsonProperty(required=true)
 	public String playerName;
 	@JsonProperty(required=true)
+	public String jerseyNumber;
+	@JsonProperty(required=true)
+	public String teamId;
+	@JsonProperty(required=true)
 	public double risk;
 	@JsonProperty(required=true)
 	public double win;
