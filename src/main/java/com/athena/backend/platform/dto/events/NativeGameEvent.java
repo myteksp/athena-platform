@@ -2,7 +2,7 @@ package com.athena.backend.platform.dto.events;
 
 import java.util.List;
 
-
+import com.athena.backend.platform.dto.sportradar.globalBasketball.PlayerProfile;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -478,18 +478,20 @@ public final class NativeGameEvent extends BaseNativeEvent{
 		public String full_name;
 		public String jersey_number;
 		public String reference;
+		public PlayerProfile full_profile;
 		@Override
 		public final int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((full_name == null) ? 0 : full_name.hashCode());
+			result = prime * result + ((full_profile == null) ? 0 : full_profile.hashCode());
 			result = prime * result + ((id == null) ? 0 : id.hashCode());
 			result = prime * result + ((jersey_number == null) ? 0 : jersey_number.hashCode());
 			result = prime * result + ((reference == null) ? 0 : reference.hashCode());
 			return result;
 		}
 		@Override
-		public final boolean equals(Object obj) {
+		public final boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
@@ -501,6 +503,11 @@ public final class NativeGameEvent extends BaseNativeEvent{
 				if (other.full_name != null)
 					return false;
 			} else if (!full_name.equals(other.full_name))
+				return false;
+			if (full_profile == null) {
+				if (other.full_profile != null)
+					return false;
+			} else if (!full_profile.equals(other.full_profile))
 				return false;
 			if (id == null) {
 				if (other.id != null)
@@ -522,7 +529,7 @@ public final class NativeGameEvent extends BaseNativeEvent{
 		@Override
 		public final String toString() {
 			return "GameParticipantPlayer [id=" + id + ", full_name=" + full_name + ", jersey_number=" + jersey_number
-					+ ", reference=" + reference + "]";
+					+ ", reference=" + reference + ", full_profile=" + full_profile + "]";
 		}
 	}
 
