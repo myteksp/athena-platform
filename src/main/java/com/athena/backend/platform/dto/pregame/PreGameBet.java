@@ -1,5 +1,7 @@
 package com.athena.backend.platform.dto.pregame;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class PreGameBet {
@@ -24,6 +26,8 @@ public final class PreGameBet {
 	public String teamId;
 	@JsonProperty(required=false)
 	public String playerId;
+	@JsonProperty(required=false)
+	public List<String> nonOfThePlayers;
 	@JsonProperty(required=false)
 	public ScoreBetType scoreBet;
 	@JsonProperty(required=true)
@@ -59,8 +63,8 @@ public final class PreGameBet {
 	public final String toString() {
 		return "PreGameBet [id=" + id + ", type=" + type + ", status=" + status + ", statusMessage=" + statusMessage
 				+ ", gameId=" + gameId + ", userId=" + userId + ", placedAt=" + placedAt + ", completedAt="
-				+ completedAt + ", teamId=" + teamId + ", playerId=" + playerId + ", scoreBet=" + scoreBet
-				+ ", riskAmount=" + riskAmount + ", winAmount=" + winAmount + ", winningThreshold=" + winningThreshold
-				+ "]";
+				+ completedAt + ", teamId=" + teamId + ", playerId=" + playerId + ", nonOfThePlayers=" + nonOfThePlayers
+				+ ", scoreBet=" + scoreBet + ", riskAmount=" + riskAmount + ", winAmount=" + winAmount
+				+ ", winningThreshold=" + winningThreshold + "]";
 	}
 }
