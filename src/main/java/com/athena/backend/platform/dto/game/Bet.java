@@ -9,6 +9,7 @@ public final class Bet {
 	public String id;
 	public String userId;
 	public String gameId;
+	public String title;
 	public String commonId;
 	public BetType type;
 	public BetStatus status;
@@ -49,6 +50,7 @@ public final class Bet {
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		result = prime * result + ((teamName == null) ? 0 : teamName.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((win == null) ? 0 : win.hashCode());
@@ -147,6 +149,11 @@ public final class Bet {
 				return false;
 		} else if (!teamName.equals(other.teamName))
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		if (type != other.type)
 			return false;
 		if (userId == null) {
@@ -163,11 +170,11 @@ public final class Bet {
 	}
 	@Override
 	public final String toString() {
-		return "Bet [id=" + id + ", userId=" + userId + ", gameId=" + gameId + ", commonId=" + commonId + ", type="
-				+ type + ", status=" + status + ", teamId=" + teamId + ", playerId=" + playerId + ", stake=" + stake
-				+ ", win=" + win + ", quarter=" + quarter + ", gameZone=" + gameZone + ", teamName=" + teamName
-				+ ", playerName=" + playerName + ", playerNumber=" + playerNumber + ", completionTime=" + completionTime
-				+ ", madeTime=" + madeTime + ", points=" + points + ", notified=" + notified + ", clock=" + clock
-				+ ", bonuses=" + bonuses + "]";
+		return "Bet [id=" + id + ", userId=" + userId + ", gameId=" + gameId + ", title=" + title + ", commonId="
+				+ commonId + ", type=" + type + ", status=" + status + ", teamId=" + teamId + ", playerId=" + playerId
+				+ ", stake=" + stake + ", win=" + win + ", quarter=" + quarter + ", gameZone=" + gameZone
+				+ ", teamName=" + teamName + ", playerName=" + playerName + ", playerNumber=" + playerNumber
+				+ ", completionTime=" + completionTime + ", madeTime=" + madeTime + ", points=" + points + ", notified="
+				+ notified + ", clock=" + clock + ", bonuses=" + bonuses + "]";
 	}
 }
