@@ -36,6 +36,9 @@ public final class PreGameBet {
 	public double winAmount;
 	@JsonProperty(required=false)
 	public double winningThreshold;
+	
+	
+	
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
