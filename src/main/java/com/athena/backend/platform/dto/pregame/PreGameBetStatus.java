@@ -1,5 +1,5 @@
 package com.athena.backend.platform.dto.pregame;
 
 public enum PreGameBetStatus {
-	ACTIVE, COMPLETED_WIN, COMPLETED_LOST, REJECTED
+	ACTIVE, COMPLETED_WIN, COMPLETED_LOST, REJECTED, REJECTED_INSUFFICENT_BALLANCE
 }
