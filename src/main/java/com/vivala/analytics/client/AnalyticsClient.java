@@ -394,6 +394,8 @@ public final class AnalyticsClient implements Closeable{
 			public final EventIncrementer send(final EventReviewer reviewer, final OnResponse ack) {reviewer.review(event);return sendEvent(event, ack);}
 			@Override
 			public final Event getEvent() {return event;}
+			@Override
+			public final void sendAsync() {sendEvent(event);}
 		};
 	}
 	
@@ -417,6 +419,20 @@ public final class AnalyticsClient implements Closeable{
 	
 	private final String updateScheduledItem(final ScheduledItem item) {
 		return scheduledEndPoint.post("update", item, Response.class).id;
+	}
+	
+	private final void sendEvent(final Event event) {
+		if (event.project_id == null)
+			throw new RuntimeException("project_id can't be null");
+		if (event.type == null)
+			throw new RuntimeException("type can't be null");
+		event.id = null;
+		run(new Runnable() {
+			@Override
+			public final void run() {
+				endpoint.post("eventAsync", ensure(event), Response.class);
+			}
+		});
 	}
 
 	private final EventIncrementer sendEvent(final Event event, final OnResponse handler) {

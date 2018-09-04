@@ -17,6 +17,7 @@ public interface SingleEventBuilder {
 	SingleEventBuilder addLongParam(final long param);
 	SingleEventBuilder addDoubleParam(final double param);
 	
+	void sendAsync();
 	EventIncrementer send();
 	EventIncrementer send(final EventReviewer reviewer);
 	EventIncrementer send(final OnResponse ack);
