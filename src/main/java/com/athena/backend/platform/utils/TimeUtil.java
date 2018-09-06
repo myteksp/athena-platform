@@ -9,6 +9,12 @@ public final class TimeUtil {
 	public static final int millisecondsToHours(final long milliseconds) {
 		return (int) (milliseconds / 1000*60*60);
 	}
+	public static final int millisecondsToDays(final long milliseconds) {
+		return (int) (milliseconds / 1000*60*60*24);
+	}
+	public static final int millisecondsToWeeks(final long milliseconds) {
+		return (int) (milliseconds / 1000*60*60*24*7);
+	}
 	
 	public static final String formatDay(final int dayOrMonth){
 		final int abs = Math.abs(dayOrMonth);
