@@ -6,6 +6,10 @@ import java.util.Date;
 import com.athena.backend.platform.dto.time.TimeEntity;
 
 public final class TimeUtil {
+	public static final int millisecondsToHours(final long milliseconds) {
+		return (int) (milliseconds / 1000*60*60);
+	}
+	
 	public static final String formatDay(final int dayOrMonth){
 		final int abs = Math.abs(dayOrMonth);
 		if (abs > 31)
