@@ -65,6 +65,7 @@ public class CampaignSegmentOpts {
         
         return segmentOpts;
     }
+    
 
     @Override
     public String toString() {
