@@ -1,11 +1,11 @@
 package com.github.alexanderwe.bananaj.model.campaign;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.gf.collections.GfCollections;
 import com.github.alexanderwe.bananaj.exceptions.ConditionException;
 import com.github.alexanderwe.bananaj.model.list.segment.AbstractCondition;
 import com.github.alexanderwe.bananaj.model.list.segment.MatchType;
@@ -15,93 +15,91 @@ import com.github.alexanderwe.bananaj.model.list.segment.MatchType;
  */
 public class CampaignSegmentOpts {
 
-    private Integer saved_segment_id;
-    private MatchType match;
-    private List<AbstractCondition> conditions;
+	private Integer saved_segment_id;
+	private MatchType match;
+	private List<AbstractCondition> conditions;
 
-    /**
-     * Used when created a Condition locally with the Builder class
-     * @see Builder
-     * @param b
-     */
+	/**
+	 * Used when created a Condition locally with the Builder class
+	 * @see Builder
+	 * @param b
+	 */
 
-    public CampaignSegmentOpts(Builder b) throws ConditionException{
-    	this.saved_segment_id = b.saved_segment_id;
-    	this.match = b.match;
-    	this.conditions = b.conditions;
-    }
+	public CampaignSegmentOpts(Builder b) throws ConditionException{
+		this.saved_segment_id = b.saved_segment_id;
+		this.match = b.match;
+		this.conditions = b.conditions;
+	}
 
-    public Integer getSavedSegmentId() {
-        return saved_segment_id;
-    }
+	public Integer getSavedSegmentId() {
+		return saved_segment_id;
+	}
 
 	public MatchType getMatch() {
 		return match;
 	}
 
 	public List<AbstractCondition> getConditions() {
-        return conditions;
-    }
+		return conditions;
+	}
 
-    public JSONObject getJsonRepresentation(){
-        JSONObject segmentOpts = new JSONObject();
+	public JSONObject getJsonRepresentation(){
+		JSONObject segmentOpts = new JSONObject();
 
-        if (getSavedSegmentId() != null) {
-        	segmentOpts.put("saved_segment_id", getSavedSegmentId());
-        }
+		if (getSavedSegmentId() != null) {
+			segmentOpts.put("saved_segment_id", getSavedSegmentId());
+		}
 
-        if (getMatch() != null) {
-        	segmentOpts.put("match", getMatch().value());
-        }
-        
-        if (getConditions() != null) {
-        	JSONArray jsonConditions = new JSONArray();
-        	Iterator<AbstractCondition> i = getConditions().iterator();
-        	while (i.hasNext()) {
-        		jsonConditions.put(i.next());
-        	}
-        	segmentOpts.put("conditions", jsonConditions);
-        }
-        
-        return segmentOpts;
-    }
-    
+		if (getMatch() != null) {
+			segmentOpts.put("match", getMatch().value());
+		}
 
-    @Override
-    public String toString() {
-        return "Saved Segment ID: " + getSavedSegmentId() + System.lineSeparator() +
-        		"Match: " + getMatch().toString()  + System.lineSeparator() + 
-                "Conditions: " + getConditions().toString() +  System.lineSeparator();
-    }
+		final List<AbstractCondition> conds = getConditions();
+		if (conds != null) {
+			final JSONArray jsonConditions = new JSONArray();
+			GfCollections.wrapAsCollection(conds).forEach(c->jsonConditions.put(c.getJsonRepresentation()));
+			segmentOpts.put("conditions", jsonConditions);
+		}
 
-    public static class Builder {
-        private Integer saved_segment_id;
-        private MatchType match;
-        private List<AbstractCondition> conditions;
+		return segmentOpts;
+	}
 
-        public Builder savedSegmentId(Integer saved_segment_id) {
-            this.saved_segment_id = saved_segment_id;
-            return this;
-        }
 
-        public Builder match(MatchType match) {
-            this.match = match;
-            return this;
-        }
+	@Override
+	public String toString() {
+		return "Saved Segment ID: " + getSavedSegmentId() + System.lineSeparator() +
+				"Match: " + getMatch().toString()  + System.lineSeparator() + 
+				"Conditions: " + getConditions().toString() +  System.lineSeparator();
+	}
 
-        public Builder conditions( List<AbstractCondition> conditions) {
-            this.conditions = conditions;
-            return this;
-        }
+	public static class Builder {
+		private Integer saved_segment_id;
+		private MatchType match;
+		private List<AbstractCondition> conditions;
 
-        public CampaignSegmentOpts build() {
-            try {
-                return new CampaignSegmentOpts(this);
-            } catch (ConditionException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
+		public Builder savedSegmentId(Integer saved_segment_id) {
+			this.saved_segment_id = saved_segment_id;
+			return this;
+		}
+
+		public Builder match(MatchType match) {
+			this.match = match;
+			return this;
+		}
+
+		public Builder conditions( List<AbstractCondition> conditions) {
+			this.conditions = conditions;
+			return this;
+		}
+
+		public CampaignSegmentOpts build() {
+			try {
+				return new CampaignSegmentOpts(this);
+			} catch (ConditionException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	}
 
 }
