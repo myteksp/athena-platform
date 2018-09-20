@@ -4,10 +4,12 @@
  */
 package com.github.alexanderwe.bananaj.model.campaign;
 
+
 import java.net.URL;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 
 import com.github.alexanderwe.bananaj.connection.MailChimpConnection;
 import com.github.alexanderwe.bananaj.exceptions.CampaignSettingsException;
@@ -102,6 +104,7 @@ public class Campaign extends MailchimpObject {
 	public void send() throws Exception{
 		getConnection().do_Post(new URL(connection.getCampaignendpoint()+"/"+this.getId()+"/actions/send"),connection.getApikey());
 	}
+	
 	
 	/**
 	 * Send the campaign to the mailChimpList members
