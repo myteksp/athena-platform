@@ -14,7 +14,6 @@ public final class UserProfileDTO {
 	public Gender gender;
 	public BirthDay birthDay;
 	public String favoriteTeamId;
-	public String favoriteTeamName;
 	
 	@Override
 	public final int hashCode() {
@@ -23,7 +22,6 @@ public final class UserProfileDTO {
 		result = prime * result + ((avatarUrl == null) ? 0 : avatarUrl.hashCode());
 		result = prime * result + ((birthDay == null) ? 0 : birthDay.hashCode());
 		result = prime * result + ((favoriteTeamId == null) ? 0 : favoriteTeamId.hashCode());
-		result = prime * result + ((favoriteTeamName == null) ? 0 : favoriteTeamName.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((loginType == null) ? 0 : loginType.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -55,11 +53,6 @@ public final class UserProfileDTO {
 				return false;
 		} else if (!favoriteTeamId.equals(other.favoriteTeamId))
 			return false;
-		if (favoriteTeamName == null) {
-			if (other.favoriteTeamName != null)
-				return false;
-		} else if (!favoriteTeamName.equals(other.favoriteTeamName))
-			return false;
 		if (gender != other.gender)
 			return false;
 		if (loginType != other.loginType)
@@ -85,7 +78,7 @@ public final class UserProfileDTO {
 	public final String toString() {
 		return "UserProfileDTO [avatarUrl=" + avatarUrl + ", name=" + name + ", loginType=" + loginType + ", shareUrl="
 				+ shareUrl + ", title=" + title + ", gender=" + gender + ", birthDay=" + birthDay + ", favoriteTeamId="
-				+ favoriteTeamId + ", favoriteTeamName=" + favoriteTeamName + "]";
+				+ favoriteTeamId + "]";
 	}
 
 
