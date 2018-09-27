@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 
 import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
+import com.gf.util.string.JSON;
 import com.github.alexanderwe.bananaj.connection.MailChimpConnection;
 import com.github.alexanderwe.bananaj.exceptions.EmailException;
 import com.github.alexanderwe.bananaj.exceptions.FileFormatException;
@@ -625,7 +627,7 @@ public class MailChimpList extends MailchimpObject {
 	 * @return
 	 */
 	public MergeField getMergeField(String mergeFieldID) throws Exception{
-		URL url = new URL(connection.getListendpoint()+"/"+this.getId()+"/merge-fields/"+mergeFieldID);
+		URL url = new URL(getConnection().getListendpoint()+"/"+this.getId()+"/merge-fields/"+mergeFieldID);
 		JSONObject mergeFieldJSON = new JSONObject(connection.do_Get(url,connection.getApikey()));
 
 		final JSONObject mergeFieldOptionsJSON = mergeFieldJSON.getJSONObject("options");
@@ -672,8 +674,16 @@ public class MailChimpList extends MailchimpObject {
 				);
 	}
 
-	public void addMergeField(MergeField mergeFieldtoAdd) throws Exception{
-
+	public void addMergeField(final String tag, final String name, final String type) throws Exception{
+		final URL url = new URL(getConnection().getListendpoint()+"/"+this.getId()+"/merge-fields");
+		final Map<String, String> data = new HashMap<String, String>(5);
+		data.put("tag", tag);
+		data.put("name", name);
+		data.put("type", type);
+		final String postString = JSON.toJson(data);
+		System.out.println("Creating field: " + postString);
+		final String response = getConnection().do_Post(url, postString, connection.getApikey());
+		System.out.println(response);
 	}
 
 
