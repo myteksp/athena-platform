@@ -17,6 +17,8 @@ import java.util.Map.Entry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.gf.collections.GfCollection;
+import com.gf.collections.GfCollections;
 import com.github.alexanderwe.bananaj.connection.MailChimpConnection;
 import com.github.alexanderwe.bananaj.exceptions.EmailException;
 import com.github.alexanderwe.bananaj.exceptions.FileFormatException;
@@ -69,7 +71,7 @@ public class MailChimpList extends MailchimpObject {
 	private int membercount;
 	private LocalDateTime dateCreated;
 	private MailChimpConnection connection;
-	
+
 
 	public MailChimpList(String id, String name, int membercount, LocalDateTime dateCreated, MailChimpConnection connection, JSONObject jsonRepresentation) {
 		super(id,jsonRepresentation);
@@ -138,9 +140,9 @@ public class MailChimpList extends MailchimpObject {
 	 */
 	public Member getMember(String memberID) throws Exception{
 		final JSONObject member = new JSONObject(getConnection().do_Get(new URL("https://"+connection.getServer()+".api.mailchimp.com/3.0/lists/"+getId()+"/members/"+memberID),connection.getApikey()));
-    	return new Member(this, member);
+		return new Member(this, member);
 	}
-	
+
 	/**
 	 * Add a member with the minimum of information
 	 * @param status
@@ -151,10 +153,10 @@ public class MailChimpList extends MailchimpObject {
 		member.put("email_address", emailAddress);
 		member.put("status", status.getStringRepresentation());
 
-        getConnection().do_Post(new URL(connection.getListendpoint()+"/"+this.getId()+"/members"),member.toString(),connection.getApikey());
-        this.membercount++;
+		getConnection().do_Post(new URL(connection.getListendpoint()+"/"+this.getId()+"/members"),member.toString(),connection.getApikey());
+		this.membercount++;
 	}
-	
+
 	public Member updateMember(Member member) throws Exception {
 		JSONObject json = new JSONObject();
 		json.put("email_address", member.getEmail_address());
@@ -171,7 +173,7 @@ public class MailChimpList extends MailchimpObject {
 			}
 			json.put("merge_fields", mergeFields);
 		}
-		
+
 		{
 			JSONObject interests = new JSONObject();
 			HashMap<String, Boolean> interestsMap = member.getInterest();
@@ -184,7 +186,7 @@ public class MailChimpList extends MailchimpObject {
 		json.put("timestamp_signup", member.getTimestamp_signup());
 		json.put( "ip_opt", member.getIp_opt());
 		json.put("timestamp_opt", member.getTimestamp_opt());
-		
+
 		try {
 			String results = getConnection().do_Patch(new URL(connection.getListendpoint()+"/"+this.getId()+"/members/"+member.getId()),json.toString(),connection.getApikey());
 			this.membercount++;
@@ -204,7 +206,7 @@ public class MailChimpList extends MailchimpObject {
 	 */
 	public void addMember(MemberStatus status, String emailAddress, HashMap<String, Object> merge_fields_values) throws Exception{
 		URL url = new URL(connection.getListendpoint()+"/"+this.getId()+"/members");
-		
+
 		JSONObject member = new JSONObject();
 		JSONObject merge_fields = new JSONObject();
 
@@ -214,12 +216,12 @@ public class MailChimpList extends MailchimpObject {
 			it.remove(); // avoids a ConcurrentModificationException
 			merge_fields.put(pair.getKey(), pair.getValue());
 		}
-		
+
 		member.put("status", status.getStringRepresentation());
 		member.put("email_address", emailAddress);
 		member.put("merge_fields", merge_fields);
 		System.out.println(member.toString());
-        getConnection().do_Post(url,member.toString(),connection.getApikey());
+		getConnection().do_Post(url,member.toString(),connection.getApikey());
 
 		this.membercount++;
 	}
@@ -268,7 +270,7 @@ public class MailChimpList extends MailchimpObject {
 		getConnection().do_Delete(new URL(connection.getListendpoint()+"/"+getId()+"/members/"+memberID),connection.getApikey());
 		this.membercount--;
 	}
-	
+
 	/**
 	 * Get the growth history of this list
 	 * @return a growth history
@@ -276,10 +278,10 @@ public class MailChimpList extends MailchimpObject {
 	 */
 	public GrowthHistory getGrowthHistory() throws Exception{
 		final JSONObject growth_history = new JSONObject(getConnection().do_Get(new URL(connection.getListendpoint()+"/"+this.getId()+"/growth-history"),connection.getApikey()));
-    	final JSONArray history = growth_history.getJSONArray("history");
-    	final JSONObject historyDetail = history.getJSONObject(0);
-    	
-    	return new GrowthHistory(this, historyDetail.getString("month"), historyDetail.getInt("existing"), historyDetail.getInt("imports"), historyDetail.getInt("optins"));
+		final JSONArray history = growth_history.getJSONArray("history");
+		final JSONObject historyDetail = history.getJSONObject(0);
+
+		return new GrowthHistory(this, historyDetail.getString("month"), historyDetail.getInt("existing"), historyDetail.getInt("imports"), historyDetail.getInt("optins"));
 	}
 
 	/**
@@ -303,12 +305,12 @@ public class MailChimpList extends MailchimpObject {
 		}
 		return categories;
 	}
-	
+
 	public InterestCategory getInterestCategory(String interestCategoryId) throws Exception {
 		JSONObject jsonCategory = new JSONObject(connection.do_Get(new URL(connection.getListendpoint()+"/"+this.getId()+"/interest-categories/"+interestCategoryId) ,connection.getApikey()));
 		return InterestCategory.build(connection, jsonCategory);
 	}
-	
+
 	/**
 	 * Get interests for this list. Interests are referred to as ‘group names’ in the MailChimp application. 
 	 * @param interestCategoryId
@@ -331,21 +333,21 @@ public class MailChimpList extends MailchimpObject {
 		}
 		return interests;
 	}
-	
+
 	public Interest getInterest(String interestCategoryId, String interestId) throws Exception {
 		JSONObject jsonInterests = new JSONObject(connection.do_Get(new URL(connection.getListendpoint()+"/"+this.getId()+"/interest-categories/"+interestCategoryId+"/interests/"+interestId) ,connection.getApikey()));
 		return Interest.build(jsonInterests);
 	}
-	
+
 	/**
 	 * Get all segments of this list. A segment is a section of your list that includes only those subscribers who share specific common field information.
 	 * @param count Number of templates to return
 	 * @param offset Zero based offset
 	 * @return List containing segments
 	 * @throws Exception
-     */
+	 */
 	public List<Segment> getSegments(int count, int offset) throws Exception {
-        ArrayList<Segment> segments = new ArrayList<Segment>();
+		ArrayList<Segment> segments = new ArrayList<Segment>();
 		JSONObject jsonSegments = new JSONObject(connection.do_Get(new URL(connection.getListendpoint()+"/"+this.getId()+"/segments?offset=" + offset + "&count=" + count) ,connection.getApikey()));
 
 		final JSONArray segmentsArray = jsonSegments.getJSONArray("segments");
@@ -356,8 +358,8 @@ public class MailChimpList extends MailchimpObject {
 			segments.add(segment);
 		}
 
-        return segments;
-    }
+		return segments;
+	}
 
 	/**
 	 * Get a specific segment of this list
@@ -386,27 +388,27 @@ public class MailChimpList extends MailchimpObject {
 
 				ConditionType conditiontype = ConditionType.fromValue(jsonCondition.getString("condition_type"));
 				switch(conditiontype) {
-			    case AIM:
-			    case AUTOMATION:
-			    case CONVERSATION:
-			    case EMAIL_CLIENT:
-			    case LANGUAGE:
-			    case SIGNUP_SOURCE:
-			    case SURVEY_MONKEY:
-			    case ECOMM_CATEGORY:
-			    case ECOMM_STORE:
-			    case GOAL_ACTIVITY:
-			    case IP_GEO_COUNTRY_STATE:
-			    case SOCIAL_AGE:
-			    case SOCIAL_GENDER:
-			    case SOCIAL_NETWORK_MEMBER:
-			    case SOCIAL_NETWORK_FOLLOW:
-			    case ADDRESS_MERGE:
-			    case BIRTHDAY_MERGE:
-			    case DATE_MERGE:
-			    case TEXT_MERGE:
-			    case SELECT_MERGE:
-			    case EMAIL_ADDRESS:
+				case AIM:
+				case AUTOMATION:
+				case CONVERSATION:
+				case EMAIL_CLIENT:
+				case LANGUAGE:
+				case SIGNUP_SOURCE:
+				case SURVEY_MONKEY:
+				case ECOMM_CATEGORY:
+				case ECOMM_STORE:
+				case GOAL_ACTIVITY:
+				case IP_GEO_COUNTRY_STATE:
+				case SOCIAL_AGE:
+				case SOCIAL_GENDER:
+				case SOCIAL_NETWORK_MEMBER:
+				case SOCIAL_NETWORK_FOLLOW:
+				case ADDRESS_MERGE:
+				case BIRTHDAY_MERGE:
+				case DATE_MERGE:
+				case TEXT_MERGE:
+				case SELECT_MERGE:
+				case EMAIL_ADDRESS:
 					conditions.add( new StringCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
@@ -414,9 +416,9 @@ public class MailChimpList extends MailchimpObject {
 							.value(jsonCondition.getString("value"))
 							.build());
 					break;
-					
-			    case ECOMM_SPENT:
-			    case IP_GEO_ZIP:
+
+				case ECOMM_SPENT:
+				case IP_GEO_ZIP:
 					conditions.add( new IntegerCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
@@ -424,13 +426,13 @@ public class MailChimpList extends MailchimpObject {
 							.value(jsonCondition.getInt("value"))
 							.build());
 					break;
-					
-			    case CAMPAIGN_POLL:
-			    case MEMBER_RATING:
-			    case ECOMM_NUMBER:
-			    case FUZZY_SEGMENT:
-			    case STATIC_SEGMENT:
-			    case SOCIAL_INFLUENCE:
+
+				case CAMPAIGN_POLL:
+				case MEMBER_RATING:
+				case ECOMM_NUMBER:
+				case FUZZY_SEGMENT:
+				case STATIC_SEGMENT:
+				case SOCIAL_INFLUENCE:
 					conditions.add( new DoubleCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
@@ -438,10 +440,10 @@ public class MailChimpList extends MailchimpObject {
 							.value(jsonCondition.getDouble("value"))
 							.build());
 					break;
-					
-			    case DATE:
-			    case GOAL_TIMESTAMP:
-			    case ZIP_MERGE:
+
+				case DATE:
+				case GOAL_TIMESTAMP:
+				case ZIP_MERGE:
 					conditions.add( new StringCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
@@ -450,21 +452,21 @@ public class MailChimpList extends MailchimpObject {
 							.value(jsonCondition.getString("value"))
 							.build());
 					break;
-					
-			    	
-			    case MANDRILL:
-			    case VIP:
-			    case ECOMM_PURCHASED:
-			    case IP_GEO_UNKNOWN:
+
+
+				case MANDRILL:
+				case VIP:
+				case ECOMM_PURCHASED:
+				case IP_GEO_UNKNOWN:
 					conditions.add( new OpCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
 							.operator(Operator.fromValue(jsonCondition.getString("op")))
 							.build());
 					break;
-					
-			    	
-			    case INTERESTS:
+
+
+				case INTERESTS:
 					JSONArray jsonArray = jsonCondition.getJSONArray("value");
 					List<String> values = new ArrayList<String>();
 					for (int j=0; j<jsonArray.length(); j++) {
@@ -477,8 +479,8 @@ public class MailChimpList extends MailchimpObject {
 							.value(values)
 							.build());
 					break;
-					
-			    case IP_GEO_IN_ZIP:
+
+				case IP_GEO_IN_ZIP:
 					conditions.add( new IntegerCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
@@ -487,8 +489,8 @@ public class MailChimpList extends MailchimpObject {
 							.value(jsonCondition.getInt("value"))
 							.build());
 					break;
-					
-			    case IP_GEO_IN:
+
+				case IP_GEO_IN:
 					conditions.add( new IPGeoInCondition.Builder()
 							.conditionType(conditiontype)
 							.field(jsonCondition.getString("field"))
@@ -562,50 +564,46 @@ public class MailChimpList extends MailchimpObject {
 		getConnection().do_Delete(new URL(connection.getListendpoint()+"/"+this.getId()+"/segments/"+segmentId),connection.getApikey());
 	}
 
-	/**
-	 * Get a list of all merge fields of this list
-	 * @return
-	 * @throws Exception
-	 */
-	public List<MergeField> getMergeFields() throws Exception {
-		ArrayList<MergeField> mergeFields = new ArrayList<MergeField>();
-		URL url = new URL(connection.getListendpoint()+"/"+this.getId()+"/merge-fields?offset=0&count=100"); // Note: Mailchimp currently supports a maximim of 80 merge fields
 
-		JSONObject merge_fields = new JSONObject(connection.do_Get(url,connection.getApikey()));
+	public List<MergeField> getMergeFields() throws Exception {
+		final GfCollection<MergeField> mergeFields = GfCollections.asLinkedCollection();
+		final URL url = new URL(getConnection().getListendpoint()+"/"+this.getId()+"/merge-fields?offset=0&count=100"); // Note: Mailchimp currently supports a maximim of 80 merge fields
+
+		final JSONObject merge_fields = new JSONObject(getConnection().do_Get(url,connection.getApikey()));
 		final JSONArray mergeFieldsArray = merge_fields.getJSONArray("merge_fields");
 
 		for (int i = 0 ; i < mergeFieldsArray.length(); i++) {
 			final JSONObject mergeFieldDetail = mergeFieldsArray.getJSONObject(i);
-
 			final JSONObject mergeFieldOptionsJSON = mergeFieldDetail.getJSONObject("options");
-			MergeFieldOptions mergeFieldOptions = new MergeFieldOptions();
-
-			switch(mergeFieldDetail.getString("type")){
+			final MergeFieldOptions mergeFieldOptions = new MergeFieldOptions();
+			try {
+				switch(mergeFieldDetail.getString("type")){
 				case "address":mergeFieldOptions.setDefault_country(mergeFieldOptionsJSON.getInt("default_country"));break;
 				case "phone":mergeFieldOptions.setPhone_format(mergeFieldOptionsJSON.getString("phone_format"));break;
 				case "date":mergeFieldOptions.setDate_format(mergeFieldOptionsJSON.getString("date_format"));break;
 				case "birthday":mergeFieldOptions.setDate_format(mergeFieldOptionsJSON.getString("date_format"));break;
 				case "text":mergeFieldOptions.setSize(mergeFieldOptionsJSON.getInt("size"));break;
 				case "radio":
-					JSONArray mergeFieldOptionChoicesRadio = mergeFieldOptionsJSON.getJSONArray("choices");
-					ArrayList<String> choicesRadio = new ArrayList<String>();
+					final JSONArray mergeFieldOptionChoicesRadio = mergeFieldOptionsJSON.getJSONArray("choices");
+					final ArrayList<String> choicesRadio = new ArrayList<String>(mergeFieldOptionChoicesRadio.length());
 					for (int j = 0; j < mergeFieldOptionChoicesRadio.length(); j++){
 						choicesRadio.add((String )mergeFieldOptionChoicesRadio.get(j));
 					}
 					mergeFieldOptions.setChoices(choicesRadio);
 					break;
 				case "dropdown":
-					JSONArray mergeFieldOptionChoicesDropdown = mergeFieldOptionsJSON.getJSONArray("choices");
-					ArrayList<String> choicesDropdown = new ArrayList<String>();
+					final JSONArray mergeFieldOptionChoicesDropdown = mergeFieldOptionsJSON.getJSONArray("choices");
+					final ArrayList<String> choicesDropdown = new ArrayList<String>(mergeFieldOptionChoicesDropdown.length());
 					for (int j = 0; j < mergeFieldOptionChoicesDropdown.length(); j++){
 						choicesDropdown.add((String )mergeFieldOptionChoicesDropdown.get(j));
 					}
 					mergeFieldOptions.setChoices(choicesDropdown);
 					break;
-			}
+				}
+			}catch(final Throwable t) {}
 
 
-			MergeField mergeField = new MergeField(
+			final MergeField mergeField = new MergeField(
 					String.valueOf(mergeFieldDetail.getInt("merge_id")),
 					mergeFieldDetail.getString("tag"),
 					mergeFieldDetail.getString("name"),
@@ -615,8 +613,7 @@ public class MailChimpList extends MailchimpObject {
 					mergeFieldDetail.getBoolean("public"),
 					mergeFieldDetail.getString("list_id"),
 					mergeFieldOptions,
-					mergeFieldDetail
-			);
+					mergeFieldDetail);
 			mergeFields.add(mergeField);
 		}
 		return mergeFields;
@@ -635,33 +632,33 @@ public class MailChimpList extends MailchimpObject {
 		MergeFieldOptions mergeFieldOptions = new MergeFieldOptions();
 
 		switch(mergeFieldJSON.getString("type")){
-			case "address":mergeFieldOptions.setDefault_country(mergeFieldOptionsJSON.getInt("default_country"));break;
-			case "phone":mergeFieldOptions.setPhone_format(mergeFieldOptionsJSON.getString("phone_format"));break;
-			case "date":mergeFieldOptions.setDate_format(mergeFieldOptionsJSON.getString("date_format"));break;
-			case "birthday":mergeFieldOptions.setDate_format(mergeFieldOptionsJSON.getString("date_format"));break;
-			case "text":mergeFieldOptions.setSize(mergeFieldOptionsJSON.getInt("size"));break;
-			case "radio":
-				JSONArray mergeFieldOptionChoicesRadio = mergeFieldOptionsJSON.getJSONArray("choices");
-				ArrayList<String> choicesRadio = new ArrayList<String>();
-				for (int j = 0; j < mergeFieldOptionChoicesRadio.length(); j++){
-					choicesRadio.add((String )mergeFieldOptionChoicesRadio.get(j));
-				}
-				mergeFieldOptions.setChoices(choicesRadio);
-				break;
-			case "dropdown":
-				JSONArray mergeFieldOptionChoicesDropdown = mergeFieldOptionsJSON.getJSONArray("choices");
-				ArrayList<String> choicesDropdown = new ArrayList<String>();
-				for (int j = 0; j < mergeFieldOptionChoicesDropdown.length(); j++){
-					choicesDropdown.add((String )mergeFieldOptionChoicesDropdown.get(j));
-				}
-				mergeFieldOptions.setChoices(choicesDropdown);
-				break;
+		case "address":mergeFieldOptions.setDefault_country(mergeFieldOptionsJSON.getInt("default_country"));break;
+		case "phone":mergeFieldOptions.setPhone_format(mergeFieldOptionsJSON.getString("phone_format"));break;
+		case "date":mergeFieldOptions.setDate_format(mergeFieldOptionsJSON.getString("date_format"));break;
+		case "birthday":mergeFieldOptions.setDate_format(mergeFieldOptionsJSON.getString("date_format"));break;
+		case "text":mergeFieldOptions.setSize(mergeFieldOptionsJSON.getInt("size"));break;
+		case "radio":
+			JSONArray mergeFieldOptionChoicesRadio = mergeFieldOptionsJSON.getJSONArray("choices");
+			ArrayList<String> choicesRadio = new ArrayList<String>();
+			for (int j = 0; j < mergeFieldOptionChoicesRadio.length(); j++){
+				choicesRadio.add((String )mergeFieldOptionChoicesRadio.get(j));
+			}
+			mergeFieldOptions.setChoices(choicesRadio);
+			break;
+		case "dropdown":
+			JSONArray mergeFieldOptionChoicesDropdown = mergeFieldOptionsJSON.getJSONArray("choices");
+			ArrayList<String> choicesDropdown = new ArrayList<String>();
+			for (int j = 0; j < mergeFieldOptionChoicesDropdown.length(); j++){
+				choicesDropdown.add((String )mergeFieldOptionChoicesDropdown.get(j));
+			}
+			mergeFieldOptions.setChoices(choicesDropdown);
+			break;
 		}
 
 
 
 
-		 return new MergeField(
+		return new MergeField(
 				String.valueOf(mergeFieldJSON.getInt("merge_id")),
 				mergeFieldJSON.getString("tag"),
 				mergeFieldJSON.getString("name"),
@@ -672,10 +669,10 @@ public class MailChimpList extends MailchimpObject {
 				mergeFieldJSON.getString("list_id"),
 				mergeFieldOptions,
 				mergeFieldJSON
-		);
+				);
 	}
 
-	public void addMergeField(MergeField mergeFieldtoAdd){
+	public void addMergeField(MergeField mergeFieldtoAdd) throws Exception{
 
 	}
 
@@ -701,11 +698,11 @@ public class MailChimpList extends MailchimpObject {
 		}
 
 		WritableSheet sheet = workbook.createSheet(this.getName(), 0);
-		
-		
+
+
 		WritableFont times16font = new WritableFont(WritableFont.TIMES, 16, WritableFont.BOLD, false); 
 		WritableCellFormat times16format = new WritableCellFormat (times16font); 
-		
+
 		Label memberIDLabel = new Label(0, 0, "MemberID",times16format);
 		Label email_addressLabel = new Label(1,0,"Email Address",times16format);
 		Label timestamp_sign_inLabel = new Label(2,0,"Sign up",times16format);
@@ -715,7 +712,7 @@ public class MailChimpList extends MailchimpObject {
 		Label statusLabel = new Label(6,0,"Status",times16format);
 		Label avg_open_rateLabel = new Label(7,0,"Avg. open rate",times16format);
 		Label avg_click_rateLabel = new Label(8,0,"Avg. click rate",times16format);
-		
+
 
 		sheet.addCell(memberIDLabel);
 		sheet.addCell(email_addressLabel);
