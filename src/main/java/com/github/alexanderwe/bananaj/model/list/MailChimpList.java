@@ -676,10 +676,12 @@ public class MailChimpList extends MailchimpObject {
 
 	public void addMergeField(final String tag, final String name, final String type) throws Exception{
 		final URL url = new URL(getConnection().getListendpoint()+"/"+this.getId()+"/merge-fields");
-		final Map<String, String> data = new HashMap<String, String>(5);
+		final Map<String, Object> data = new HashMap<String, Object>(5);
 		data.put("tag", tag);
 		data.put("name", name);
 		data.put("type", type);
+		data.put("required", false);
+		data.put("public", true);
 		final String postString = JSON.toJson(data);
 		System.out.println("Creating field: " + postString);
 		final String response = getConnection().do_Post(url, postString, connection.getApikey());
