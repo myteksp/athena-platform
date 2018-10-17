@@ -473,12 +473,20 @@ public final class NativeGameEvent extends BaseNativeEvent{
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static final class PlayerStats{
+		
+	}
+	
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static final class GameParticipantPlayer{
 		public String id;
 		public String full_name;
 		public String jersey_number;
 		public String reference;
 		public PlayerProfile full_profile;
+		
+		public PlayerStats stats;
+		
 		@Override
 		public final int hashCode() {
 			final int prime = 31;
