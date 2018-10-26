@@ -43,6 +43,9 @@ public final class PreGameBetData {
 	
 	@JsonProperty(required=true)
 	public List<PreGameMVPplayer> players;
+	
+	@JsonProperty(required=true)
+	public boolean reloadRecomentded;
 
 	@Override
 	public final int hashCode() {
@@ -56,6 +59,7 @@ public final class PreGameBetData {
 		result = prime * result + ((home_team_id == null) ? 0 : home_team_id.hashCode());
 		result = prime * result + ((home_team_name == null) ? 0 : home_team_name.hashCode());
 		result = prime * result + ((players == null) ? 0 : players.hashCode());
+		result = prime * result + (reloadRecomentded ? 1231 : 1237);
 		long temp;
 		temp = Double.doubleToLongBits(score_less_risk);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -77,6 +81,7 @@ public final class PreGameBetData {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
+
 	@Override
 	public final boolean equals(final Object obj) {
 		if (this == obj)
@@ -126,6 +131,8 @@ public final class PreGameBetData {
 				return false;
 		} else if (!players.equals(other.players))
 			return false;
+		if (reloadRecomentded != other.reloadRecomentded)
+			return false;
 		if (Double.doubleToLongBits(score_less_risk) != Double.doubleToLongBits(other.score_less_risk))
 			return false;
 		if (Double.doubleToLongBits(score_less_win) != Double.doubleToLongBits(other.score_less_win))
@@ -146,6 +153,7 @@ public final class PreGameBetData {
 			return false;
 		return true;
 	}
+
 	@Override
 	public final String toString() {
 		return "PreGameBetData [game_id=" + game_id + ", home_team_id=" + home_team_id + ", home_team_name="
@@ -154,6 +162,7 @@ public final class PreGameBetData {
 				+ team_home_risk + ", team_home_win=" + team_home_win + ", team_away_risk=" + team_away_risk
 				+ ", team_away_win=" + team_away_win + ", score_threshold=" + score_threshold + ", score_less_risk="
 				+ score_less_risk + ", score_more_risk=" + score_more_risk + ", score_less_win=" + score_less_win
-				+ ", score_more_win=" + score_more_win + ", players=" + players + "]";
+				+ ", score_more_win=" + score_more_win + ", players=" + players + ", reloadRecomentded="
+				+ reloadRecomentded + "]";
 	}
 }
