@@ -2,7 +2,7 @@ package com.vivala.analytics.client;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -65,36 +65,20 @@ public final class AnalyticsClient implements Closeable{
 		}
 	}
 	
-	public final void updateUserData(final String userId, final List<String> params) {
+	public final void updateUserData(final String userId, final Map<String, Object> params) {
 		if (params.isEmpty())
 			return;
 		
 		final AnalyticsUserData data = new AnalyticsUserData();
 		data.user_id = userId;
 		data.project_id = projectId;
-		final int len = params.size();
-		if (len < 2) {
-			data.param_1 = params.get(0);
-		}else if (len < 3) {
-			data.param_1 = params.get(0);
-			data.param_2 = params.get(1);
-		}else if (len < 4) {
-			data.param_1 = params.get(0);
-			data.param_2 = params.get(1);
-			data.param_3 = params.get(2);
-		}else if (len < 5) {
-			data.param_1 = params.get(0);
-			data.param_2 = params.get(1);
-			data.param_3 = params.get(2);
-			data.param_4 = params.get(3);
-		}else {
-			data.param_1 = params.get(0);
-			data.param_2 = params.get(1);
-			data.param_3 = params.get(2);
-			data.param_4 = params.get(3);
-			data.param_5 = params.get(4);
-		}
-		dataEndPoint.post("update", data, Response.class);
+		data.data = params;
+		run(new Runnable() {
+			@Override
+			public final void run() {
+				dataEndPoint.post("update", data, Response.class);
+			}
+		});
 	}
 	
 	public final TimeEventBuilder timeEvent(final String session, final String ip, final String type) {

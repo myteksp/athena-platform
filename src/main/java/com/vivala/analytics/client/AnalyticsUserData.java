@@ -1,5 +1,7 @@
 package com.vivala.analytics.client;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,20 +11,13 @@ public final class AnalyticsUserData {
 	public String project_id;
 	@JsonProperty(required=true)
 	public String user_id;
-	@JsonProperty(required=false)
-	public String param_1;
-	@JsonProperty(required=false)
-	public String param_2;
-	@JsonProperty(required=false)
-	public String param_3;
-	@JsonProperty(required=false)
-	public String param_4;
-	@JsonProperty(required=false)
-	public String param_5;
+	@JsonProperty(required=true)
+	public Map<String, Object> data;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((project_id == null) ? 0 : project_id.hashCode());
 		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		return result;
@@ -36,6 +31,11 @@ public final class AnalyticsUserData {
 		if (getClass() != obj.getClass())
 			return false;
 		final AnalyticsUserData other = (AnalyticsUserData) obj;
+		if (data == null) {
+			if (other.data != null)
+				return false;
+		} else if (!data.equals(other.data))
+			return false;
 		if (project_id == null) {
 			if (other.project_id != null)
 				return false;
@@ -50,8 +50,6 @@ public final class AnalyticsUserData {
 	}
 	@Override
 	public final String toString() {
-		return "AnalyticsUserData [project_id=" + project_id + ", user_id=" + user_id + ", param_1=" + param_1
-				+ ", param_2=" + param_2 + ", param_3=" + param_3 + ", param_4=" + param_4 + ", param_5=" + param_5
-				+ "]";
+		return "AnalyticsUserData [project_id=" + project_id + ", user_id=" + user_id + ", data=" + data + "]";
 	}
 }
