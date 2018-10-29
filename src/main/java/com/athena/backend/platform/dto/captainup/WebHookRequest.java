@@ -13,12 +13,14 @@ public final class WebHookRequest {
 	public Map<String, Curency> currencies;
 	public Map<String, Object> user_data;
 	public Map<String, Object> data;
+	public Map<String, Object> custom;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((app == null) ? 0 : app.hashCode());
 		result = prime * result + ((currencies == null) ? 0 : currencies.hashCode());
+		result = prime * result + ((custom == null) ? 0 : custom.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -44,6 +46,11 @@ public final class WebHookRequest {
 			if (other.currencies != null)
 				return false;
 		} else if (!currencies.equals(other.currencies))
+			return false;
+		if (custom == null) {
+			if (other.custom != null)
+				return false;
+		} else if (!custom.equals(other.custom))
 			return false;
 		if (data == null) {
 			if (other.data != null)
@@ -75,6 +82,7 @@ public final class WebHookRequest {
 	@Override
 	public final String toString() {
 		return "WebHookRequest [timestamp=" + timestamp + ", user=" + user + ", app=" + app + ", type=" + type
-				+ ", currencies=" + currencies + ", user_data=" + user_data + ", data=" + data + "]";
+				+ ", currencies=" + currencies + ", user_data=" + user_data + ", data=" + data + ", custom=" + custom
+				+ "]";
 	}
 }
