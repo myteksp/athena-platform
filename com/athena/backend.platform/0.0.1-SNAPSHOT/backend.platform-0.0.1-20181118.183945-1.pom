@@ -16,12 +16,13 @@
 		<appache.commons.version>3.7</appache.commons.version>
 		<object.version>0.0.1-SNAPSHOT</object.version>
 		<httpHelper.version>0.0.1-SNAPSHOT</httpHelper.version>
+		<collections.version>0.0.1-SNAPSHOT</collections.version>
 	</properties>
 
 	<repositories>
 		<repository>
-			<id>util.object-mvn-repo</id>
-			<url>https://raw.github.com/myteksp/util.object/mvn-repo/</url>
+			<id>collections-mvn-repo</id>
+			<url>https://raw.github.com/myteksp/collections/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
@@ -59,9 +60,9 @@
 			<version>${httpHelper.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.gf.util.object</groupId>
-			<artifactId>util.object</artifactId>
-			<version>${object.version}</version>
+			<groupId>com.gf</groupId>
+			<artifactId>collections</artifactId>
+			<version>${collections.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
