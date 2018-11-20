@@ -12,12 +12,10 @@ public final class UserDTO {
 	public Date lastLogin;
 	public LocationDTO location;
 	public UserProfileDTO profile;
-	public String cert;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cert == null) ? 0 : cert.hashCode());
 		result = prime * result + ((lastLogin == null) ? 0 : lastLogin.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -35,11 +33,6 @@ public final class UserDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		final UserDTO other = (UserDTO) obj;
-		if (cert == null) {
-			if (other.cert != null)
-				return false;
-		} else if (!cert.equals(other.cert))
-			return false;
 		if (lastLogin == null) {
 			if (other.lastLogin != null)
 				return false;
@@ -75,6 +68,6 @@ public final class UserDTO {
 	@Override
 	public final String toString() {
 		return "UserDTO [userId=" + userId + ", password=" + password + ", registered=" + registered + ", lastLogin="
-				+ lastLogin + ", location=" + location + ", profile=" + profile + ", cert=" + cert + "]";
+				+ lastLogin + ", location=" + location + ", profile=" + profile + "]";
 	}
 }
