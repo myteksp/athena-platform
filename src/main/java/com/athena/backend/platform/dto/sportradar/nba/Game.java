@@ -22,6 +22,7 @@ public final class Game {
 	public String leagueName;
 	public String leagueAlias;
 	public String periodType;
+	public String network;
 	
 	@Override
 	public final int hashCode() {
@@ -52,6 +53,6 @@ public final class Game {
 				+ ", home_points=" + home_points + ", away_points=" + away_points + ", home=" + home + ", away=" + away
 				+ ", quarter=" + quarter + ", clock=" + clock + ", clockRunning=" + clockRunning
 				+ ", timeLeftBeforeTheGame=" + timeLeftBeforeTheGame + ", leagueName=" + leagueName + ", leagueAlias="
-				+ leagueAlias + ", periodType=" + periodType + "]";
+				+ leagueAlias + ", periodType=" + periodType + ", network=" + network + "]";
 	}
 }
