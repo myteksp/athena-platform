@@ -1,9 +1,13 @@
 package com.athena.backend.platform.dto.general;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class RangeDTO {
 	public String id;
 	public int pageCount;
 	public int pageSize;
+	public long totalCount;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -11,6 +15,7 @@ public final class RangeDTO {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + pageCount;
 		result = prime * result + pageSize;
+		result = prime * result + (int) (totalCount ^ (totalCount >>> 32));
 		return result;
 	}
 	@Override
@@ -31,10 +36,13 @@ public final class RangeDTO {
 			return false;
 		if (pageSize != other.pageSize)
 			return false;
+		if (totalCount != other.totalCount)
+			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "RangeDTO [id=" + id + ", pageCount=" + pageCount + ", pageSize=" + pageSize + "]";
+		return "RangeDTO [id=" + id + ", pageCount=" + pageCount + ", pageSize=" + pageSize + ", totalCount="
+				+ totalCount + "]";
 	}
 }
