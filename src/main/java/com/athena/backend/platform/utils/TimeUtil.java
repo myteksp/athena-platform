@@ -8,11 +8,11 @@ import com.athena.backend.platform.dto.time.TimeEntity;
 
 public final class TimeUtil {
 	
-	public final String formatTime(final Date time) {
+	public static final String formatTime(final Date time) {
 		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(time);
 	}
 
-	public final String formatTime(final long time) {
+	public static final String formatTime(final long time) {
 		return formatTime(new Date(time));
 	}
 	
