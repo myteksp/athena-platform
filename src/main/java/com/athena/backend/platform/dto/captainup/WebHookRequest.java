@@ -2,6 +2,7 @@ package com.athena.backend.platform.dto.captainup;
 
 import java.util.Map;
 
+import com.athena.backend.platform.dto.achievments.Currency;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -10,7 +11,7 @@ public final class WebHookRequest {
 	public String user;
 	public String app;
 	public String type;
-	public Map<String, Curency> currencies;
+	public Map<String, Currency> currencies;
 	public Map<String, Object> user_data;
 	public Map<String, Object> data;
 	@Override

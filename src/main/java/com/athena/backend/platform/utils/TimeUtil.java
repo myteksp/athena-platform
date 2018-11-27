@@ -1,11 +1,25 @@
 package com.athena.backend.platform.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import com.athena.backend.platform.dto.time.TimeEntity;
 
 public final class TimeUtil {
+	
+	public final String formatTime(final Date time) {
+		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(time);
+	}
+
+	public final String formatTime(final long time) {
+		return formatTime(new Date(time));
+	}
+	
+	public final String formatTime(final TimeEntity time) {
+		return formatTime(time.timestamp);
+	}
+	
 	public static final String formatDay(final int dayOrMonth){
 		final int abs = Math.abs(dayOrMonth);
 		if (abs > 31)
