@@ -24,7 +24,17 @@ public final class User extends HashMap<String, Object>{
 	}
 	
 	public User() {}
-
+	
+	public final String getUserName() {
+		return (String)this.get("id");
+	}
+	public final String getUserId() {
+		return (String)this.get("name");
+	}
+	public final String getAvatarUrl() {
+		return (String)this.get("image");
+	}
+	
 	@Override
 	public final String toString() {
 		return JSON.toJson(this);
