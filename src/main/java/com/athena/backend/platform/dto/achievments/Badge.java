@@ -6,11 +6,13 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.gf.util.string.JSON;
 
 @JsonInclude(value=Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Badge {
 	public String id;
+	public String secret;
 	public boolean active;
 	public boolean visible;
 	public String name;
@@ -52,8 +54,6 @@ public final class Badge {
 	}
 	@Override
 	public final String toString() {
-		return "Badge [id=" + id + ", active=" + active + ", visible=" + visible + ", name=" + name + ", description="
-				+ description + ", popUpText=" + popUpText + ", custom_data=" + custom_data + ", rewards=" + rewards
-				+ ", segmentJS=" + segmentJS + ", conditionJS=" + conditionJS + "]";
+		return JSON.toJson(this);
 	}
 }
