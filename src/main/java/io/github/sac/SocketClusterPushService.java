@@ -223,6 +223,23 @@ public final class SocketClusterPushService implements Closeable{
 		});
 	}
 
+	
+	public final void sendToChannel(final String channel, final Object toSend) {
+		if (channel == null)
+			throw new NullPointerException("channel can't be null");
+		if (toSend == null)
+			throw new NullPointerException("toSend can't be null");
+		
+		final String id = UUID.randomUUID().toString();
+		final String payload = JSON.toJson(toSend);
+		not_sent.put(id, new Bundle(System.currentTimeMillis(), payload));
+		connection.publish(key, payload, new Ack() {
+			@Override
+			public final void call(final String name, final Object error, final Object data) {
+				not_sent.remove(id);
+			}
+		});
+	}
 
 	public final void broadcastMessage(final String topic, final Object toSend) {
 		if (toSend == null)
