@@ -22,6 +22,8 @@ public final class User extends HashMap<String, Object>{
 		GfCollections.asArrayCollection(data.entrySet())
 		.forEach(e->this.put(e.getKey(), e.getValue()));
 	}
+	
+	public User() {}
 
 	@Override
 	public final String toString() {

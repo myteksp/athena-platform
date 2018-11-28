@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public final class RegisterUserRequest {
 	public User user;
 	public String secret;
+	
+	public RegisterUserRequest() {}
+	
 	public RegisterUserRequest(final String secret, final String userId, final String userName, final String userAvatar, final Map<String, Object> data) {
 		this.secret = secret;
 		this.user = new User(userId, userName, userAvatar, data);
