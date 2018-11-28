@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,7 +40,8 @@ public final class SocketClusterPushService implements Closeable{
 	private final String socketClusterUrl;
 
 	private final ConcurrentLinkedQueue<MessageHandler> handlers;
-	
+	private final ScheduledFuture<?> unsent_schedule;
+
 	private final AtomicBoolean isConnected;
 
 	public SocketClusterPushService(
@@ -52,6 +54,7 @@ public final class SocketClusterPushService implements Closeable{
 			final String socketClusterUrl,
 			final String channel,
 			final long unsent_interval) {
+		unsent_schedule = null;
 		this.isConnected = new AtomicBoolean(true);
 		handlers = new ConcurrentLinkedQueue<MessageHandler>();
 		this.socketClusterUrl = socketClusterUrl;
@@ -69,6 +72,29 @@ public final class SocketClusterPushService implements Closeable{
 		});
 		this.init();
 		scheduler.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public final void run() {
+				checkUnsent();
+			}
+		}, unsent_interval * 2, unsent_interval, TimeUnit.MILLISECONDS);
+	}
+
+	public SocketClusterPushService(
+			final String socketClusterUrl,
+			final String channel,
+			final ScheduledExecutorService unsent_scheduler,
+			final long unsent_interval) {
+
+		this.isConnected = new AtomicBoolean(true);
+		handlers = new ConcurrentLinkedQueue<MessageHandler>();
+		this.socketClusterUrl = socketClusterUrl;
+		this.unsent_interval = unsent_interval;
+		this.key = channel;
+		this.connection = null;
+		this.not_sent = new ConcurrentHashMap<String, Bundle>(32);
+		this.scheduler = unsent_scheduler;
+		this.init();
+		unsent_schedule = scheduler.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public final void run() {
 				checkUnsent();
@@ -145,7 +171,7 @@ public final class SocketClusterPushService implements Closeable{
 						}
 					}
 				}
-			});;
+			});
 			GfCollections.asArrayCollection(not_sent.entrySet())
 			.action((c)->{not_sent.clear();})
 			.map((e)->e.getValue())
@@ -162,7 +188,15 @@ public final class SocketClusterPushService implements Closeable{
 	@Override
 	public final void close() throws IOException {
 		isConnected.set(false);
-		scheduler.shutdownNow();
+		try {
+			if (unsent_schedule == null) {
+				scheduler.shutdownNow();
+			}else {
+				unsent_schedule.cancel(true);
+			}
+		}catch(final Throwable t) {
+			t.printStackTrace();
+		}
 		not_sent.clear();
 		connection.disconnect();
 	}
