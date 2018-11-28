@@ -14,25 +14,30 @@ import com.gf.util.string.JSON;
 public final class User extends HashMap<String, Object>{
 	private static final long serialVersionUID = 3221820175990740115L;
 	
+	public static final String USER_ID = "id";
+	public static final String USER_NAME = "name";
+	public static final String USER_AVATAR = "image";
+	
+	
 	public User(final String userId, final String userName, final String userAvatar, final Map<String, Object> data) {
 		super( 5 + data.size() );
-		this.put("id", userId);
-		this.put("name", userName);
-		this.put("image", userAvatar);
+		this.put(USER_ID, userId);
+		this.put(USER_NAME, userName);
+		this.put(USER_AVATAR, userAvatar);
 		GfCollections.asArrayCollection(data.entrySet())
 		.forEach(e->this.put(e.getKey(), e.getValue()));
 	}
 	
 	public User() {}
 	
-	public final String getUserName() {
-		return (String)this.get("id");
-	}
 	public final String getUserId() {
-		return (String)this.get("name");
+		return (String)this.get(USER_ID);
+	}
+	public final String getUserName() {
+		return (String)this.get(USER_NAME);
 	}
 	public final String getAvatarUrl() {
-		return (String)this.get("image");
+		return (String)this.get(USER_AVATAR);
 	}
 	
 	@Override
