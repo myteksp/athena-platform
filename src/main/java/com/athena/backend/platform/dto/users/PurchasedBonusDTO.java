@@ -2,7 +2,6 @@ package com.athena.backend.platform.dto.users;
 
 import java.util.Date;
 
-import com.athena.backend.platform.dto.users.PurchaseDTO.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gf.util.string.JSON;
 
@@ -10,7 +9,7 @@ import com.gf.util.string.JSON;
 public final class PurchasedBonusDTO {
 	public String id;
 	public String purchaseId;
-	public Type type;
+	public Status status;
 	public int clock;
 	public String gameId;
 	public String playerId;
