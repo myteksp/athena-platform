@@ -9,6 +9,7 @@ import com.gf.util.string.JSON;
 public final class PurchasedBonusDTO {
 	public String id;
 	public String purchaseId;
+	public String userId;
 	public Status status;
 	public int clock;
 	public String gameId;
