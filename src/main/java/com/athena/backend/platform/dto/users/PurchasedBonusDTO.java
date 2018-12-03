@@ -14,6 +14,7 @@ public final class PurchasedBonusDTO {
 	public int clock;
 	public String gameId;
 	public String playerId;
+	public PurchaseDTO.Type type;
 	
 	public Date activatedAt;
 	public Date endedAt;
