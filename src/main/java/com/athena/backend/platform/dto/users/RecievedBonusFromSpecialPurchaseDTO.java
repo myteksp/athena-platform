@@ -11,6 +11,7 @@ public final class RecievedBonusFromSpecialPurchaseDTO {
 	public Type type;
 	public int amount;
 	public String gameId;
+	public long created;
 	public boolean addedToRank;
 	@Override
 	public final int hashCode() {
@@ -38,7 +39,7 @@ public final class RecievedBonusFromSpecialPurchaseDTO {
 	@Override
 	public final String toString() {
 		return "RecievedBonusFromSpecialPurchaseDTO [id=" + id + ", userId=" + userId + ", associatedBetId="
-				+ associatedBetId + ", type=" + type + ", amount=" + amount + ", gameId=" + gameId + ", addedToRank="
-				+ addedToRank + "]";
+				+ associatedBetId + ", type=" + type + ", amount=" + amount + ", gameId=" + gameId + ", created="
+				+ created + ", addedToRank=" + addedToRank + "]";
 	}
 }
