@@ -14,21 +14,29 @@ public final class SpecialPurchaseRequestDTO {
 	@JsonProperty(required=true)
 	public String gameId;
 	
+	@JsonProperty(required=true)
+	public int amount;
+	
 	@JsonProperty(required=false)
 	public String playerId;
 	
 	@JsonProperty(required=true)
 	public double money;
 	
+	@JsonProperty(required=true)
+	public String transaction;
+
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + amount;
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(money);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
+		result = prime * result + ((transaction == null) ? 0 : transaction.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
@@ -42,6 +50,8 @@ public final class SpecialPurchaseRequestDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		final SpecialPurchaseRequestDTO other = (SpecialPurchaseRequestDTO) obj;
+		if (amount != other.amount)
+			return false;
 		if (gameId == null) {
 			if (other.gameId != null)
 				return false;
@@ -54,6 +64,11 @@ public final class SpecialPurchaseRequestDTO {
 				return false;
 		} else if (!playerId.equals(other.playerId))
 			return false;
+		if (transaction == null) {
+			if (other.transaction != null)
+				return false;
+		} else if (!transaction.equals(other.transaction))
+			return false;
 		if (type != other.type)
 			return false;
 		if (userId == null) {
@@ -65,9 +80,10 @@ public final class SpecialPurchaseRequestDTO {
 	}
 	@Override
 	public final String toString() {
-		return "SpecialPurchaseRequestDTO [userId=" + userId + ", type=" + type + ", gameId=" + gameId + ", playerId="
-				+ playerId + ", money=" + money + "]";
+		return "SpecialPurchaseRequestDTO [userId=" + userId + ", type=" + type + ", gameId=" + gameId + ", amount="
+				+ amount + ", playerId=" + playerId + ", money=" + money + ", transaction=" + transaction + "]";
 	}
+
 
 
 	public static enum Type{
