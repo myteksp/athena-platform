@@ -1,24 +1,18 @@
 package com.athena.backend.platform.dto.users;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gf.collections.tuples.Tuple2;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class SpecialPurchaseRequestDTO {
 	@JsonProperty(required=true)
-	public String userId;
-	
-	@JsonProperty(required=true)
 	public Type type;
 	
 	@JsonProperty(required=true)
-	public String gameId;
-	
-	@JsonProperty(required=true)
-	public int amount;
-	
-	@JsonProperty(required=false)
-	public String playerId;
+	public List<Tuple2<Type, Integer>> amount;
 	
 	@JsonProperty(required=true)
 	public double money;
@@ -30,15 +24,12 @@ public final class SpecialPurchaseRequestDTO {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + amount;
-		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
+		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(money);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
 		result = prime * result + ((transaction == null) ? 0 : transaction.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 	@Override
@@ -49,20 +40,13 @@ public final class SpecialPurchaseRequestDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SpecialPurchaseRequestDTO other = (SpecialPurchaseRequestDTO) obj;
-		if (amount != other.amount)
-			return false;
-		if (gameId == null) {
-			if (other.gameId != null)
+		SpecialPurchaseRequestDTO other = (SpecialPurchaseRequestDTO) obj;
+		if (amount == null) {
+			if (other.amount != null)
 				return false;
-		} else if (!gameId.equals(other.gameId))
+		} else if (!amount.equals(other.amount))
 			return false;
 		if (Double.doubleToLongBits(money) != Double.doubleToLongBits(other.money))
-			return false;
-		if (playerId == null) {
-			if (other.playerId != null)
-				return false;
-		} else if (!playerId.equals(other.playerId))
 			return false;
 		if (transaction == null) {
 			if (other.transaction != null)
@@ -71,19 +55,13 @@ public final class SpecialPurchaseRequestDTO {
 			return false;
 		if (type != other.type)
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "SpecialPurchaseRequestDTO [userId=" + userId + ", type=" + type + ", gameId=" + gameId + ", amount="
-				+ amount + ", playerId=" + playerId + ", money=" + money + ", transaction=" + transaction + "]";
+		return "SpecialPurchaseRequestDTO [type=" + type + ", amount=" + amount + ", money=" + money + ", transaction="
+				+ transaction + "]";
 	}
-
 
 
 	public static enum Type{
