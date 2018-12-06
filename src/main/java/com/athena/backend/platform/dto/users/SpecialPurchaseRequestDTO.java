@@ -12,7 +12,7 @@ public final class SpecialPurchaseRequestDTO {
 	public Type type;
 	
 	@JsonProperty(required=true)
-	public List<Tuple2<Type, Integer>> amount;
+	public List<Tuple2<com.athena.backend.platform.dto.users.PurchaseDTO.Type, Integer>> amount;
 	
 	@JsonProperty(required=true)
 	public double money;
