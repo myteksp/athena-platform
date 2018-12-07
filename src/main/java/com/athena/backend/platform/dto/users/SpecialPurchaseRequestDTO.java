@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gf.collections.tuples.Tuple2;
+import com.gf.collections.tuples.MutableTuple2;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class SpecialPurchaseRequestDTO {
@@ -12,7 +12,7 @@ public final class SpecialPurchaseRequestDTO {
 	public Type type;
 	
 	@JsonProperty(required=true)
-	public List<Tuple2<com.athena.backend.platform.dto.users.PurchaseDTO.Type, Integer>> amount;
+	public List<MutableTuple2<com.athena.backend.platform.dto.users.PurchaseDTO.Type, Integer>> amount;
 	
 	@JsonProperty(required=true)
 	public double money;
