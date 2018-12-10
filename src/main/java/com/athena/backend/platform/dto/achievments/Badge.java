@@ -16,6 +16,7 @@ public final class Badge {
 	public String secret;
 	public boolean active;
 	public boolean visible;
+	public boolean repeatable;
 	public String name;
 	public String description;
 	public String popUpText;
