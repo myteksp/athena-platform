@@ -24,7 +24,8 @@ public final class Badge {
 	public List<Currency> rewards;
 	public String segmentJS;
 	public String conditionJS;
-	
+
+
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
