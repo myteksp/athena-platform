@@ -1,20 +1,25 @@
 package com.athena.backend.platform.dto.users;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gf.collections.tuples.MutableTuple2;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class SpecialPurchaseDescriptorDTO {
 	public SpecialPurchaseRequestDTO.Type type;
-	public int amount;
-	public Integer gain;
-	public Integer minutes;
+	public String description;
+	public double price;
+	public List<MutableTuple2<PurchaseDTO.Type, Integer>> amounts;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + amount;
-		result = prime * result + ((gain == null) ? 0 : gain.hashCode());
-		result = prime * result + ((minutes == null) ? 0 : minutes.hashCode());
+		result = prime * result + ((amounts == null) ? 0 : amounts.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -27,17 +32,17 @@ public final class SpecialPurchaseDescriptorDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		final SpecialPurchaseDescriptorDTO other = (SpecialPurchaseDescriptorDTO) obj;
-		if (amount != other.amount)
-			return false;
-		if (gain == null) {
-			if (other.gain != null)
+		if (amounts == null) {
+			if (other.amounts != null)
 				return false;
-		} else if (!gain.equals(other.gain))
+		} else if (!amounts.equals(other.amounts))
 			return false;
-		if (minutes == null) {
-			if (other.minutes != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!minutes.equals(other.minutes))
+		} else if (!description.equals(other.description))
+			return false;
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
 		if (type != other.type)
 			return false;
@@ -45,7 +50,7 @@ public final class SpecialPurchaseDescriptorDTO {
 	}
 	@Override
 	public final String toString() {
-		return "SpecialPurchaseDescriptorDTO [type=" + type + ", amount=" + amount + ", gain=" + gain + ", minutes="
-				+ minutes + "]";
+		return "SpecialPurchaseDescriptorDTO [type=" + type + ", description=" + description + ", price=" + price
+				+ ", amounts=" + amounts + "]";
 	}
 }
