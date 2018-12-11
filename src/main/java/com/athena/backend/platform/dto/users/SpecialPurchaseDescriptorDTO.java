@@ -8,7 +8,6 @@ import com.gf.collections.tuples.MutableTuple3;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class SpecialPurchaseDescriptorDTO {
 	public SpecialPurchaseRequestDTO.Type type;
-	public String description;
 	public double price;
 	public List<MutableTuple3<PurchaseDTO.Type, Integer, Integer>> amounts;
 	@Override
@@ -16,7 +15,6 @@ public final class SpecialPurchaseDescriptorDTO {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((amounts == null) ? 0 : amounts.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -37,11 +35,6 @@ public final class SpecialPurchaseDescriptorDTO {
 				return false;
 		} else if (!amounts.equals(other.amounts))
 			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
 		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
 		if (type != other.type)
@@ -50,7 +43,6 @@ public final class SpecialPurchaseDescriptorDTO {
 	}
 	@Override
 	public final String toString() {
-		return "SpecialPurchaseDescriptorDTO [type=" + type + ", description=" + description + ", price=" + price
-				+ ", amounts=" + amounts + "]";
+		return "SpecialPurchaseDescriptorDTO [type=" + type + ", price=" + price + ", amounts=" + amounts + "]";
 	}
 }
