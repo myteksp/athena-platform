@@ -1,20 +1,29 @@
 package com.athena.backend.platform.dto.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(value=Include.NON_NULL)
 public final class UserXpDTO {
 	public final int xp;
 	public final String title;
 	public final int exchangeValue;
 	public final long xp_left_before_next_title;
-	
+
 	public UserXpDTO(
 			final int xp, 
 			final String title,
 			final int exchangeValue,
-			final long xp_left_before_next_title) {
+			final Long xp_left_before_next_title) {
 		this.xp = xp;
 		this.title = title;
 		this.exchangeValue = exchangeValue;
-		this.xp_left_before_next_title = xp_left_before_next_title;
+		if (xp_left_before_next_title == null)
+			this.xp_left_before_next_title = -1l;
+		else
+			this.xp_left_before_next_title = xp_left_before_next_title;
 	}
 	@Override
 	public final int hashCode() {
