@@ -4,14 +4,17 @@ public final class UserXpDTO {
 	public final int xp;
 	public final String title;
 	public final int exchangeValue;
+	public final long xp_left_before_next_title;
 	
 	public UserXpDTO(
 			final int xp, 
 			final String title,
-			final int exchangeValue) {
+			final int exchangeValue,
+			final long xp_left_before_next_title) {
 		this.xp = xp;
 		this.title = title;
 		this.exchangeValue = exchangeValue;
+		this.xp_left_before_next_title = xp_left_before_next_title;
 	}
 	@Override
 	public final int hashCode() {
@@ -20,6 +23,7 @@ public final class UserXpDTO {
 		result = prime * result + exchangeValue;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + xp;
+		result = prime * result + (int) (xp_left_before_next_title ^ (xp_left_before_next_title >>> 32));
 		return result;
 	}
 	@Override
@@ -40,10 +44,13 @@ public final class UserXpDTO {
 			return false;
 		if (xp != other.xp)
 			return false;
+		if (xp_left_before_next_title != other.xp_left_before_next_title)
+			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "UserXpDTO [xp=" + xp + ", title=" + title + ", exchangeValue=" + exchangeValue + "]";
+		return "UserXpDTO [xp=" + xp + ", title=" + title + ", exchangeValue=" + exchangeValue
+				+ ", xp_left_before_next_title=" + xp_left_before_next_title + "]";
 	}
 }
