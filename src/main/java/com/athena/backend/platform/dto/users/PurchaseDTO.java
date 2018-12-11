@@ -1,6 +1,8 @@
 package com.athena.backend.platform.dto.users;
 
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gf.util.string.JSON;
 
@@ -10,6 +12,7 @@ public final class PurchaseDTO {
 	public Type type;
 	public String userId;
 	public int amount;
+	public Map<String, Object> data;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
