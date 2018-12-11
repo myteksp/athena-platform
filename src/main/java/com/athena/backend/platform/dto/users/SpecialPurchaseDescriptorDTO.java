@@ -3,14 +3,14 @@ package com.athena.backend.platform.dto.users;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.gf.collections.tuples.MutableTuple2;
+import com.gf.collections.tuples.MutableTuple3;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class SpecialPurchaseDescriptorDTO {
 	public SpecialPurchaseRequestDTO.Type type;
 	public String description;
 	public double price;
-	public List<MutableTuple2<PurchaseDTO.Type, Integer>> amounts;
+	public List<MutableTuple3<PurchaseDTO.Type, Integer, Integer>> amounts;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -24,7 +24,7 @@ public final class SpecialPurchaseDescriptorDTO {
 		return result;
 	}
 	@Override
-	public final boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
