@@ -8,6 +8,7 @@ import com.gf.util.string.JSON;
 public final class RecievedBonusFromSpecialPurchaseDTO {
 	public String id;
 	public String userId;
+	public String actiavtedItemId;
 	public String associatedBetId;
 	public Type type;
 	public int amount;
