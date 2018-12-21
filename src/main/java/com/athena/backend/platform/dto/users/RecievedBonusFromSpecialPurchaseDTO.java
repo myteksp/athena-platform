@@ -2,6 +2,7 @@ package com.athena.backend.platform.dto.users;
 
 import com.athena.backend.platform.dto.users.PurchaseDTO.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gf.util.string.JSON;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class RecievedBonusFromSpecialPurchaseDTO {
@@ -13,12 +14,11 @@ public final class RecievedBonusFromSpecialPurchaseDTO {
 	public String gameId;
 	public long created;
 	public boolean addedToRank;
+	public String playerName;
+	public String playerJersey;
 	@Override
 	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return this.toString().hashCode();
 	}
 	@Override
 	public final boolean equals(final Object obj) {
@@ -29,17 +29,10 @@ public final class RecievedBonusFromSpecialPurchaseDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		final RecievedBonusFromSpecialPurchaseDTO other = (RecievedBonusFromSpecialPurchaseDTO) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return this.toString().equals(other.toString());
 	}
 	@Override
 	public final String toString() {
-		return "RecievedBonusFromSpecialPurchaseDTO [id=" + id + ", userId=" + userId + ", associatedBetId="
-				+ associatedBetId + ", type=" + type + ", amount=" + amount + ", gameId=" + gameId + ", created="
-				+ created + ", addedToRank=" + addedToRank + "]";
+		return JSON.toJson(this);
 	}
 }

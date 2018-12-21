@@ -1,15 +1,21 @@
 package com.athena.backend.platform.dto.users;
 
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.gf.util.string.JSON;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(value=Include.NON_NULL)
 public final class PurchaseDTO {
 	public String id;
 	public Type type;
 	public String userId;
 	public int amount;
+	public Map<String, Object> data;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
