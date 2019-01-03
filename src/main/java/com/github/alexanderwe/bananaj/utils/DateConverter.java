@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
  * Created by alexanderweiss on 27.12.16.
  */
 public class DateConverter {
-
     private static DateConverter instance = null;
 
     protected DateConverter () {
