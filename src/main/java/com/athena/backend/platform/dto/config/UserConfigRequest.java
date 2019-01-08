@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.gf.util.string.JSON;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(value=Include.NON_NULL)
 public final class UserConfigRequest {
 	public String appId;
 	public String userId;
 	public Map<String, List<String>> headers;
+	public Map<String, Object> optionalUserData;
 	
 	@Override
 	public final int hashCode() {
