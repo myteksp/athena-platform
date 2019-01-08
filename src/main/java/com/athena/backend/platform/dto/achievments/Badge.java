@@ -12,7 +12,7 @@ import com.gf.util.string.JSON;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Badge {
 	public String id;
-	public String type;
+	public BadgeType type;
 	public String secret;
 	public boolean active;
 	public boolean visible;
