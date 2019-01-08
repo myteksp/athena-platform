@@ -8,10 +8,12 @@ import com.gf.util.string.JSON;
 public final class RecievedBonusFromSpecialPurchaseDTO {
 	public String id;
 	public String userId;
+	public String actiavtedItemId;
 	public String associatedBetId;
 	public Type type;
 	public int amount;
 	public String gameId;
+	public String inGameTime;
 	public long created;
 	public boolean addedToRank;
 	public String playerName;
