@@ -43,6 +43,7 @@ public final class User extends HashMap<String, Object>{
 	public final String getAvatarUrl() {
 		return (String)this.get(USER_AVATAR);
 	}
+	@SuppressWarnings("unchecked")
 	public final List<String> getUserBadges() {
 		return (List<String>) this.get(USER_BADGES);
 	}
