@@ -25,8 +25,10 @@ public class Reward {
 
     public final double progress;
 
+    public final boolean isRead;
+
     public Reward(String id, Badge badge, boolean claimed, LocalDateTime generatedTime, LocalDateTime claimedTime,
-            List<Currency> amount, double progress) {
+            List<Currency> amount, double progress, boolean isRead) {
         this.id = id;
         this.badge = badge;
         this.claimed = claimed;
@@ -34,6 +36,7 @@ public class Reward {
         this.claimedTime = claimedTime;
         this.amount = amount;
         this.progress = progress;
+        this.isRead = isRead;
     }
 
     @Override

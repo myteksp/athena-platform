@@ -24,7 +24,7 @@ public final class Badge {
 	public List<Currency> rewards;
 	public String segmentJS;
 	public String conditionJS;
-	public boolean isRead;
+
 
 	@Override
 	public final int hashCode() {
