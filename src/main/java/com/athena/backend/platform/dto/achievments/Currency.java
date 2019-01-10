@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import java.util.Objects;
+
 @JsonInclude(value=Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Currency {
-	public String name;
+	public CurrencyType type;
 	public int amount;
 	public Integer amount_received;
 	public Double multiplier;
@@ -17,48 +19,32 @@ public final class Currency {
 	public Currency(final int amount) {
 		this.amount = amount;
 	}
-	
+
 	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + amount;
-		result = prime * result + ((amount_received == null) ? 0 : amount_received.hashCode());
-		result = prime * result + ((multiplier == null) ? 0 : multiplier.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-	@Override
-	public final boolean equals(final Object obj) {
-		if (this == obj)
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		if (obj == null)
+		if (o == null || getClass() != o.getClass())
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final Currency other = (Currency) obj;
-		if (amount != other.amount)
-			return false;
-		if (amount_received == null) {
-			if (other.amount_received != null)
-				return false;
-		} else if (!amount_received.equals(other.amount_received))
-			return false;
-		if (multiplier == null) {
-			if (other.multiplier != null)
-				return false;
-		} else if (!multiplier.equals(other.multiplier))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
+		Currency currency = (Currency) o;
+		return amount == currency.amount &&
+				type == currency.type &&
+				Objects.equals(amount_received, currency.amount_received) &&
+				Objects.equals(multiplier, currency.multiplier);
 	}
+
 	@Override
-	public final String toString() {
-		return "Currency [name=" + name + ", amount=" + amount + ", amount_received=" + amount_received
-				+ ", multiplier=" + multiplier + "]";
+	public int hashCode() {
+		return Objects.hash(type, amount, amount_received, multiplier);
+	}
+
+	@Override
+	public String toString() {
+		return "Currency{" +
+				"type=" + type +
+				", amount=" + amount +
+				", amount_received=" + amount_received +
+				", multiplier=" + multiplier +
+				'}';
 	}
 }

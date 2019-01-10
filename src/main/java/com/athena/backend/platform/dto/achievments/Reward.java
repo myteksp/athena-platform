@@ -17,9 +17,11 @@ public class Reward {
 
     public final boolean claimed;
 
-    public final LocalDateTime generatedTime;
+    public final long generatedTime;
 
-    public final LocalDateTime claimedTime;
+    public final long claimedTime;
+
+    public final long completedTime;
 
     public final List<Currency> amount;
 
@@ -27,13 +29,14 @@ public class Reward {
 
     public final boolean isRead;
 
-    public Reward(String id, Badge badge, boolean claimed, LocalDateTime generatedTime, LocalDateTime claimedTime,
+    public Reward(String id, Badge badge, boolean claimed, long generatedTime, long claimedTime, long completedTime,
             List<Currency> amount, double progress, boolean isRead) {
         this.id = id;
         this.badge = badge;
         this.claimed = claimed;
         this.generatedTime = generatedTime;
         this.claimedTime = claimedTime;
+        this.completedTime = completedTime;
         this.amount = amount;
         this.progress = progress;
         this.isRead = isRead;
@@ -48,16 +51,18 @@ public class Reward {
         Reward reward = (Reward) o;
         return claimed == reward.claimed &&
                 Double.compare(reward.progress, progress) == 0 &&
+                isRead == reward.isRead &&
                 Objects.equals(id, reward.id) &&
                 Objects.equals(badge, reward.badge) &&
                 Objects.equals(generatedTime, reward.generatedTime) &&
                 Objects.equals(claimedTime, reward.claimedTime) &&
+                Objects.equals(completedTime, reward.completedTime) &&
                 Objects.equals(amount, reward.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, badge, claimed, generatedTime, claimedTime, amount, progress);
+        return Objects.hash(id, badge, claimed, generatedTime, claimedTime, completedTime, amount, progress, isRead);
     }
 
     @Override
@@ -68,8 +73,10 @@ public class Reward {
                 ", claimed=" + claimed +
                 ", generatedTime=" + generatedTime +
                 ", claimedTime=" + claimedTime +
+                ", completedTime=" + completedTime +
                 ", amount=" + amount +
                 ", progress=" + progress +
+                ", isRead=" + isRead +
                 '}';
     }
 }

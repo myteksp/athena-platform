@@ -14,8 +14,8 @@ public final class Badge {
 	public String id;
 	public BadgeType type;
 	public String secret;
-	public boolean active;
-	public boolean visible;
+	public Boolean active;
+	public boolean isProgressVisible;
 	public boolean repeatable;
 	public String name;
 	public String description;
@@ -24,6 +24,7 @@ public final class Badge {
 	public List<Currency> rewards;
 	public String segmentJS;
 	public String conditionJS;
+	public String url;
 
 
 	@Override
