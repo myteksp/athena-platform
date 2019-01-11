@@ -3,7 +3,6 @@ package com.athena.backend.platform.dto.achievments;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
