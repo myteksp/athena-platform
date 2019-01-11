@@ -36,6 +36,6 @@ public final class InviteToGroupLinkDTO {
 	}
 	@Override
 	public final String toString() {
-		return "InviteToGroupLinkDTO [imageUrl=" + url + "]";
+		return "InviteToGroupLinkDTO [url=" + url + "]";
 	}
 }

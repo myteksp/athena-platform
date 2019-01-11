@@ -154,7 +154,7 @@ public class Template extends MailchimpObject  {
 	public String toString(){
 		return "Name: " + this.getId() + "-" + this.getTemplateName() + System.lineSeparator() +
 				"Type: " + this.getTemplateType().getStringRepresentation() + System.lineSeparator() +
-				"Share imageUrl: "+  this.getShareUrl() +  System.lineSeparator()+
+				"Share url: "+  this.getShareUrl() +  System.lineSeparator()+
 				"Date created: " + this.getDateCreated() + System.lineSeparator();
 	}
 
