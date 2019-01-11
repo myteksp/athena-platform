@@ -24,7 +24,7 @@ public final class Badge {
 	public List<Currency> rewards;
 	public String segmentJS;
 	public String conditionJS;
-	public String url;
+	public String imageUrl;
 
 
 	@Override
