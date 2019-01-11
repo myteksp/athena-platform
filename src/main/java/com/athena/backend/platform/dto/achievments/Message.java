@@ -57,7 +57,7 @@ public final class Message {
 		INBOX, PUSH, MAIL
 	}
 	public static enum Status{
-		SENT, OPENED
+		SENT, OPENED, FAILED
 	}
 
 	@Override
