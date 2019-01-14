@@ -63,6 +63,7 @@ public final class Message {
 		SENT, OPENED, FAILED
 	}
 
+	
 	@Override
 	public final int hashCode() {
 		return this.hashCode();
