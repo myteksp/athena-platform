@@ -3,6 +3,7 @@ package com.athena.backend.platform.dto.achievments;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,8 @@ public final class Message {
 	public Status status;
 	public String title;
 	public String body;
+	public Date sent;
+	public Date opened;
 	public volatile boolean encoded = false;
 
 	public final Message encodeTitleAndBody() {
