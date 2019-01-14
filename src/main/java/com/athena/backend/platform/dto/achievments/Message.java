@@ -21,7 +21,7 @@ public final class Message {
 	public Status status;
 	public String title;
 	public String body;
-	public boolean encoded = false;
+	public volatile boolean encoded = false;
 
 	public final Message encodeTitleAndBody() {
 		if (encoded)
