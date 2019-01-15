@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -26,6 +27,7 @@ public final class Message {
 	public Date opened;
 	public String postBackUrl;
 	public String deepLink;
+	public List<String> errors;
 	public volatile boolean encoded = false;
 
 	public final Message encodeTitleAndBody() {
