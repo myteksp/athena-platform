@@ -60,7 +60,7 @@ public final class Message {
 		INBOX, PUSH, MAIL
 	}
 	public static enum Status{
-		SENT, OPENED, FAILED
+		SENT, PENDING, OPENED, FAILED
 	}
 
 	
