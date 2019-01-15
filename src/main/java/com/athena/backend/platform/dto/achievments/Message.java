@@ -24,6 +24,7 @@ public final class Message {
 	public String body;
 	public Date sent;
 	public Date opened;
+	public String postBackUrl;
 	public volatile boolean encoded = false;
 
 	public final Message encodeTitleAndBody() {
