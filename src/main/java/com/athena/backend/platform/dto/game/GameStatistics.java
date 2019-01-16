@@ -2,14 +2,12 @@ package com.athena.backend.platform.dto.game;
 
 public final class GameStatistics {
 	public String gameId;
-	public String score;
-	
+	public String scoreStr;
+	public int totalGameScore;
 	public Team home;
 	public Team away;
 	public Team winningTeam;
-	
 	public Player bestScorer;
-	
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -18,7 +16,8 @@ public final class GameStatistics {
 		result = prime * result + ((bestScorer == null) ? 0 : bestScorer.hashCode());
 		result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
 		result = prime * result + ((home == null) ? 0 : home.hashCode());
-		result = prime * result + ((score == null) ? 0 : score.hashCode());
+		result = prime * result + ((scoreStr == null) ? 0 : scoreStr.hashCode());
+		result = prime * result + totalGameScore;
 		result = prime * result + ((winningTeam == null) ? 0 : winningTeam.hashCode());
 		return result;
 	}
@@ -51,10 +50,12 @@ public final class GameStatistics {
 				return false;
 		} else if (!home.equals(other.home))
 			return false;
-		if (score == null) {
-			if (other.score != null)
+		if (scoreStr == null) {
+			if (other.scoreStr != null)
 				return false;
-		} else if (!score.equals(other.score))
+		} else if (!scoreStr.equals(other.scoreStr))
+			return false;
+		if (totalGameScore != other.totalGameScore)
 			return false;
 		if (winningTeam == null) {
 			if (other.winningTeam != null)
@@ -65,11 +66,11 @@ public final class GameStatistics {
 	}
 	@Override
 	public final String toString() {
-		return "GameStatistics [gameId=" + gameId + ", score=" + score + ", home=" + home + ", away=" + away
-				+ ", winningTeam=" + winningTeam + ", bestScorer=" + bestScorer + "]";
+		return "GameStatistics [gameId=" + gameId + ", scoreStr=" + scoreStr + ", totalGameScore=" + totalGameScore
+				+ ", home=" + home + ", away=" + away + ", winningTeam=" + winningTeam + ", bestScorer=" + bestScorer
+				+ "]";
 	}
 
-	
 	public static final class Player{
 		public String id;
 		public String name;
