@@ -98,7 +98,7 @@ public final class Message {
 	}
 	
 	public static enum BodyType{
-		TEXT, HTML, URL
+		TEXT, HTML, TEMPLET, URL
 	}
 
 	
