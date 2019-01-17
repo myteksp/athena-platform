@@ -61,6 +61,12 @@ public final class MessagingCampaign {
 	@JsonProperty(required=false)
 	public Long scheduledCount;
 	
+	@JsonProperty(required=false)
+	public Long created;
+	
+	@JsonProperty(required=false)
+	public Long edited;
+	
 	public static enum Type{
 		REACTIVE, INSTANT
 	}
