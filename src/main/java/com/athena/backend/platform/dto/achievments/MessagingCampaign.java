@@ -23,7 +23,7 @@ public final class MessagingCampaign {
 	@JsonProperty(required=true)
 	public Type type;
 
-	@JsonProperty(required=true)
+	@JsonProperty(required=false)
 	public Status status;
 
 	@JsonProperty(required=true)
