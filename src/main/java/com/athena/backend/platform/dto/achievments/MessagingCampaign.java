@@ -73,9 +73,6 @@ public final class MessagingCampaign {
 	public Long edited;
 
 	@JsonProperty(required=false)
-	public Boolean inProcess;
-
-	@JsonProperty(required=false)
 	public Long targetAudience;
 
 	public static enum Type{
