@@ -1,5 +1,7 @@
 package com.athena.backend.platform.dto.achievments;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -46,7 +48,7 @@ public final class MessagingCampaign {
 	public String reactiveScript;
 
 	@JsonProperty(required=false)
-	public String userId;
+	public List<String> userId;
 
 
 	@JsonProperty(required=false)
