@@ -45,6 +45,9 @@ public final class MessagingCampaign {
 	@JsonProperty(required=false)
 	public String reactiveScript;
 	
+	@JsonProperty(required=false)
+	public String userId;
+	
 	
 	@JsonProperty(required=false)
 	public Long sent;
@@ -68,7 +71,7 @@ public final class MessagingCampaign {
 	public Long edited;
 	
 	public static enum Type{
-		REACTIVE, INSTANT
+		REACTIVE, INSTANT, USER
 	}
 	
 	public static enum Status{
