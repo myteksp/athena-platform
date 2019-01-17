@@ -37,6 +37,9 @@ public final class Message {
 	public String body;
 	
 	@JsonProperty(required=false)
+	public BodyType bodyType;
+	
+	@JsonProperty(required=false)
 	public Date sent;
 	
 	@JsonProperty(required=false)
@@ -92,6 +95,10 @@ public final class Message {
 	}
 	public static enum Status{
 		SENT, PENDING, OPENED, FAILED
+	}
+	
+	public static enum BodyType{
+		TEXT, HTML, URL
 	}
 
 	
