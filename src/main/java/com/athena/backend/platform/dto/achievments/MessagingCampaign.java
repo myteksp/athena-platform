@@ -74,6 +74,9 @@ public final class MessagingCampaign {
 
 	@JsonProperty(required=false)
 	public Long targetAudience;
+	
+	@JsonProperty(required=false)
+	public String lastError;
 
 	public static enum Type{
 		REACTIVE, INSTANT, USER
