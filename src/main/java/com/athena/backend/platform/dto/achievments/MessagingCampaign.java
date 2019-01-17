@@ -11,6 +11,9 @@ public final class MessagingCampaign {
 	@JsonProperty(required=false)
 	public String id;
 	
+	@JsonProperty(required=false)
+	public String application;
+	
 	@JsonProperty(required=true)
 	public String name;
 	
@@ -63,6 +66,7 @@ public final class MessagingCampaign {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((application == null) ? 0 : application.hashCode());
 		result = prime * result + ((failed == null) ? 0 : failed.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((messageBody == null) ? 0 : messageBody.hashCode());
@@ -79,6 +83,7 @@ public final class MessagingCampaign {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
+
 	@Override
 	public final boolean equals(final Object obj) {
 		if (this == obj)
@@ -88,6 +93,11 @@ public final class MessagingCampaign {
 		if (getClass() != obj.getClass())
 			return false;
 		final MessagingCampaign other = (MessagingCampaign) obj;
+		if (application == null) {
+			if (other.application != null)
+				return false;
+		} else if (!application.equals(other.application))
+			return false;
 		if (failed == null) {
 			if (other.failed != null)
 				return false;
@@ -147,10 +157,10 @@ public final class MessagingCampaign {
 	}
 	@Override
 	public final String toString() {
-		return "MessagingCampaign [id=" + id + ", name=" + name + ", type=" + type + ", status=" + status
-				+ ", messageType=" + messageType + ", messageBodyType=" + messageBodyType + ", messageTitle="
-				+ messageTitle + ", messageBody=" + messageBody + ", messageTimeToLive=" + messageTimeToLive + ", sent="
-				+ sent + ", pending=" + pending + ", opened=" + opened + ", failed=" + failed + ", scheduledCount="
-				+ scheduledCount + "]";
+		return "MessagingCampaign [id=" + id + ", application=" + application + ", name=" + name + ", type=" + type
+				+ ", status=" + status + ", messageType=" + messageType + ", messageBodyType=" + messageBodyType
+				+ ", messageTitle=" + messageTitle + ", messageBody=" + messageBody + ", messageTimeToLive="
+				+ messageTimeToLive + ", sent=" + sent + ", pending=" + pending + ", opened=" + opened + ", failed="
+				+ failed + ", scheduledCount=" + scheduledCount + "]";
 	}
 }
