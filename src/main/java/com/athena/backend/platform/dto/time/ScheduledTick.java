@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ScheduledTick {
 	public long time;
-	public long previousTime;
+	public long intendedTime;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (previousTime ^ (previousTime >>> 32));
+		result = prime * result + (int) (intendedTime ^ (intendedTime >>> 32));
 		result = prime * result + (int) (time ^ (time >>> 32));
 		return result;
 	}
@@ -23,7 +23,7 @@ public final class ScheduledTick {
 		if (getClass() != obj.getClass())
 			return false;
 		final ScheduledTick other = (ScheduledTick) obj;
-		if (previousTime != other.previousTime)
+		if (intendedTime != other.intendedTime)
 			return false;
 		if (time != other.time)
 			return false;
@@ -31,6 +31,6 @@ public final class ScheduledTick {
 	}
 	@Override
 	public final String toString() {
-		return "ScheduledTick [time=" + time + ", previousTime=" + previousTime + "]";
+		return "ScheduledTick [time=" + time + ", intendedTime=" + intendedTime + "]";
 	}
 }
