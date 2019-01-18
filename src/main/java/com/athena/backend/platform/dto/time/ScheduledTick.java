@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public final class ScheduledTick {
 	public long time;
 	public long intendedTime;
+	public long interval;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (intendedTime ^ (intendedTime >>> 32));
+		result = prime * result + (int) (interval ^ (interval >>> 32));
 		result = prime * result + (int) (time ^ (time >>> 32));
 		return result;
 	}
@@ -25,12 +27,14 @@ public final class ScheduledTick {
 		final ScheduledTick other = (ScheduledTick) obj;
 		if (intendedTime != other.intendedTime)
 			return false;
+		if (interval != other.interval)
+			return false;
 		if (time != other.time)
 			return false;
 		return true;
 	}
 	@Override
 	public final String toString() {
-		return "ScheduledTick [time=" + time + ", intendedTime=" + intendedTime + "]";
+		return "ScheduledTick [time=" + time + ", intendedTime=" + intendedTime + ", interval=" + interval + "]";
 	}
 }
