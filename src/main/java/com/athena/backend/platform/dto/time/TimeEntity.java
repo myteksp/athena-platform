@@ -16,6 +16,7 @@ public final class TimeEntity {
 	public int second;
 	public int millisecond;
 	public long timestamp;
+	public Date date;
 	
 	public TimeEntity(){}
 	

@@ -71,5 +71,6 @@ public final class TimeUtil {
 		target.second = calendar.get(Calendar.SECOND);
 		target.millisecond = calendar.get(Calendar.MILLISECOND);
 		target.timestamp = date.getTime();
+		target.date = date;
 	}
 }
