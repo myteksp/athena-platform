@@ -1,5 +1,7 @@
 package com.athena.backend.platform.dto.game;
 
+import java.util.List;
+
 public final class GameStatistics {
 	public String gameId;
 	public String scoreStr;
@@ -8,6 +10,7 @@ public final class GameStatistics {
 	public Team away;
 	public Team winningTeam;
 	public Player bestScorer;
+	public List<Player> players;
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
