@@ -31,7 +31,7 @@ public final class SocketClusterPushService implements Closeable{
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private volatile Socket connection;
-	private final String key;
+	private final String defaultChannel;
 	private final ConcurrentHashMap<String, Bundle> not_sent;
 
 	private final ScheduledExecutorService scheduler;
@@ -52,14 +52,14 @@ public final class SocketClusterPushService implements Closeable{
 
 	public SocketClusterPushService(
 			final String socketClusterUrl,
-			final String channel,
+			final String defaultChannel,
 			final long unsent_interval) {
 		unsent_schedule = null;
 		this.isConnected = new AtomicBoolean(true);
 		handlers = new ConcurrentLinkedQueue<MessageHandler>();
 		this.socketClusterUrl = socketClusterUrl;
 		this.unsent_interval = unsent_interval;
-		this.key = channel;
+		this.defaultChannel = defaultChannel;
 		this.connection = null;
 		this.not_sent = new ConcurrentHashMap<String, Bundle>(32);
 		this.scheduler = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
@@ -81,7 +81,7 @@ public final class SocketClusterPushService implements Closeable{
 
 	public SocketClusterPushService(
 			final String socketClusterUrl,
-			final String channel,
+			final String defaultChannel,
 			final ScheduledExecutorService unsent_scheduler,
 			final long unsent_interval) {
 
@@ -89,7 +89,7 @@ public final class SocketClusterPushService implements Closeable{
 		handlers = new ConcurrentLinkedQueue<MessageHandler>();
 		this.socketClusterUrl = socketClusterUrl;
 		this.unsent_interval = unsent_interval;
-		this.key = channel;
+		this.defaultChannel = defaultChannel;
 		this.connection = null;
 		this.not_sent = new ConcurrentHashMap<String, Bundle>(32);
 		this.scheduler = unsent_scheduler;
@@ -160,7 +160,7 @@ public final class SocketClusterPushService implements Closeable{
 				connection.disconnect();
 				return;
 			}
-			connection.createChannel(key).onMessage(new Listener() {
+			connection.createChannel(defaultChannel).onMessage(new Listener() {
 				@Override
 				public final void call(final String name, final Object data) {
 					for(final MessageHandler h : handlers) {
@@ -176,7 +176,7 @@ public final class SocketClusterPushService implements Closeable{
 			.action((c)->{not_sent.clear();})
 			.map((e)->e.getValue())
 			.sortCollection((o1, o2)->Long.compare(o1.time, o2.time))
-			.iterate((e,i)->connection.publish(key, e.payload));
+			.iterate((e,i)->connection.publish(defaultChannel, e.payload));
 		}else {
 			if (!isConnected.get())
 				return;
@@ -213,7 +213,7 @@ public final class SocketClusterPushService implements Closeable{
 				not_sent.remove(id);
 				final String payload = b.payload;
 				not_sent.put(id, new Bundle(System.currentTimeMillis(), payload));
-				connection.publish(key, payload, new Ack() {
+				connection.publish(defaultChannel, payload, new Ack() {
 					@Override
 					public final void call(final String name, final Object error, final Object data) {
 						not_sent.remove(id);
@@ -223,6 +223,18 @@ public final class SocketClusterPushService implements Closeable{
 		});
 	}
 
+	public final void sendToChannelMessage(final String channel, final String topic, final Object toSend) {
+		if (toSend == null)
+			throw new NullPointerException("toSend can't be null");
+		if (topic == null)
+			throw new NullPointerException("topic can't be null");
+		if (channel == null)
+			throw new NullPointerException("channel can't be null");
+		
+		final String payload = JSON.toJson(new SocketClusterMessage(topic, toSend));
+		
+		connection.publish(channel, payload);
+	}
 
 	public final void broadcastMessage(final String topic, final Object toSend) {
 		if (toSend == null)
@@ -233,7 +245,7 @@ public final class SocketClusterPushService implements Closeable{
 		final String id = UUID.randomUUID().toString();
 		final String payload = JSON.toJson(new SocketClusterMessage(topic, toSend));
 		not_sent.put(id, new Bundle(System.currentTimeMillis(), payload));
-		connection.publish(key, payload, new Ack() {
+		connection.publish(defaultChannel, payload, new Ack() {
 			@Override
 			public final void call(final String name, final Object error, final Object data) {
 				not_sent.remove(id);
@@ -251,7 +263,7 @@ public final class SocketClusterPushService implements Closeable{
 				throw new NullPointerException("topic can't be null");
 
 			final String payload = JSON.toJson(new SocketClusterMessage(topic, toSend));
-			connection.publish(key, payload);
+			connection.publish(defaultChannel, payload);
 		}
 	}
 
