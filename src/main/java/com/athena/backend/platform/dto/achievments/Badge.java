@@ -17,6 +17,7 @@ public final class Badge {
 	public Boolean active;
 	public boolean isProgressVisible;
 	public boolean repeatable;
+	public String repeatInterval;
 	public String name;
 	public String description;
 	public String popUpText;
