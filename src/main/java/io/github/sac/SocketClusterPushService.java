@@ -202,8 +202,10 @@ public final class SocketClusterPushService implements Closeable{
 	}
 
 	private final void checkUnsent() {
-		if (!connection.isconnected())
+		if (!connection.isconnected()) {
+			log.warn("DISCONNECTED");
 			return;
+		}
 
 		GfCollections.asArrayCollection(not_sent.entrySet())
 		.iterate((e, i) -> {
