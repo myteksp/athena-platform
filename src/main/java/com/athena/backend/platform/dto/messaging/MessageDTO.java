@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.gf.util.string.JSON;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(value=Include.NON_NULL)
@@ -24,6 +25,10 @@ public final class MessageDTO {
 	
 	@JsonProperty(required=true)
 	public Object data;
+	
+	public final MessageDTO copy() {
+		return JSON.fromJson(JSON.toJson(this), MessageDTO.class);
+	}
 	
 	@Override
 	public final int hashCode() {
