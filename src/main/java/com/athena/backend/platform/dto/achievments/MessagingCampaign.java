@@ -48,6 +48,12 @@ public final class MessagingCampaign {
 	public String segmentationScript;
 
 	@JsonProperty(required=false)
+	public ConditionPredicate[] segmentationPredicates;
+
+	@JsonProperty(required=false)
+	public String segmentationOperator;
+
+	@JsonProperty(required=false)
 	public String reactiveScript;
 
 	@JsonProperty(required=false)
