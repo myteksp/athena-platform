@@ -1,5 +1,7 @@
 package com.athena.backend.platform.dto.messaging;
 
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -8,6 +10,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(value=Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class MessageDTO {
+	public MessageDTO() {}
+	public MessageDTO(final Object data) {
+		this(UUID.randomUUID().toString(), data);
+	}
+	public MessageDTO(final String id, final Object data) {
+		this.id = id;
+		this.data = data;
+	}
+	
 	@JsonProperty(required=true)
 	public String id;
 	
