@@ -10,7 +10,7 @@ import java.util.Objects;
 public class ConditionPredicate {
 
     public String index;
-    public String field;
+    public Object field;
     public String condition;
     public String value;
 
