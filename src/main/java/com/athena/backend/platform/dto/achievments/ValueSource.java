@@ -8,6 +8,9 @@ import com.gf.util.string.JSON;
 @JsonInclude(value= JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ValueSource {
+	@JsonProperty(required=false)
+	public String id;
+	
 	@JsonProperty(required=true)
 	public String name;
 	
