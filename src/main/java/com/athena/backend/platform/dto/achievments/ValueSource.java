@@ -18,10 +18,10 @@ public final class ValueSource {
 	public String url;
 	
 	@JsonProperty(required=true)
-	public String valueNameField;
+	public String valueNameExtractorScript;
 	
 	@JsonProperty(required=true)
-	public String valueField;
+	public String valueExtractorScript;
 	
 	@Override
 	public final int hashCode() {
