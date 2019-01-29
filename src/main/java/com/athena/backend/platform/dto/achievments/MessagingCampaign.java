@@ -34,6 +34,9 @@ public final class MessagingCampaign {
 	
 	@JsonProperty(required=true)
 	public String messageDeepLink;
+	
+	@JsonProperty(required=true)
+	public String messageBonus;
 
 	@JsonProperty(required=true)
 	public String messageTitle;
