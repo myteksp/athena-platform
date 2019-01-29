@@ -51,7 +51,7 @@ public final class MessagingCampaign {
 	public String segmentationScript;
 
 	@JsonProperty(required=false)
-	public ConditionPredicate[] segmentationPredicates;
+	public Object[] segmentationPredicates;
 
 	@JsonProperty(required=false)
 	public String segmentationOperator;
