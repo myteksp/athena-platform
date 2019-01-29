@@ -55,6 +55,9 @@ public final class Message {
 	public String deepLink;
 	
 	@JsonProperty(required=false)
+	public String bonus;
+	
+	@JsonProperty(required=false)
 	public List<String> errors;
 	
 	@JsonProperty(required=true)
