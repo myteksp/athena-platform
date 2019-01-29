@@ -32,10 +32,10 @@ public final class MessagingCampaign {
 	@JsonProperty(required=true)
 	public Message.BodyType messageBodyType;
 	
-	@JsonProperty(required=true)
+	@JsonProperty(required=false)
 	public String messageDeepLink;
 	
-	@JsonProperty(required=true)
+	@JsonProperty(required=false)
 	public String messageBonus;
 
 	@JsonProperty(required=true)
