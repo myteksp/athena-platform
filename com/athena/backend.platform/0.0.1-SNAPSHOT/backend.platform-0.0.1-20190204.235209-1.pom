@@ -79,6 +79,12 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>${appache.commons.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.undertow</groupId>
+			<artifactId>undertow-core</artifactId>
+			<version>2.0.17.Final</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
