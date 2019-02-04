@@ -1,6 +1,4 @@
-package com.github.alexanderwe.bananaj.utils;
-
-
+package com.athena.backend.platform.utils;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
@@ -12,9 +10,8 @@ import com.gf.collections.tuples.Tuples;
 import com.gf.util.string.Splitter;
 
 public final class ParamsParser {
-	
 	private static final Decoder decoder = Base64.getUrlDecoder();
-	
+
 	private static final String decode(final String str) {
 		try {
 			return new String(decoder.decode(str), "UTF-8");
@@ -22,7 +19,7 @@ public final class ParamsParser {
 			return str;
 		}
 	}
-	
+
 	public static final Map<String, GfCollection<String>> parseQueryBase64Params(final String uri){
 		final Map<String, GfCollection<String>> res = new HashMap<String, GfCollection<String>>();
 		GfCollections.asArrayCollection(Splitter.split(uri, '&'))
@@ -44,7 +41,7 @@ public final class ParamsParser {
 		});
 		return res;
 	}
-	
+
 	public static final Map<String, GfCollection<String>> parseQueryParams(final String uri){
 		final Map<String, GfCollection<String>> res = new HashMap<String, GfCollection<String>>();
 		GfCollections.asArrayCollection(Splitter.split(uri, '&'))
@@ -66,5 +63,4 @@ public final class ParamsParser {
 		});
 		return res;
 	}
-	
 }

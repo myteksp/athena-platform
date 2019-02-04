@@ -1,4 +1,4 @@
-package com.github.alexanderwe.bananaj.utils;
+package com.athena.backend.platform.utils;
 
 import com.gf.util.string.MacroCompiler;
 
