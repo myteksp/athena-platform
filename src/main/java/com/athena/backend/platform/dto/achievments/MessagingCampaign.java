@@ -34,9 +34,12 @@ public final class MessagingCampaign {
 	
 	@JsonProperty(required=false)
 	public String messageDeepLink;
-	
+
 	@JsonProperty(required=false)
 	public String messageBonus;
+
+	@JsonProperty(required=false)
+	public MessageBonusTemplate messageBonusTemplate;
 
 	@JsonProperty(required=true)
 	public String messageTitle;
@@ -61,6 +64,9 @@ public final class MessagingCampaign {
 
 	@JsonProperty(required=false)
 	public List<String> userId;
+
+	@JsonProperty(required=false)
+	public MessageScheduler messageScheduler;
 
 
 	@JsonProperty(required=false)
@@ -91,7 +97,7 @@ public final class MessagingCampaign {
 	public String lastError;
 
 	public static enum Type{
-		REACTIVE, INSTANT, USER
+		REACTIVE, INSTANT, USER, SCHEDULED
 	}
 
 	public static enum Status{
