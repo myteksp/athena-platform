@@ -1,25 +1,17 @@
 package com.vivala.sockets.client;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultClientConnectionReuseStrategy;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.athena.backend.platform.dto.general.BooleanDTO;
 import com.athena.backend.platform.utils.ParamsParser;
 import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
-import com.gf.collections.tuples.Tuple2;
-import com.gf.collections.tuples.Tuples;
 import com.gf.util.string.MC;
 import com.vivala.sockets.client.impl.VivalaSocket;
 
@@ -51,32 +43,20 @@ public final class VivalaConnections {
 		return params;
 	}
 	
-	private static final Tuple2<RestTemplate, CloseableHttpClient> getRestTemplete() {
+	private static final RestTemplate getRestTemplete() {
 		final RestTemplateBuilder builder = new RestTemplateBuilder();
-		final PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager();
-	    poolingConnectionManager.setMaxTotal(1024 * 3);
-	    poolingConnectionManager.setDefaultMaxPerRoute(512);
-	    final CloseableHttpClient client = HttpClientBuilder.create()
-	    		.setConnectionReuseStrategy(DefaultClientConnectionReuseStrategy.INSTANCE)
-	    		.setConnectionManager(poolingConnectionManager).build();
-	    final HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
-	    clientHttpRequestFactory.setConnectTimeout(30000);
-	    clientHttpRequestFactory.setReadTimeout(10000);
-	    builder.requestFactory(()->clientHttpRequestFactory);
-	    return Tuples.get(builder.build(), client);
+	    return builder.build();
 	}
 	
 	public static final VivalaSender sender(final List<String> channels) {
-		final Tuple2<RestTemplate, CloseableHttpClient> pair = getRestTemplete();
 		return new VivalaSender() {
 			private final String url = MC.fmt("https://vivala-sockets.herokuapp.com/api/sendToChannelB64?${0}", ParamsParser.toBase64Query(buildParams(channels)));
-			private final RestTemplate rest = pair.v1;
-			private final CloseableHttpClient client = pair.v2;
+			private final RestTemplate rest = getRestTemplete();
 			private final ConcurrentLinkedQueue<String> failed = new ConcurrentLinkedQueue<String>();
 			
 			@Override
 			public final void close() {
-				try {client.close();} catch (IOException e) {}
+				
 			}
 			
 			private final void fail(final String message) {
