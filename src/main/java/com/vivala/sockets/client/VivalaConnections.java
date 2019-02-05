@@ -62,7 +62,7 @@ public final class VivalaConnections {
 	    final HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
 	    clientHttpRequestFactory.setConnectTimeout(30000);
 	    clientHttpRequestFactory.setReadTimeout(10000);
-	    builder.requestFactory(clientHttpRequestFactory);
+	    builder.requestFactory(()->clientHttpRequestFactory);
 	    return Tuples.get(builder.build(), client);
 	}
 	
