@@ -1,4 +1,4 @@
-package com.vivala.sockets.client;
+package com.vivala.sockets.client.impl;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,9 +15,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -27,24 +29,44 @@ import com.athena.backend.platform.utils.ParamsParser;
 import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
 import com.gf.util.string.MC;
+import com.vivala.sockets.client.ConnectionLogger;
+import com.vivala.sockets.client.MessageHandler;
+import com.vivala.sockets.client.VivalaConnection;
 
 
 
-public final class VivalaSocket {
+@ClientEndpoint
+public final class VivalaSocket implements VivalaConnection{
 	private static final long PING_DELAY = 10000;
-	
+
 	private final String ping;
 	private final String url;
 	private final AtomicBoolean isClosed;
+	private final AtomicBoolean isReconnecting;
 	private volatile Session currentSession;
 	private final AtomicLong lastActive;
-	private final GfCollection<MessageHandler> handlers;
+	private final ConcurrentLinkedQueue<MessageHandler> handlers;
 	private final ConcurrentLinkedQueue<String> messages;
 	private final ScheduledExecutorService executor;
+	private final WebSocketContainer container;
+	private final ConnectionLogger log;
 
-
-	public VivalaSocket(final List<String> channels, final String user, final String password) {
-		this.handlers = GfCollections.asArrayCollection();
+	public VivalaSocket(final List<String> channels, final String user, final String password, final ConnectionLogger logger) {
+		this.log = new ConnectionLogger() {
+			@Override
+			public final void log(final String message) {
+				try {
+					logger.log(message);
+				}catch(final Throwable t) {
+					t.printStackTrace();
+				}
+			}
+		};
+		final WebSocketContainer s = this.container = ContainerProvider.getWebSocketContainer();
+		s.setDefaultMaxSessionIdleTimeout(PING_DELAY * 2);
+		log.log("Container created.");
+		this.isReconnecting = new AtomicBoolean(false);
+		this.handlers = new ConcurrentLinkedQueue<MessageHandler>();
 		this.messages = new ConcurrentLinkedQueue<String>();
 		currentSession = null;
 		this.isClosed = new AtomicBoolean(false);
@@ -55,23 +77,62 @@ public final class VivalaSocket {
 		params.put("password", GfCollections.asArrayCollection(password));
 		params.put("ping", GfCollections.asArrayCollection(ping));
 		this.url = MC.fmt("wss://vivala-sockets.herokuapp.com/channels?${0}", ParamsParser.toBase64Query(params));
+		log.log(MC.fmt("SocketURL(${0}).", this.url));
 		this.executor = Executors.newScheduledThreadPool(2, new ThreadFactory() {
 			private final AtomicInteger cnt = new AtomicInteger(0);
 			@Override
 			public final Thread newThread(final Runnable r) {
+				final String name = "SOCKET " + cnt.incrementAndGet() + ": " + url;
 				final Thread t = new Thread(r);
 				t.setPriority(Thread.MAX_PRIORITY);
-				t.setName("SOCKET " + cnt.incrementAndGet() + ": " + url);
+				t.setName(name);
+				log.log("Thread created: " + name);
 				return t;
 			}
 		});
 		lastActive = new AtomicLong(System.currentTimeMillis());
 		executor.scheduleAtFixedRate(()->{
 			if (System.currentTimeMillis() - lastActive.get() >= PING_DELAY) {
+				log.log("idle session. reconnecting.");
 				reconnect();
 			}
 		}, PING_DELAY, PING_DELAY, TimeUnit.MILLISECONDS);
 		reconnect();
+	}
+
+	public VivalaSocket(final String channels, final String user, final String password) {
+		this(channels, user, password, new ConnectionLogger() {
+			@Override
+			public final void log(final String message) {}
+		});
+	}
+
+	public VivalaSocket(final List<String> channels, final String user, final String password) {
+		this(channels, user, password, new ConnectionLogger() {
+			@Override
+			public final void log(final String message) {}
+		});
+	}
+
+	public VivalaSocket(final String channels, final String user, final String password, final ConnectionLogger logger) {
+		this(GfCollections.asLinkedCollection(channels), user, password, new ConnectionLogger() {
+			@Override
+			public final void log(final String message) {
+				try {
+					logger.log(message);
+				}catch(final Throwable t) {
+					t.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public final void addHandler(final MessageHandler handler) {
+		handlers.add(handler);
+	}
+
+	public final void deleteHandler(final MessageHandler handler) {
+		handlers.remove(handler);
 	}
 
 	public final void close() {
@@ -131,11 +192,13 @@ public final class VivalaSocket {
 	}
 
 	private final void reconnect() {
+		if (isReconnecting.getAndSet(true))
+			return;
+
 		if (isClosed.get())
 			return;
-		
+		closeCurrentSession(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, ""));
 		executor.execute(()->{
-			final WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 			boolean success = false;
 			while(!success) {
 				if (isClosed.get())
@@ -144,7 +207,9 @@ public final class VivalaSocket {
 					container.connectToServer(this, new URI(url));
 					success = true;
 					lastActive.set(System.currentTimeMillis());
+					log.log("Binding to endpoint success.");
 				} catch (final Throwable e) {
+					log.log("Failed to bind. " + e.getMessage());
 					try {Thread.sleep(1000);} catch (final InterruptedException e1) {}
 				}
 			}
@@ -152,7 +217,7 @@ public final class VivalaSocket {
 	}
 
 	@OnMessage
-	private final void onMessage(final String message) {
+	public final void onMessage(final String message) {
 		if (message.equals(ping)) {
 			lastActive.set(System.currentTimeMillis());
 		}else {
@@ -164,8 +229,9 @@ public final class VivalaSocket {
 	}
 
 	@OnOpen
-	private final void onOpen(final Session userSession) {
-		closeCurrentSession(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, ""));
+	public final void onOpen(final Session userSession) {
+		isReconnecting.set(false);
+		log.log("Connection established.");
 		currentSession = userSession;
 		if (isClosed.get()) {
 			closeCurrentSession(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, ""));
@@ -175,11 +241,26 @@ public final class VivalaSocket {
 	}
 
 	@OnClose
-	private final void onClose(final Session userSession, final CloseReason reason) {
+	public final void onClose(final Session userSession, final CloseReason reason) {
+		currentSession = userSession;
+		if (!isClosed.get()) {
+			log.log("Connection closed. Reconnecting...");
+			reconnect();
+		} else {
+			log.log("Connection closed.");
+		}
+	}
+
+	@OnError
+	public final void onError(final Session session, final Throwable throwable) {
+		log.log("Connection error. " + throwable.getMessage());
+		currentSession = session;
 		if (!isClosed.get()) {
 			reconnect();
 		}
 	}
+
+
 
 
 	@Override
@@ -204,9 +285,5 @@ public final class VivalaSocket {
 		} else if (!url.equals(other.url))
 			return false;
 		return true;
-	}
-
-	public static interface MessageHandler{
-		void onMessage(final String message);
 	}
 }
