@@ -89,6 +89,11 @@ public final class VivalaConnections {
 					fail(message);
 				}
 			}
+
+			@Override
+			public final void sendNotSafe(String message) {
+				internalSend(message);
+			}
 		};
 	}
 	

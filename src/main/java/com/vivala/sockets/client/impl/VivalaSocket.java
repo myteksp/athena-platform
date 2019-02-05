@@ -160,6 +160,17 @@ public final class VivalaSocket implements VivalaConnection{
 		sendQueue();
 	}
 
+	@Override
+	public final void sendNotSafe(final String message) {
+		final Session s = currentSession;
+		if (s != null) {
+			try {
+				s.getBasicRemote().sendText(message);
+				lastActive.set(System.currentTimeMillis());
+			} catch (final Throwable e) {}
+		}
+	}
+
 	private final void sendQueue() {
 		if (messages.isEmpty())
 			return;
