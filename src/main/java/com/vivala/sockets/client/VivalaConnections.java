@@ -16,26 +16,33 @@ import com.gf.util.string.MC;
 import com.vivala.sockets.client.impl.VivalaSocket;
 
 public final class VivalaConnections {
+	
 	public static final VivalaConnection connection(final String channel, final String userName, final String password) {
 		return new VivalaSocket(channel, userName, password);
 	}
+	
 	public static final VivalaConnection connection(final List<String> channels, final String userName, final String password) {
 		return new VivalaSocket(channels, userName, password);
 	}
+	
 	public static final VivalaConnection connection(final String channel, final String userName, final String password, final ConnectionLogger logger) {
 		return new VivalaSocket(channel, userName, password, logger);
 	}
+	
 	public static final VivalaConnection connection(final List<String> channels, final String userName, final String password, final ConnectionLogger logger) {
 		return new VivalaSocket(channels, userName, password, logger);
 	}
+	
 	public static final VivalaSender sender(final String channel) {
 		return sender(GfCollections.asLinkedCollection(channel));
 	}
+	
 	private static final Map<String, GfCollection<String>> buildParams(final List<String> channels){
 		final Map<String, GfCollection<String>> params = new HashMap<String, GfCollection<String>>(3);
 		params.put("channel", GfCollections.wrapAsCollection(channels));
 		return params;
 	}
+	
 	public static final VivalaSender sender(final List<String> channels) {
 		return new VivalaSender() {
 			private final String url = MC.fmt("https://vivala-sockets.herokuapp.com/api/sendToChannelB64?${0}", ParamsParser.toBase64Query(buildParams(channels)));
@@ -84,4 +91,5 @@ public final class VivalaConnections {
 			}
 		};
 	}
+	
 }
