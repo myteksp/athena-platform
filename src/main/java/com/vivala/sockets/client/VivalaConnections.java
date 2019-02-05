@@ -12,6 +12,8 @@ import com.athena.backend.platform.dto.general.BooleanDTO;
 import com.athena.backend.platform.utils.ParamsParser;
 import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
+import com.gf.collections.tuples.Tuple2;
+import com.gf.collections.tuples.Tuples;
 import com.gf.util.string.MC;
 import com.vivala.sockets.client.impl.VivalaSocket;
 
@@ -99,8 +101,84 @@ public final class VivalaConnections {
 			}
 
 			@Override
-			public final void sendNotSafe(String message) {
+			public final void sendNotSafe(final String message) {
+				if (message == null)
+					throw new NullPointerException("Message can not be null.");
 				internalSend(message);
+			}
+		};
+	}
+	
+	public static final VivalaMultichannelSender multiChannelSender() {
+		return new VivalaMultichannelSender() {
+			private final RestTemplate rest = getRestTemplete();
+			private final ConcurrentLinkedQueue<Tuple2<String, String>> failed = new ConcurrentLinkedQueue<Tuple2<String, String>>();
+			
+			@Override
+			public final void close() {
+				
+			}
+			
+			private final Tuple2<String, String> createPair(final List<String> channels, final String message){
+				return Tuples.get(ParamsParser.toBase64Query(buildParams(channels)), message);
+			}
+			
+			private final void fail(final Tuple2<String, String> message) {
+				failed.add(message);
+			}
+			
+			private final boolean sendFailed() {
+				if (failed.isEmpty())
+					return true;
+				while(!failed.isEmpty()) {
+					if (internalSend(failed.peek())) {
+						failed.poll();
+					}else {
+						return false;
+					}
+				}
+				return true;
+			}
+			
+			private final boolean internalSend(final Tuple2<String, String> message) {
+				try {
+					final BooleanDTO res = rest.postForObject(MC.fmt("https://vivala-sockets.herokuapp.com/api/sendToChannelB64?${0}", message.v1), message.v2, BooleanDTO.class);
+					return res.result;
+				}catch(final Throwable t) {
+					return false;
+				}
+			}
+			
+			@Override
+			public final void send(final List<String> channels, final String message) {
+				if (message == null)
+					throw new NullPointerException("Message can not be null.");
+				if (channels == null)
+					throw new NullPointerException("channels can not be null.");
+				if (channels.isEmpty())
+					throw new NullPointerException("channels can not be empty.");
+				
+				final Tuple2<String, String> t = createPair(channels, message);
+				if (sendFailed()) {
+					if (!internalSend(t)) {
+						fail(t);
+					}
+				}else {
+					fail(t);
+				}
+			}
+
+			@Override
+			public final void sendNotSafe(final List<String> channels, String message) {
+				if (message == null)
+					throw new NullPointerException("Message can not be null.");
+				if (channels == null)
+					throw new NullPointerException("channels can not be null.");
+				if (channels.isEmpty())
+					throw new NullPointerException("channels can not be empty.");
+				
+				final Tuple2<String, String> t = createPair(channels, message);
+				internalSend(t);
 			}
 		};
 	}
