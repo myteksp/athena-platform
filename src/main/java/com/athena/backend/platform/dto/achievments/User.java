@@ -20,12 +20,14 @@ public final class User extends HashMap<String, Object>{
 	public static final String USER_NAME = "name";
 	public static final String USER_AVATAR = "image";
 	public static final String USER_BADGES = "badges";
+	public static final String APP = "app";
 
 	
 	public User(final String userId, final String userName, final String userAvatar, final Map<String, Object> data) {
 		super( 5 + data.size() );
 		this.put(USER_ID, userId);
 		this.put(USER_NAME, userName);
+		this.put(APP, "");
 		this.put(USER_AVATAR, userAvatar);
 		this.put(USER_BADGES, Collections.EMPTY_LIST);
 		GfCollections.asArrayCollection(data.entrySet())
@@ -39,6 +41,9 @@ public final class User extends HashMap<String, Object>{
 	}
 	public final String getUserName() {
 		return (String)this.get(USER_NAME);
+	}
+	public final String getApp() {
+		return (String)this.get(APP);
 	}
 	public final String getAvatarUrl() {
 		return (String)this.get(USER_AVATAR);
