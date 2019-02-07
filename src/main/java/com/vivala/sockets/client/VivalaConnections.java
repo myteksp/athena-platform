@@ -109,7 +109,7 @@ public final class VivalaConnections {
 		};
 	}
 	
-	public static final VivalaMultichannelSender multiChannelSender() {
+	public static final VivalaMultichannelSender sender() {
 		return new VivalaMultichannelSender() {
 			private final RestTemplate rest = getRestTemplete();
 			private final ConcurrentLinkedQueue<Tuple2<String, String>> failed = new ConcurrentLinkedQueue<Tuple2<String, String>>();
@@ -183,4 +183,78 @@ public final class VivalaConnections {
 		};
 	}
 	
+	private static final VivalaConnection wrappConnectionPool(final GfCollection<VivalaConnection> connectionsPool) {
+		return new VivalaConnection() {
+			private final GfCollection<VivalaConnection> pool = connectionsPool;
+			
+			@Override
+			public final void sendNotSafe(final String message) {
+				pool.takeRandom().sendNotSafe(message);
+			}
+			
+			@Override
+			public final void send(final String message) {
+				pool.takeRandom().send(message);
+			}
+			
+			@Override
+			public final void close() {
+				pool.forEach(c->c.close());
+			}
+			
+			@Override
+			public final void deleteHandler(final MessageHandler handler) {
+				pool.forEach(c->c.deleteHandler(handler));
+			}
+			
+			@Override
+			public final void addHandler(final MessageHandler handler) {
+				pool.takeRandom().addHandler(handler);
+			}
+		};
+	}
+	
+	public static final VivalaConnection connection(final int poolSize, final String channel, final String userName, final String password) {
+		if (poolSize < 2)
+			return connection(channel, userName, password);
+		
+		final GfCollection<VivalaConnection> pool = GfCollections.asLinkedCollection();
+		for (int i = 0; i < poolSize; i++) 
+			pool.add(connection(channel, userName, password));
+		
+		return wrappConnectionPool(pool.map(c->c));
+	}
+	
+	public static final VivalaConnection connection(final int poolSize, final List<String> channels, final String userName, final String password) {
+		if (poolSize < 2)
+			return connection(channels, userName, password);
+		
+		final GfCollection<VivalaConnection> pool = GfCollections.asLinkedCollection();
+		for (int i = 0; i < poolSize; i++) 
+			pool.add(connection(channels, userName, password));
+		
+		return wrappConnectionPool(pool.map(c->c));
+	}
+	
+	public static final VivalaConnection connection(final int poolSize, final String channel, final String userName, final String password, final ConnectionLogger logger) {
+		if (poolSize < 2)
+			return connection(channel, userName, password, logger);
+		
+		final GfCollection<VivalaConnection> pool = GfCollections.asLinkedCollection();
+		for (int i = 0; i < poolSize; i++) 
+			pool.add(connection(channel, userName, password, logger));
+		
+		return wrappConnectionPool(pool.map(c->c));
+	}
+	
+	public static final VivalaConnection connection(final int poolSize, final List<String> channels, final String userName, final String password, final ConnectionLogger logger) {
+		if (poolSize < 2)
+			return connection(channels, userName, password, logger);
+		
+		final GfCollection<VivalaConnection> pool = GfCollections.asLinkedCollection();
+		for (int i = 0; i < poolSize; i++) 
+			pool.add(connection(channels, userName, password, logger));
+		
+		return wrappConnectionPool(pool.map(c->c));
+	}
 }
