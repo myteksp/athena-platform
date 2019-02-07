@@ -5,6 +5,7 @@ import java.util.Objects;
 public class DeepLinkTemplate {
 
     public String template;
+    public String valueProvider;
     public String value;
 
     @Override
@@ -15,18 +16,20 @@ public class DeepLinkTemplate {
             return false;
         DeepLinkTemplate that = (DeepLinkTemplate) o;
         return Objects.equals(template, that.template) &&
+                Objects.equals(valueProvider, that.valueProvider) &&
                 Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(template, value);
+        return Objects.hash(template, valueProvider, value);
     }
 
     @Override
     public String toString() {
         return "DeepLinkTemplate{" +
                 "template='" + template + '\'' +
+                ", valueProvider='" + valueProvider + '\'' +
                 ", value='" + value + '\'' +
                 '}';
     }
