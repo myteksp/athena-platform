@@ -94,7 +94,7 @@ public final class Message {
 	}
 
 	public static enum Type{
-		INBOX, PUSH, MAIL
+		INBOX, PUSH, MAIL, SMART_PUSH
 	}
 	public static enum Status{
 		SENT, PENDING, OPENED, FAILED
