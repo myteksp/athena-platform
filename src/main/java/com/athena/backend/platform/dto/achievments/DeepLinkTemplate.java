@@ -7,6 +7,7 @@ public class DeepLinkTemplate {
     public String template;
     public String valueProvider;
     public String value;
+    public String valueStub;
 
     @Override
     public boolean equals(Object o) {
@@ -17,12 +18,13 @@ public class DeepLinkTemplate {
         DeepLinkTemplate that = (DeepLinkTemplate) o;
         return Objects.equals(template, that.template) &&
                 Objects.equals(valueProvider, that.valueProvider) &&
-                Objects.equals(value, that.value);
+                Objects.equals(value, that.value) &&
+                Objects.equals(valueStub, that.valueStub);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(template, valueProvider, value);
+        return Objects.hash(template, valueProvider, value, valueStub);
     }
 
     @Override
@@ -31,6 +33,7 @@ public class DeepLinkTemplate {
                 "template='" + template + '\'' +
                 ", valueProvider='" + valueProvider + '\'' +
                 ", value='" + value + '\'' +
+                ", valueStub='" + valueStub + '\'' +
                 '}';
     }
 }
