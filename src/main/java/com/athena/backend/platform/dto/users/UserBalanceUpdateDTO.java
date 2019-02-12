@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public final class UserBalanceUpdateDTO {
 	public int delta;
 	public double actualMoneyAmount;
+	public String currency;
 	public String platform;
 	public String optionalTransactionInfo;
 	@Override
@@ -15,6 +16,7 @@ public final class UserBalanceUpdateDTO {
 		long temp;
 		temp = Double.doubleToLongBits(actualMoneyAmount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result + delta;
 		result = prime * result + ((optionalTransactionInfo == null) ? 0 : optionalTransactionInfo.hashCode());
 		result = prime * result + ((platform == null) ? 0 : platform.hashCode());
@@ -30,6 +32,11 @@ public final class UserBalanceUpdateDTO {
 			return false;
 		final UserBalanceUpdateDTO other = (UserBalanceUpdateDTO) obj;
 		if (Double.doubleToLongBits(actualMoneyAmount) != Double.doubleToLongBits(other.actualMoneyAmount))
+			return false;
+		if (currency == null) {
+			if (other.currency != null)
+				return false;
+		} else if (!currency.equals(other.currency))
 			return false;
 		if (delta != other.delta)
 			return false;
@@ -47,7 +54,7 @@ public final class UserBalanceUpdateDTO {
 	}
 	@Override
 	public final String toString() {
-		return "UserBalanceUpdateDTO [delta=" + delta + ", actualMoneyAmount=" + actualMoneyAmount + ", platform="
-				+ platform + ", optionalTransactionInfo=" + optionalTransactionInfo + "]";
+		return "UserBalanceUpdateDTO [delta=" + delta + ", actualMoneyAmount=" + actualMoneyAmount + ", currency="
+				+ currency + ", platform=" + platform + ", optionalTransactionInfo=" + optionalTransactionInfo + "]";
 	}
 }

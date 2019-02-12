@@ -15,6 +15,7 @@ public final class PurchaseDTO {
 	public Type type;
 	public String userId;
 	public int amount;
+	public String transaction;
 	public Map<String, Object> data;
 	@Override
 	public final int hashCode() {
