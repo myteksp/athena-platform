@@ -71,6 +71,8 @@ public final class MessagingCampaign {
 	@JsonProperty(required=false)
 	public MessageScheduler messageScheduler;
 
+	@JsonProperty(required=false)
+	public SmartPush smartPushTemplate;
 
 	@JsonProperty(required=false)
 	public Long sent;
