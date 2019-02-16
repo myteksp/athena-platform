@@ -1,5 +1,5 @@
 package com.athena.backend.platform.dto.game;
 
 public enum League {
-	NBA, WNBA
+	NBA, WNBA, NCAA
 }
