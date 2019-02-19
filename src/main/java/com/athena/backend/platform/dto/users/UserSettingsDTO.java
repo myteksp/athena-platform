@@ -5,9 +5,10 @@ import com.gf.util.string.JSON;
 public final class UserSettingsDTO {
 	public HomeSceenWidget homeWidget;
 	public String homeWidgetParam;
+	public String homeWidgetImageUrl;
 	
 	public static enum HomeSceenWidget{
-		MINIGAME, APP_PAGE, SHOP_ITEM, CHALLANGE
+		MINIGAME, APP_PAGE, CHALLANGE
 	}
 
 	@Override
