@@ -8,7 +8,7 @@ public final class UserSettingsDTO {
 	public String homeWidgetImageUrl;
 	
 	public static enum HomeSceenWidget{
-		MINIGAME, APP_PAGE
+		NONE, MINIGAME, APP_PAGE
 	}
 
 	@Override
