@@ -1,6 +1,7 @@
 package com.athena.backend.platform.dto.achievments;
 
 import com.athena.backend.platform.dto.events.NativeGameEvent.GameParticipantPlayer;
+import com.athena.backend.platform.dto.game.TeamMetaData;
 import com.athena.backend.platform.dto.pregame.PreGameBetData;
 import com.athena.backend.platform.dto.sportradar.nba.Game;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,6 +29,12 @@ public final class SmartPush {
 	
 	@JsonProperty(required=false)
 	public Game game;
+	
+	@JsonProperty(required=false)
+	public TeamMetaData homeMeta;
+	
+	@JsonProperty(required=false)
+	public TeamMetaData awayMeta;
 	
 	@JsonProperty(required=false)
 	public PreGameBetData pregameData;
