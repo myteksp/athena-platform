@@ -2,6 +2,9 @@ package com.athena.backend.platform.utils;
 
 import java.util.HashMap;
 
+import com.gf.collections.GfCollection;
+import com.gf.collections.GfCollections;
+
 public class MimeTypeUtil {
 	public static final String MIME_APPLICATION_ANDREW_INSET = "application/andrew-inset";
 	public static final String MIME_APPLICATION_JSON = "application/json";
@@ -113,9 +116,11 @@ public class MimeTypeUtil {
 	public static final String MIME_X_CONFERENCE_X_COOLTALK   = "x-conference/x-cooltalk";
 
 	private final static HashMap<String, String> mimeTypeMapping;
+	private final static HashMap<String, GfCollection<String>> extMapping;
 
 	static {
 		mimeTypeMapping = new HashMap<String, String>(200);
+		extMapping = new HashMap<String, GfCollection<String>>(200);
 		registerMimeType("xul", MIME_APPLICATION_VND_MOZZILLA_XUL_XML);
 		registerMimeType("json", MIME_APPLICATION_JSON);
 		registerMimeType("ice", MIME_X_CONFERENCE_X_COOLTALK);
@@ -288,6 +293,12 @@ public class MimeTypeUtil {
 
 	public static final void registerMimeType(final String ext, final String mimeType) {
 		mimeTypeMapping.put(ext, mimeType);
+		GfCollection<String> exts = extMapping.get(mimeType);
+		if (exts == null) {
+			exts = GfCollections.asLinkedCollection();
+			extMapping.put(mimeType, exts);
+		}
+		exts.add(ext);
 	}
 	
 	public static final String getMimeType(final String ext) {
@@ -295,5 +306,13 @@ public class MimeTypeUtil {
 		if (res == null)
 			return MIME_APPLICATION_OCTET_STREAM;
 		return res;
+	}
+	
+	public static final GfCollection<String> getExtentions(final String mimeType){
+		GfCollection<String> exts = extMapping.get(mimeType.trim().toLowerCase());
+		if (exts == null) {
+			exts = GfCollections.asLinkedCollection();
+		}
+		return exts;
 	}
 }
