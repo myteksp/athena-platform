@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.gf.collections.GfCollection;
 import com.gf.collections.GfCollections;
+import com.gf.collections.GfMap;
 import com.gf.http.GenericHttpEndpoint;
 import com.gf.http.HttpEndpointCreator;
 import com.gf.util.string.JSON;
@@ -408,14 +409,24 @@ public final class AnalyticsClient implements Closeable{
 	}
 	
 	public final Event update(final Event event) {
-		final Kind kind = event.kind;
-		event.kind = Kind.UPDATE;
-		final String id = endpoint.post("event", ensure(event), Response.class).id;
-		event.kind = kind;
-		if (event.id.equals(id))
-			return event;
-		System.out.println("FAILED TO UPDATE EVENT: " + JSON.toJson(event));
-		return event;
+		return update(GfCollections.asLinkedCollection(event)).findFirst();
+	}
+	
+	public final GfCollection<Event> update(final List<Event> events) {
+		final GfMap<String, GfCollection<Response>> responses = GfCollections.wrapAsCollection(endpoint.post("update", GfCollections.wrapAsCollection(events).map(e->ensure(e)), _responseList.class))
+				.groupBy(r->r.id);
+		return GfCollections.wrapAsCollection(events)
+				.flatMap(e->{
+					if (responses.containsKey(e.id)) {
+						return GfCollections.asLinkedCollection(e);
+					}else {
+						System.out.println("FAILED TO UPDATE EVENT: " + JSON.toJson(e));
+						return GfCollections.asLinkedCollection();
+					}
+				});
+	}
+	public static final class _responseList extends ArrayList<Response> implements List<Response>{
+		private static final long serialVersionUID = -870089679582249124L;
 	}
 	
 	public final GfCollection<Event> getEvents(final List<String> eventIds) {
