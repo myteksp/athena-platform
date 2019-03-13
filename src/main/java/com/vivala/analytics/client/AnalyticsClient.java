@@ -438,7 +438,7 @@ public final class AnalyticsClient implements Closeable{
 	}
 	
 	public final GfCollection<Event> listAll(final String country, final int page, final int size) {
-		return GfCollections.wrapAsCollection(endpoint.get(MC.fmt("listAllByCountry?country=${2}page=${0}&size=${1}", page, size, country), _eventsList.class));
+		return GfCollections.wrapAsCollection(endpoint.get(MC.fmt("listAllByCountry?country=${2}&page=${0}&size=${1}", page, size, country), _eventsList.class));
 	}
 	
 	public static final class _eventsList extends ArrayList<Event> implements List<Event>{
