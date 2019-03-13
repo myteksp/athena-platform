@@ -2,6 +2,8 @@ package com.vivala.analytics.client;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,8 +13,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.gf.collections.GfCollection;
+import com.gf.collections.GfCollections;
 import com.gf.http.GenericHttpEndpoint;
 import com.gf.http.HttpEndpointCreator;
+import com.gf.util.string.JSON;
+import com.gf.util.string.MC;
 import com.vivala.analytics.client.Event.Kind;
 
 public final class AnalyticsClient implements Closeable{
@@ -399,6 +405,33 @@ public final class AnalyticsClient implements Closeable{
 				updateScheduledItem(item);
 			}
 		});
+	}
+	
+	public final Event update(final Event event) {
+		final Kind kind = event.kind;
+		event.kind = Kind.UPDATE;
+		final String id = endpoint.post("event", ensure(event), Response.class).id;
+		event.kind = kind;
+		if (event.id.equals(id))
+			return event;
+		System.out.println("FAILED TO UPDATE EVENT: " + JSON.toJson(event));
+		return event;
+	}
+	
+	public final GfCollection<Event> getEvents(final List<String> eventIds) {
+		return GfCollections.wrapAsCollection(endpoint.get("getbyId?" + GfCollections.wrapAsCollection(eventIds).map(id->"id=" + id).join("&"), _eventsList.class));
+	}
+	
+	public final GfCollection<Event> listAll(final int page, final int size) {
+		return GfCollections.wrapAsCollection(endpoint.get(MC.fmt("listAll?page=${0}&size=${1}", page, size), _eventsList.class));
+	}
+	
+	public final GfCollection<Event> listAll(final String country, final int page, final int size) {
+		return GfCollections.wrapAsCollection(endpoint.get(MC.fmt("listAllByCountry?country=${2}page=${0}&size=${1}", page, size, country), _eventsList.class));
+	}
+	
+	public static final class _eventsList extends ArrayList<Event> implements List<Event>{
+		private static final long serialVersionUID = 1180624203516037788L;
 	}
 	
 	private final String updateScheduledItem(final ScheduledItem item) {
