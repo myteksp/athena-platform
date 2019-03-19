@@ -441,6 +441,10 @@ public final class AnalyticsClient implements Closeable{
 		return GfCollections.wrapAsCollection(endpoint.get(MC.fmt("listAllByCountry?country=${2}&page=${0}&size=${1}", page, size, country), _eventsList.class));
 	}
 	
+	public final GfCollection<Event> listAll(final String country, final String type, final int page, final int size) {
+		return GfCollections.wrapAsCollection(endpoint.get(MC.fmt("listAllByCountryAndType?country=${2}&type=${3}&page=${0}&size=${1}", page, size, country, type), _eventsList.class));
+	}
+	
 	public static final class _eventsList extends ArrayList<Event> implements List<Event>{
 		private static final long serialVersionUID = 1180624203516037788L;
 	}
